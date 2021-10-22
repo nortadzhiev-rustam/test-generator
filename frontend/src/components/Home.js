@@ -135,13 +135,13 @@ const Home = () => {
                       style={{
                        
                         height: 60,
-                        backgroundColor: '#2979ff',
+                        backgroundColor: '#e8f5e9',
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
                         padding: 2,
                         borderRadius: 10,
-                        color: 'white',
+                        
                         cursor: 'pointer'
                       }}
                       className='animate__animated animate__fadeInRight animate__faster'
@@ -157,13 +157,13 @@ const Home = () => {
                       style={{
                         
                         height: 60,
-                        backgroundColor: '#2979ff',
+                        backgroundColor: '#e8f5e9',
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
                         padding: 2,
                         borderRadius: 10,
-                        color: 'white',
+                        
                         cursor: 'pointer'
                       }}
                       className='animate__animated animate__fadeInLeft animate__faster'
