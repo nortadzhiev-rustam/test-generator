@@ -226,7 +226,7 @@ const NavBar = () => {
             component='div'
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            Test-Shuffler
+            Test Generator
           </Typography>
           <Search>
             <SearchIconWrapper>
