@@ -30,14 +30,17 @@ const categories = [
 
 const difficulties = ['Easy', 'Medium', 'Hard', 'Challenge'];
 
-const InsertPanel = ({setVisible}) => {
+const InsertPanel = ({ setVisible, setAlert }) => {
   const [category, setCategory] = React.useState('');
   const [difficulty, setDifficulty] = React.useState('');
- 
+
   const handleVisibility = () => {
     if (category !== '') {
       setVisible(true);
-    } else setVisible(false);
+    } else {
+      setVisible(false);
+      setAlert(true);
+    }
   };
   const handleChangeCategory = (event) => {
     setCategory(event.target.value);
@@ -127,8 +130,8 @@ const InsertPanel = ({setVisible}) => {
         </Select>
       </FormControl>
 
-      <Button variant='outlined' color='info' onClick={handleVisibility}>
-        Start
+      <Button variant='contained' color='info' onClick={handleVisibility}>
+        Insert
       </Button>
     </Item>
   );

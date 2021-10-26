@@ -30,14 +30,17 @@ const categories = [
 
 const difficulties = ['Easy', 'Medium', 'Hard', 'Challenge'];
 
-const GeneratePanel = ({setVisible}) => {
+const GeneratePanel = ({setVisible, setAlert}) => {
   const [category, setCategory] = React.useState('');
   const [difficulty, setDifficulty] = React.useState('');
  
   const handleVisibility = () => {
     if (category !== '') {
       setVisible(true);
-    } else setVisible(false);
+    } else {
+      setVisible(false)
+      setAlert(true)
+    }
   };
 
   const handleChangeCategory = (event) => {
@@ -128,8 +131,8 @@ const GeneratePanel = ({setVisible}) => {
         </Select>
       </FormControl>
 
-      <Button variant='outlined' color='info' onClick={handleVisibility}>
-        Start
+      <Button variant='contained' color='success' onClick={handleVisibility}>
+        Generate
       </Button>
     </Item>
   );

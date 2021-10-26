@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Paper from '@mui/material/Paper';
-import { Grid, Box } from '@mui/material';
+import { Grid, Box, Alert } from '@mui/material';
 import SpeedDial from '@mui/material/SpeedDial';
 import SpeedDialIcon from '@mui/material/SpeedDialIcon';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
@@ -30,6 +30,9 @@ const Home = () => {
   const [isFull, setFull] = React.useState(false);
   const [mouseIn, setMouseIn] = React.useState(false);
   const [isSwitch, setSwitch] = React.useState(false);
+  const [isAlert, setAlert] = React.useState(false);
+  const [isDisable, setDisable] = React.useState(false);
+
   const handleFullScreen = () => {
     setFull(!isFull);
   };
@@ -43,20 +46,60 @@ const Home = () => {
     setMouseIn(false);
     setFull(false);
   };
+
+  useEffect(() => {
+    if (isAlert) {
+      setTimeout(() => {
+        setAlert(!isAlert);
+      }, 3000);
+    }
+
+    if (isAlert) {
+      setTimeout(() => {
+        setDisable(true);
+      }, 2000);
+    } else setDisable(false)
+
+    
+  }, [isAlert]);
+
   return (
     <Box
       sx={{
         display: 'flex',
         justifyContent: 'space-between',
         flexGrow: 1,
-
+        flexDirection: 'column',
         marginInline: '2%',
         marginBlock: 40,
       }}
     >
+      {isAlert && (
+        <Alert
+          variant='filled'
+          className={
+            !isDisable
+              ? 'animate__animated animate__fadeInDown'
+              : 'animate__animated animate__fadeOutUp'
+          }
+          sx={{ marginBottom: 5 }}
+          severity='warning'
+        >
+          This is a warning alert — check it out!
+        </Alert>
+      )}
       <Grid container spacing={1}>
         {!isFull && (
-          <Grid item xs={12} sm={6} md={4} lg={3} xl={2} style={{paddingInline: 20, paddingBottom: 25}} overflow='hidden'>
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            md={4}
+            lg={3}
+            xl={2}
+            style={{ paddingInline: 20, paddingBottom: 25 }}
+            overflow='hidden'
+          >
             <Paper
               elevation={10}
               sx={{
@@ -87,7 +130,6 @@ const Home = () => {
                     padding: 5,
                     borderRadius: 15,
                   }}
-                 
                 >
                   <Grid item xs={6}>
                     {!isSwitch ? (
@@ -106,7 +148,7 @@ const Home = () => {
                         className='animate__animated animate__fadeInLeft animate__faster'
                         onClick={() => setSwitch(true)}
                       >
-                        <h2>Input</h2>
+                        <h2>Insert</h2>
                       </div>
                     ) : (
                       <div
@@ -155,19 +197,28 @@ const Home = () => {
                           borderTopRightRadius: 10,
                           borderBottomRightRadius: 10,
                           cursor: 'pointer',
-                          
                         }}
                         className='animate__animated animate__fadeInRight animate__faster'
                         onClick={() => setSwitch(false)}
                       >
-                        <h2>Output</h2>
+                        <h2>Generate</h2>
                       </div>
                     )}
                   </Grid>
                 </div>
               </Grid>
             </Paper>
-            {isSwitch ? <GeneratePanel setVisible={(v) => setVisible(v)} /> : <InserPanel setVisible={(v) => setVisible(v)} />}
+            {isSwitch ? (
+              <GeneratePanel
+                setVisible={(v) => setVisible(v)}
+                setAlert={(a) => setAlert(a)}
+              />
+            ) : (
+              <InserPanel
+                setVisible={(v) => setVisible(v)}
+                setAlert={(a) => setAlert(a)}
+              />
+            )}
           </Grid>
         )}
         {visible && (
