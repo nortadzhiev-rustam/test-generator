@@ -106,7 +106,7 @@ const Home = () => {
                         className='animate__animated animate__fadeInLeft animate__faster'
                         onClick={() => setSwitch(true)}
                       >
-                        <h2>Input</h2>
+                        <h3>Insert Test</h3>
                       </div>
                     ) : (
                       <div
@@ -160,7 +160,7 @@ const Home = () => {
                         className='animate__animated animate__fadeInRight animate__faster'
                         onClick={() => setSwitch(false)}
                       >
-                        <h2>Output</h2>
+                        <h3>Generate</h3>
                       </div>
                     )}
                   </Grid>
@@ -253,8 +253,9 @@ const Home = () => {
                       size='lg'
                       style={{
                         marginLeft: 5,
-
+                        backgroundColor: 'black',
                         borderRadius: '50%',
+                        border: 'none'
                       }}
                       color='#43aa8b'
                       icon={faPlusCircle}
@@ -268,6 +269,7 @@ const Home = () => {
                       color='#43aa8b'
                       icon={faCircle}
                       onMouseOver={handleMouseIn}
+                      
                     />
                   )}
                 </Paper>
