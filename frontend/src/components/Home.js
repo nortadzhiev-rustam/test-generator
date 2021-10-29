@@ -148,11 +148,7 @@ const Home = () => {
                         className='animate__animated animate__fadeInLeft animate__faster'
                         onClick={() => setSwitch(true)}
                       >
-<<<<<<< HEAD
-                        <h3>Insert Test</h3>
-=======
                         <h2>Insert</h2>
->>>>>>> edc374b9f3a9dab4ae9a68ccf332494453645fad
                       </div>
                     ) : (
                       <div
@@ -205,11 +201,7 @@ const Home = () => {
                         className='animate__animated animate__fadeInRight animate__faster'
                         onClick={() => setSwitch(false)}
                       >
-<<<<<<< HEAD
-                        <h3>Generate</h3>
-=======
                         <h2>Generate</h2>
->>>>>>> edc374b9f3a9dab4ae9a68ccf332494453645fad
                       </div>
                     )}
                   </Grid>
@@ -312,7 +304,6 @@ const Home = () => {
                       size='lg'
                       style={{
                         marginLeft: 5,
-                        backgroundColor: 'black',
                         borderRadius: '50%',
                         border: 'none'
                       }}
