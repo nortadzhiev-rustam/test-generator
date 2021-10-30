@@ -5,11 +5,16 @@ import {
   Select,
   MenuItem,
   Typography,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  FormLabel,
 } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import 'animate.css';
+
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   paddingBlock: theme.spacing(4),
@@ -29,11 +34,13 @@ const categories = [
 ];
 
 const difficulties = ['Easy', 'Medium', 'Hard', 'Challenge'];
-
+const types = ['Multiple choice', 'True or Flase', 'Fill in gaps', 'Classic'];
+const grades = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 const InsertPanel = ({ setVisible, setAlert }) => {
   const [category, setCategory] = React.useState('');
   const [difficulty, setDifficulty] = React.useState('');
-
+  const [type, setType] = React.useState('');
+  const [grade, setGrade] = React.useState(0);
   const handleVisibility = () => {
     if (category !== '') {
       setVisible(true);
@@ -49,88 +56,138 @@ const InsertPanel = ({ setVisible, setAlert }) => {
     setDifficulty(event.target.value);
   };
 
+  const handleChangeType = (event) => {
+    setType(event.target.value);
+  };
+
+  const handleChangeGarde = (event) => {
+    setGrade(Number(event.target.value));
+  };
+
   return (
     <Item elevation={10} className='animate__animated animate__fadeInLeft'>
-      <Typography
-        style={{ marginBottom: 5, textAlign: 'start' }}
-        variant='body2'
-        fontWeight={900}
-        color='initial'
-      >
-        CHOOSE CATEGORY
-      </Typography>
-      <FormControl size='small' fullWidth style={{ marginBottom: 20 }}>
-        <InputLabel id='demo-simple-select-label'>Category</InputLabel>
-        <Select
-          labelId='demo-simple-select-label'
-          id='demo-simple-select'
-          value={category}
-          label='Category'
-          onChange={handleChangeCategory}
+      <div style={{overflow: 'hidden'}}>
+        <Typography
+          style={{ marginBottom: 5, textAlign: 'start' }}
+          variant='body2'
+          fontWeight={900}
+          color='initial'
         >
-          {categories.map((item, idx) => {
-            return (
-              <MenuItem key={idx} value={item.toLowerCase()}>
-                {item}
-              </MenuItem>
-            );
-          })}
-        </Select>
-      </FormControl>
-      <Typography
-        style={{ marginBottom: 5, textAlign: 'start' }}
-        variant='body2'
-        fontWeight={900}
-        color='initial'
-      >
-        CHOOSE DIFFICULTY
-      </Typography>
-      <FormControl size='small' fullWidth style={{ marginBottom: 20 }}>
-        <InputLabel id='demo-simple-select-label'>Difficulty</InputLabel>
-        <Select
-          labelId='demo-simple-select-label'
-          id='demo-simple-select'
-          value={difficulty}
-          label='Category'
-          onChange={handleChangeDifficulty}
-        >
-          {difficulties.map((dif, idx) => {
-            return (
-              <MenuItem key={idx} value={dif.toLowerCase()}>
-                {dif}
-              </MenuItem>
-            );
-          })}
-        </Select>
-      </FormControl>
-      <Typography
-        style={{ marginBottom: 5, textAlign: 'start' }}
-        variant='body2'
-        fontWeight={900}
-        color='initial'
-      >
-        CHOOSE DIFFICULTY
-      </Typography>
-      <FormControl size='small' fullWidth style={{ marginBottom: 20 }}>
-        <InputLabel id='demo-simple-select-label'>Difficulty</InputLabel>
-        <Select
-          labelId='demo-simple-select-label'
-          id='demo-simple-select'
-          value={difficulty}
-          label='Category'
-          onChange={handleChangeDifficulty}
-        >
-          {difficulties.map((dif, idx) => {
-            return (
-              <MenuItem key={idx} value={dif.toLowerCase()}>
-                {dif}
-              </MenuItem>
-            );
-          })}
-        </Select>
-      </FormControl>
+          CHOOSE CATEGORY
+        </Typography>
+        <FormControl size='small' fullWidth style={{ marginBottom: 20 }}>
+          <InputLabel id='demo-simple-select-label'>Category</InputLabel>
+          <Select
+            labelId='demo-simple-select-label'
+            id='demo-simple-select'
+            value={category}
+            label='Category'
+            onChange={handleChangeCategory}
+          >
+            {categories.map((item, idx) => {
+              return (
+                <MenuItem key={idx} value={item.toLowerCase()}>
+                  {item}
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </FormControl>
+        {category !== '' && (
+          <div className='animate__animated animate__fadeInUp'>
+            <Typography
+              style={{ marginBottom: 5, textAlign: 'start' }}
+              variant='body2'
+              fontWeight={900}
+              color='initial'
+            >
+              CHOOSE TYPE
+            </Typography>
+            <FormControl size='small' fullWidth style={{ marginBottom: 20 }}>
+              <InputLabel id='demo-simple-select-label'>Type</InputLabel>
+              <Select
+                labelId='demo-simple-select-label'
+                id='demo-simple-select'
+                value={type}
+                label='Category'
+                onChange={handleChangeType}
+              >
+                {types.map((tp, idx) => {
+                  return (
+                    <MenuItem key={idx} value={tp.toLowerCase()}>
+                      {tp}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+          </div>
+        )}
+        {type !== '' && (
+          <div className='animate__animated animate__fadeInUp'>
+            <Typography
+              style={{ marginBottom: 5, textAlign: 'start' }}
+              variant='body2'
+              fontWeight={900}
+              color='initial'
+            >
+              CHOOSE DIFFICULTY
+            </Typography>
+            <FormControl size='small' fullWidth style={{ marginBottom: 20 }}>
+              <InputLabel id='demo-simple-select-label'>Difficulty</InputLabel>
+              <Select
+                labelId='demo-simple-select-label'
+                id='demo-simple-select'
+                value={difficulty}
+                label='Category'
+                onChange={handleChangeDifficulty}
+              >
+                {difficulties.map((dif, idx) => {
+                  return (
+                    <MenuItem key={idx} value={dif.toLowerCase()}>
+                      {dif}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+          </div>
+        )}
 
-      <Button variant='contained' color='info' onClick={handleVisibility}>
+        {difficulty !== '' && (
+          <FormControl
+            component='fieldset'
+            className='animate__animated animate__fadeInUp'
+          >
+            <FormLabel  component='legend'>Grades</FormLabel>
+            <RadioGroup
+              value={grade}
+              onChange={handleChangeGarde}
+              row
+              aria-label='gender'
+              name='row-radio-buttons-group'
+            >
+              {grades.map((grd, idx) => {
+                return (
+                  <FormControlLabel
+                    key={idx}
+                    value={grd}
+                    control={<Radio color={'info'} />}
+                    label={grd}
+                    labelPlacement='start'
+                  />
+                );
+              })}
+            </RadioGroup>
+          </FormControl>
+        )}
+      </div>
+      <Button
+        disabled={grade === 0 ? true : false}
+        variant='contained'
+        color='info'
+        onClick={handleVisibility}
+      >
         Insert
       </Button>
     </Item>
