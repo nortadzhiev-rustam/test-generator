@@ -9,17 +9,17 @@ import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-
+import { InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
-
-
+import { useSelector } from 'react-redux';
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
-  borderRadius: theme.shape.borderRadius,
+  height: 40,
+  borderRadius: 10,
   backgroundColor: alpha(theme.palette.common.white, 0.15),
   '&:hover': {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
@@ -31,6 +31,10 @@ const Search = styled('div')(({ theme }) => ({
     marginLeft: theme.spacing(3),
     width: 'auto',
   },
+  cursor: 'pointer',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
 }));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
@@ -41,6 +45,7 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  color: 'white',
 }));
 
 const AppBar = styled(MuiAppBar, {
@@ -72,6 +77,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     [theme.breakpoints.up('md')]: {
       width: '20ch',
     },
+    cursor: 'pointer',
   },
 }));
 
@@ -87,7 +93,7 @@ const NavBar = () => {
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
+  const isFull = useSelector((state) => state.questionsType.isFull);
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -176,83 +182,108 @@ const NavBar = () => {
         </IconButton>
         <p>Profile</p>
       </MenuItem>
-      
     </Menu>
   );
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position='fixed'>
-        <Toolbar>
-          <Typography
-            variant='h6'
-            noWrap
-            component='div'
-            sx={{ display: { xs: 'none', sm: 'block' } }}
-          >
-            Test Generator
-          </Typography>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder='Search…'
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
-          <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton
-              size='large'
-              aria-label='show 4 new mails'
-              color='inherit'
-            >
-              <Badge badgeContent={0} color='error'>
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size='large'
-              aria-label='show 17 new notifications'
-              color='inherit'
-            >
-              <Badge badgeContent={0} color='error'>
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size='large'
-              edge='end'
-              aria-label='account of current user'
-              aria-controls={menuId}
-              aria-haspopup='true'
-              onClick={handleProfileMenuOpen}
-              color='inherit'
-            >
-              <AccountCircle />
-            </IconButton>
-          </Box>
-          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size='large'
-              aria-label='show more'
-              aria-controls={mobileMenuId}
-              aria-haspopup='true'
-              onClick={handleMobileMenuOpen}
-              color='inherit'
-            >
-              <MoreIcon />
-            </IconButton>
-            
-          </Box>
-         
-        </Toolbar>
-      </AppBar>
-      <Space />
+      {!isFull && (
+        <>
+          <AppBar position='fixed'>
+            <Toolbar>
+              <Typography variant='h6' noWrap component='div'>
+                Test Generator
+              </Typography>
 
-      {renderMobileMenu}
-      {renderMenu}
+              <Box sx={{ flexGrow: 1 }} />
+
+              <Box
+                sx={{
+                  display: { xs: 'none', md: 'flex' },
+                  alignItems: 'center',
+                }}
+              >
+                <Search>
+                  <StyledInputBase
+                    placeholder='Search…'
+                    inputProps={{ 'aria-label': 'search' }}
+                    endAdornment={
+                      <InputAdornment
+                        sx={{ padding: '10px', cursor: 'pointer' }}
+                        position='end'
+                      >
+                        <Box
+                          sx={{
+                            bgcolor: 'white',
+                            borderRadius: 1,
+                            paddingInline: '5px',
+                            cursor: 'pointer',
+                            color: 'black',
+                            fontWeight: 'bold',
+                          }}
+                        >
+                          Ctrl+K
+                        </Box>
+                      </InputAdornment>
+                    }
+                    startAdornment={
+                      <InputAdornment position='start'>
+                        <SearchIconWrapper>
+                          <SearchIcon />
+                        </SearchIconWrapper>
+                      </InputAdornment>
+                    }
+                  />
+                </Search>
+                <IconButton
+                  size='large'
+                  aria-label='show 4 new mails'
+                  color='inherit'
+                >
+                  <Badge badgeContent={0} color='error'>
+                    <MailIcon />
+                  </Badge>
+                </IconButton>
+                <IconButton
+                  size='large'
+                  aria-label='show 17 new notifications'
+                  color='inherit'
+                >
+                  <Badge badgeContent={0} color='error'>
+                    <NotificationsIcon />
+                  </Badge>
+                </IconButton>
+                <IconButton
+                  size='large'
+                  edge='end'
+                  aria-label='account of current user'
+                  aria-controls={menuId}
+                  aria-haspopup='true'
+                  onClick={handleProfileMenuOpen}
+                  color='inherit'
+                >
+                  <AccountCircle />
+                </IconButton>
+              </Box>
+              <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+                <IconButton
+                  size='large'
+                  aria-label='show more'
+                  aria-controls={mobileMenuId}
+                  aria-haspopup='true'
+                  onClick={handleMobileMenuOpen}
+                  color='inherit'
+                >
+                  <MoreIcon />
+                </IconButton>
+              </Box>
+            </Toolbar>
+          </AppBar>
+          <Space />
+          {renderMobileMenu}
+          {renderMenu}
+        </>
+      )}
     </Box>
   );
 };

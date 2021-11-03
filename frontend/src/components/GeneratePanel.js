@@ -6,6 +6,8 @@ import {
   MenuItem,
   Typography,
 } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { openWindow, setVisible } from '../store/questionTypeSlice';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
@@ -30,16 +32,16 @@ const categories = [
 
 const difficulties = ['Easy', 'Medium', 'Hard', 'Challenge'];
 
-const GeneratePanel = ({setVisible, setAlert}) => {
+const GeneratePanel = () => {
   const [category, setCategory] = React.useState('');
   const [difficulty, setDifficulty] = React.useState('');
- 
+  const dispatch = useDispatch();
   const handleVisibility = () => {
     if (category !== '') {
-      setVisible(true);
+      dispatch(setVisible(true));
+      dispatch(openWindow('generate'));
     } else {
-      setVisible(false)
-      setAlert(true)
+      dispatch(setVisible(false));
     }
   };
 

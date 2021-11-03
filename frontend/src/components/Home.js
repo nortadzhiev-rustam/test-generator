@@ -1,93 +1,85 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Paper from '@mui/material/Paper';
-import { Grid, Box, Alert } from '@mui/material';
-import SpeedDial from '@mui/material/SpeedDial';
-import SpeedDialIcon from '@mui/material/SpeedDialIcon';
-import SpeedDialAction from '@mui/material/SpeedDialAction';
-import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
-import SaveIcon from '@mui/icons-material/Save';
-import PrintIcon from '@mui/icons-material/Print';
-import ShareIcon from '@mui/icons-material/Share';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faCircle,
-  faMinusCircle,
-  faPlusCircle,
-  faTimesCircle,
-} from '@fortawesome/free-solid-svg-icons';
+import { Grid, Box } from '@mui/material';
 import 'animate.css';
 import GeneratePanel from './GeneratePanel';
 import InserPanel from './InsertPanel';
+import { useSelector } from 'react-redux';
+import InsertWindow from './TestInsertWindow';
+import GenerateWindow from './TestGenerateWindow';
+import { styled } from '@mui/styles';
 
-const actions = [
-  { icon: <FileCopyIcon />, name: 'Copy' },
-  { icon: <SaveIcon />, name: 'Save' },
-  { icon: <PrintIcon />, name: 'Print' },
-  { icon: <ShareIcon />, name: 'Share' },
-];
+const BoxContainer = styled(Box)({
+  display: 'flex',
+  justifyContent: 'space-between',
+  flexGrow: 1,
+  flexDirection: 'column',
+  marginInline: '2%',
+  marginBlock: 40,
+});
+
+const GridContainer = styled(Grid)({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-around',
+  alignItems: 'center',
+  padding: 2,
+});
+const MainDiv = styled('div')({
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-around',
+  alignItems: 'center',
+  backgroundColor: 'white',
+  padding: 5,
+  borderRadius: 15,
+});
+
+const TextDiv = styled('div')({
+  height: 60,
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  padding: 2,
+  borderRadius: 10,
+  cursor: 'pointer',
+});
+
+const SwitchDiv = styled('div')({
+  height: 60,
+  backgroundColor: '#2979ff',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  padding: 2,
+  borderRadius: 10,
+  cursor: 'pointer',
+});
+
 const Home = () => {
-  const [visible, setVisible] = React.useState(false);
-  const [isFull, setFull] = React.useState(false);
-  const [mouseIn, setMouseIn] = React.useState(false);
+  
   const [isSwitch, setSwitch] = React.useState(false);
-  const [isAlert, setAlert] = React.useState(false);
-  const [isDisable, setDisable] = React.useState(false);
-
-  const handleFullScreen = () => {
-    setFull(!isFull);
+  const isFull = useSelector((state) => state.questionsType.isFull);
+  const open = useSelector((state) => state.questionsType.isOpen);
+  const isVisible = useSelector((state) => state.questionsType.isVisible);
+  const openWindow = () => {
+    if (open === 'insert') {
+      return <InsertWindow />;
+    } else if (open === 'generate') {
+      return <GenerateWindow />;
+    } else return;
   };
 
-  const handleMouseIn = () => {
-    setMouseIn(true);
-  };
-
-  const handleClose = () => {
-    setVisible(false);
-    setMouseIn(false);
-    setFull(false);
-  };
-
-  useEffect(() => {
-    if (isAlert) {
-      setTimeout(() => {
-        setAlert(!isAlert);
-      }, 3000);
-    }
-
-    if (isAlert) {
-      setTimeout(() => {
-        setDisable(true);
-      }, 2000);
-    } else setDisable(false)
-
-    
-  }, [isAlert]);
+  const PaperItem = styled(Paper)({
+    borderRadius: 15,
+    marginBottom: 20,
+    backgroundColor: isSwitch ? '#f50057' : '#ef6c00',
+    overflow: 'hidden',
+  });
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        flexGrow: 1,
-        flexDirection: 'column',
-        marginInline: '2%',
-        marginBlock: 40,
-      }}
-    >
-      {isAlert && (
-        <Alert
-          variant='filled'
-          className={
-            !isDisable
-              ? 'animate__animated animate__fadeInDown'
-              : 'animate__animated animate__fadeOutUp'
-          }
-          sx={{ marginBottom: 5 }}
-          severity='warning'
-        >
-          This is a warning alert — check it out!
-        </Alert>
-      )}
+    <BoxContainer>
       <Grid container spacing={1}>
         {!isFull && (
           <Grid
@@ -100,257 +92,52 @@ const Home = () => {
             style={{ paddingInline: 20, paddingBottom: 25 }}
             overflow='hidden'
           >
-            <Paper
-              elevation={10}
-              sx={{
-                borderRadius: 5,
-                marginBottom: 2,
-                backgroundColor: isSwitch ? '#f50057' : '#ef6c00',
-                overflow: 'hidden',
-              }}
-            >
-              <Grid
-                container
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'space-around',
-                  alignItems: 'center',
-                  padding: 0.5,
-                }}
-              >
-                <div
-                  style={{
-                    width: '100%',
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'space-around',
-                    alignItems: 'center',
-                    backgroundColor: 'white',
-                    padding: 5,
-                    borderRadius: 15,
-                  }}
-                >
+            <PaperItem elevation={10}>
+              <GridContainer container>
+                <MainDiv>
                   <Grid item xs={6}>
                     {!isSwitch ? (
-                      <div
-                        style={{
-                          height: 60,
-
-                          display: 'flex',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          padding: 2,
-                          borderRadius: 10,
-
-                          cursor: 'pointer',
-                        }}
+                      <TextDiv
                         className='animate__animated animate__fadeInLeft animate__faster'
                         onClick={() => setSwitch(true)}
                       >
                         <h2>Insert</h2>
-                      </div>
+                      </TextDiv>
                     ) : (
-                      <div
-                        style={{
-                          height: 60,
-                          backgroundColor: '#2979ff',
-                          display: 'flex',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          padding: 2,
-                          borderRadius: 10,
-
-                          cursor: 'pointer',
-                        }}
+                      <SwitchDiv
                         className='animate__animated animate__fadeInRight animate__faster'
                         onClick={() => setSwitch(true)}
-                      ></div>
+                      ></SwitchDiv>
                     )}
                   </Grid>
                   <Grid item xs={6}>
                     {!isSwitch ? (
-                      <div
-                        style={{
-                          height: 60,
-                          backgroundColor: '#2979ff',
-                          display: 'flex',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          padding: 2,
-                          borderRadius: 10,
-
-                          cursor: 'pointer',
-                        }}
+                      <SwitchDiv
                         className='animate__animated animate__fadeInLeft animate__faster'
                         onClick={() => setSwitch(false)}
-                      ></div>
+                      ></SwitchDiv>
                     ) : (
-                      <div
-                        style={{
-                          height: 60,
-                          position: 'relative',
-                          display: 'flex',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          padding: 2,
-                          borderTopRightRadius: 10,
-                          borderBottomRightRadius: 10,
-                          cursor: 'pointer',
-                        }}
+                      <TextDiv
                         className='animate__animated animate__fadeInRight animate__faster'
                         onClick={() => setSwitch(false)}
                       >
                         <h2>Generate</h2>
-                      </div>
+                      </TextDiv>
                     )}
                   </Grid>
-                </div>
-              </Grid>
-            </Paper>
+                </MainDiv>
+              </GridContainer>
+            </PaperItem>
             {isSwitch ? (
-              <GeneratePanel
-                setVisible={(v) => setVisible(v)}
-                setAlert={(a) => setAlert(a)}
-              />
+              <GeneratePanel  />
             ) : (
-              <InserPanel
-                setVisible={(v) => setVisible(v)}
-                setAlert={(a) => setAlert(a)}
-              />
+              <InserPanel  />
             )}
           </Grid>
         )}
-        {visible && (
-          <Grid
-            item
-            xs={12}
-            sm={12}
-            md={isFull ? 12 : 8}
-            lg={isFull ? 12 : 9}
-            xl={isFull ? 12 : 10}
-          >
-            <Paper
-              elevation={10}
-              style={{ minHeight: '82vh', paddingBottom: 40, borderRadius: 15 }}
-              className='animate__animated animate__zoomIn animate__faster'
-            >
-              <Box
-                style={{
-                  display: 'flex',
-                  position: 'relative',
-
-                  margin: 0,
-                  padding: 0,
-                }}
-              >
-                <Paper
-                  elevation={4}
-                  style={{
-                    width: '100%',
-                    height: 50,
-                    backgroundColor: '#eceff1',
-                    textAlign: 'start',
-                    borderTopRightRadius: 15,
-                    borderTopLeftRadius: 15,
-                    borderBottomRightRadius: 0,
-                    borderBottomLeftRadius: 0,
-                    paddingLeft: 20,
-                    paddingTop: 20,
-                  }}
-                >
-                  {mouseIn ? (
-                    <FontAwesomeIcon
-                      size='lg'
-                      style={{ borderRadius: '50%' }}
-                      onClick={handleClose}
-                      color='#e63946'
-                      icon={faTimesCircle}
-                      onMouseLeave={() => setMouseIn(!mouseIn)}
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      size='lg'
-                      color='#e63946'
-                      icon={faCircle}
-                      onMouseOver={handleMouseIn}
-                    />
-                  )}
-
-                  {mouseIn ? (
-                    <FontAwesomeIcon
-                      size='lg'
-                      style={{
-                        marginLeft: 5,
-
-                        borderRadius: '50%',
-                      }}
-                      color='#ee9b00'
-                      icon={faMinusCircle}
-                      onMouseLeave={() => setMouseIn(!mouseIn)}
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      size='lg'
-                      style={{ marginLeft: 5 }}
-                      color='#ee9b00'
-                      icon={faCircle}
-                      onMouseOver={handleMouseIn}
-                    />
-                  )}
-
-                  {mouseIn ? (
-                    <FontAwesomeIcon
-                      size='lg'
-                      style={{
-                        marginLeft: 5,
-                        borderRadius: '50%',
-                        border: 'none'
-                      }}
-                      color='#43aa8b'
-                      icon={faPlusCircle}
-                      onClick={handleFullScreen}
-                      onMouseLeave={() => setMouseIn(!mouseIn)}
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      size='lg'
-                      style={{ marginLeft: 5 }}
-                      color='#43aa8b'
-                      icon={faCircle}
-                      onMouseOver={handleMouseIn}
-                      
-                    />
-                  )}
-                </Paper>
-              </Box>
-
-              <Box
-                sx={{
-                  minHeight: '76vh',
-                  transform: 'translateZ(0px)',
-                  flexGrow: 1,
-                }}
-              >
-                <SpeedDial
-                  ariaLabel='SpeedDial basic example'
-                  sx={{ position: 'absolute', bottom: -25, right: 15 }}
-                  icon={<SpeedDialIcon />}
-                >
-                  {actions.map((action) => (
-                    <SpeedDialAction
-                      key={action.name}
-                      icon={action.icon}
-                      tooltipTitle={action.name}
-                    />
-                  ))}
-                </SpeedDial>
-              </Box>
-            </Paper>
-          </Grid>
-        )}
+        {isVisible && openWindow()}
       </Grid>
-    </Box>
+    </BoxContainer>
   );
 };
 

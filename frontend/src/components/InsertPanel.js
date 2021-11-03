@@ -14,6 +14,15 @@ import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import 'animate.css';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  questCategory,
+  questDifficulty,
+  questType,
+  grade,
+  openWindow,
+  setVisible,
+} from '../store/questionTypeSlice';
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -36,37 +45,36 @@ const categories = [
 const difficulties = ['Easy', 'Medium', 'Hard', 'Challenge'];
 const types = ['Multiple choice', 'True or Flase', 'Fill in gaps', 'Classic'];
 const grades = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-const InsertPanel = ({ setVisible, setAlert }) => {
-  const [category, setCategory] = React.useState('');
-  const [difficulty, setDifficulty] = React.useState('');
-  const [type, setType] = React.useState('');
-  const [grade, setGrade] = React.useState(0);
+const InsertPanel = () => {
+  const quest = useSelector((state) => state.questionsType.value);
+  const dispatch = useDispatch();
+
   const handleVisibility = () => {
-    if (category !== '') {
-      setVisible(true);
+    if (quest.category !== '') {
+      dispatch(setVisible(true));
+      dispatch(openWindow('insert'));
     } else {
-      setVisible(false);
-      setAlert(true);
+      dispatch(setVisible(false));
     }
   };
   const handleChangeCategory = (event) => {
-    setCategory(event.target.value);
+    dispatch(questCategory(event.target.value));
   };
   const handleChangeDifficulty = (event) => {
-    setDifficulty(event.target.value);
+    dispatch(questDifficulty(event.target.value));
   };
 
   const handleChangeType = (event) => {
-    setType(event.target.value);
+    dispatch(questType(event.target.value));
   };
 
   const handleChangeGarde = (event) => {
-    setGrade(Number(event.target.value));
+    dispatch(grade(Number(event.target.value)));
   };
 
   return (
     <Item elevation={10} className='animate__animated animate__fadeInLeft'>
-      <div style={{overflow: 'hidden'}}>
+      <div style={{ overflow: 'hidden' }}>
         <Typography
           style={{ marginBottom: 5, textAlign: 'start' }}
           variant='body2'
@@ -80,7 +88,7 @@ const InsertPanel = ({ setVisible, setAlert }) => {
           <Select
             labelId='demo-simple-select-label'
             id='demo-simple-select'
-            value={category}
+            value={quest.category}
             label='Category'
             onChange={handleChangeCategory}
           >
@@ -93,7 +101,7 @@ const InsertPanel = ({ setVisible, setAlert }) => {
             })}
           </Select>
         </FormControl>
-        {category !== '' && (
+        {quest.category !== '' && (
           <div className='animate__animated animate__fadeInUp'>
             <Typography
               style={{ marginBottom: 5, textAlign: 'start' }}
@@ -108,7 +116,7 @@ const InsertPanel = ({ setVisible, setAlert }) => {
               <Select
                 labelId='demo-simple-select-label'
                 id='demo-simple-select'
-                value={type}
+                value={quest.questionType}
                 label='Category'
                 onChange={handleChangeType}
               >
@@ -123,7 +131,7 @@ const InsertPanel = ({ setVisible, setAlert }) => {
             </FormControl>
           </div>
         )}
-        {type !== '' && (
+        {quest.questionType !== '' && (
           <div className='animate__animated animate__fadeInUp'>
             <Typography
               style={{ marginBottom: 5, textAlign: 'start' }}
@@ -138,7 +146,7 @@ const InsertPanel = ({ setVisible, setAlert }) => {
               <Select
                 labelId='demo-simple-select-label'
                 id='demo-simple-select'
-                value={difficulty}
+                value={quest.difficulty}
                 label='Category'
                 onChange={handleChangeDifficulty}
               >
@@ -154,14 +162,14 @@ const InsertPanel = ({ setVisible, setAlert }) => {
           </div>
         )}
 
-        {difficulty !== '' && (
+        {quest.difficulty !== '' && (
           <FormControl
             component='fieldset'
             className='animate__animated animate__fadeInUp'
           >
-            <FormLabel  component='legend'>Grades</FormLabel>
+            <FormLabel component='legend'>Grades</FormLabel>
             <RadioGroup
-              value={grade}
+              value={quest.grade}
               onChange={handleChangeGarde}
               row
               aria-label='gender'
@@ -183,7 +191,7 @@ const InsertPanel = ({ setVisible, setAlert }) => {
         )}
       </div>
       <Button
-        disabled={grade === 0 ? true : false}
+        disabled={quest.grade === 0 ? true : false}
         variant='contained'
         color='info'
         onClick={handleVisibility}
