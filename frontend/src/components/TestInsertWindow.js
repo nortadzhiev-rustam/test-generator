@@ -7,6 +7,11 @@ import {
   TextField,
   Checkbox,
   Button,
+  FormControl,
+  FormLabel,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
 } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch, useSelector } from 'react-redux';
@@ -25,9 +30,10 @@ const InsertWindow = () => {
   const [bChecked, setBChecked] = React.useState(false);
   const [cChecked, setCChecked] = React.useState(false);
   const [dChecked, setDChecked] = React.useState(false);
+  const [radio, setRadio] = React.useState('True');
   const dispatch = useDispatch();
   const isFull = useSelector((state) => state.questionsType.isFull);
-  const quest = useSelector(state => state.questionsType.value);
+  const quest = useSelector((state) => state.questionsType.value);
   const handleFullScreen = () => {
     dispatch(setFull(!isFull));
   };
@@ -40,6 +46,85 @@ const InsertWindow = () => {
     dispatch(setVisible(false));
     setMouseIn(false);
     dispatch(setFull(false));
+  };
+
+  const insertTrueOrFalse = () => {
+    return (
+      <Grid container spacing={1}>
+        <Grid item xs={12} md={12} lg={8} xl={6}>
+          <Box
+            component='form'
+            noValidate
+            autoComplete='off'
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              paddingBlock: 30,
+              paddingInline: 20,
+            }}
+          >
+            <TextField
+              sx={{ marginBottom: 5, width: '50%' }}
+              id='Title'
+              label='Question Title'
+              size='small'
+            />
+            <TextField
+              id='Title'
+              label='Question'
+              multiline
+              rows={5}
+              sx={{ marginBottom: 5 }}
+            />
+
+            <FormControl component='fieldset'>
+              <FormLabel component='legend'>Answer</FormLabel>
+              <RadioGroup
+                aria-label='Answer'
+                name='Answer'
+                row
+                value={radio}
+                onChange={(event) => setRadio(event.target.value)}
+              >
+                <FormControlLabel
+                  value='True'
+                  control={<Radio />}
+                  label='True'
+                />
+                <FormControlLabel
+                  value='False'
+                  control={<Radio />}
+                  label='False'
+                />
+              </RadioGroup>
+            </FormControl>
+            <div
+              style={{
+                marginTop: 5,
+                display: 'flex',
+                justifyContent: 'end',
+              }}
+            >
+              <Button
+                sx={{ marginRight: 1 }}
+                variant='contained'
+                color='primary'
+              >
+                Submit
+              </Button>
+              <Button
+                sx={{ marginRight: 1 }}
+                type='reset'
+                variant='contained'
+                color='error'
+              >
+                Cancel
+              </Button>
+            </div>
+          </Box>
+        </Grid>
+      </Grid>
+    );
   };
 
   const insertMultipleChoise = () => {
@@ -174,7 +259,9 @@ const InsertWindow = () => {
                 color='info'
               />
             </div>
-            <div style={{ marginTop: 5, marginInline: 40 }}>
+            <div
+              style={{ marginTop: 5, display: 'flex', justifyContent: 'end' }}
+            >
               <Button
                 sx={{ marginRight: 1 }}
                 variant='contained'
@@ -319,7 +406,9 @@ const InsertWindow = () => {
             flexGrow: 1,
           }}
         >
-          {insertMultipleChoise()}
+          {quest.questionType === 'multiple choice'
+            ? insertMultipleChoise()
+            : insertTrueOrFalse()}
         </Box>
       </Paper>
     </Grid>
