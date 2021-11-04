@@ -64,7 +64,7 @@ const AppBar = styled(MuiAppBar, {
       duration: theme.transitions.duration.enteringScreen,
     }),
   }),
-  backgroundColor: '#880e4f',
+  backgroundColor: '#006064',
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
@@ -107,7 +107,7 @@ function HideOnScroll(props) {
 const NavBar = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
+  const [isLoggedIn, setLoggedIn] = React.useState(false);
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const isFull = useSelector((state) => state.questionsType.isFull);
@@ -168,14 +168,6 @@ const NavBar = (props) => {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton size='large' aria-label='show 4 new mails' color='inherit'>
-          <Badge badgeContent={0} color='error'>
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
         <IconButton
           size='large'
           aria-label='show 17 new notifications'
@@ -187,18 +179,34 @@ const NavBar = (props) => {
         </IconButton>
         <p>Notifications</p>
       </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size='large'
-          aria-label='account of current user'
-          aria-controls='primary-search-account-menu'
-          aria-haspopup='true'
-          color='inherit'
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
+      {isLoggedIn && (
+        <MenuItem>
+          <IconButton
+            size='large'
+            aria-label='show 4 new mails'
+            color='inherit'
+          >
+            <Badge badgeContent={0} color='error'>
+              <MailIcon />
+            </Badge>
+          </IconButton>
+          <p>Messages</p>
+        </MenuItem>
+      )}
+      {isLoggedIn && (
+        <MenuItem onClick={handleProfileMenuOpen}>
+          <IconButton
+            size='large'
+            aria-label='account of current user'
+            aria-controls='primary-search-account-menu'
+            aria-haspopup='true'
+            color='inherit'
+          >
+            <AccountCircle />
+          </IconButton>
+          <p>Profile</p>
+        </MenuItem>
+      )}
     </Menu>
   );
 
@@ -253,15 +261,7 @@ const NavBar = (props) => {
                       }
                     />
                   </Search>
-                  <IconButton
-                    size='large'
-                    aria-label='show 4 new mails'
-                    color='inherit'
-                  >
-                    <Badge badgeContent={0} color='error'>
-                      <MailIcon />
-                    </Badge>
-                  </IconButton>
+
                   <IconButton
                     size='large'
                     aria-label='show 17 new notifications'
@@ -271,17 +271,30 @@ const NavBar = (props) => {
                       <NotificationsIcon />
                     </Badge>
                   </IconButton>
-                  <IconButton
-                    size='large'
-                    edge='end'
-                    aria-label='account of current user'
-                    aria-controls={menuId}
-                    aria-haspopup='true'
-                    onClick={handleProfileMenuOpen}
-                    color='inherit'
-                  >
-                    <AccountCircle />
-                  </IconButton>
+                  {isLoggedIn && (
+                    <IconButton
+                      size='large'
+                      aria-label='show 4 new mails'
+                      color='inherit'
+                    >
+                      <Badge badgeContent={0} color='error'>
+                        <MailIcon />
+                      </Badge>
+                    </IconButton>
+                  )}
+                  {isLoggedIn && (
+                    <IconButton
+                      size='large'
+                      edge='end'
+                      aria-label='account of current user'
+                      aria-controls={menuId}
+                      aria-haspopup='true'
+                      onClick={handleProfileMenuOpen}
+                      color='inherit'
+                    >
+                      <AccountCircle />
+                    </IconButton>
+                  )}
                 </Box>
                 <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
                   <IconButton

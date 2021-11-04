@@ -64,7 +64,7 @@ const InsertWindow = () => {
             }}
           >
             <TextField
-              sx={{ marginBottom: 5, width: '50%' }}
+              sx={{ marginBottom: 5, width: {xs:'100%', md: '50%', xl: '25%'} }}
               id='Title'
               label='Question Title'
               size='small'
@@ -143,7 +143,7 @@ const InsertWindow = () => {
             }}
           >
             <TextField
-              sx={{ marginBottom: 5, width: {xs:'100%', md: '50%'} }}
+              sx={{ marginBottom: 5, width: {xs:'100%', md: '50%', xl: '25%'} }}
               id='Title'
               label='Question Title'
               size='small'
@@ -178,7 +178,7 @@ const InsertWindow = () => {
                 required
                 multiline
                 focused
-                color='info'
+                color='success'
               />
             </div>
             <div
@@ -204,7 +204,7 @@ const InsertWindow = () => {
                 required
                 multiline
                 focused
-                color='info'
+                color='success'
               />
             </div>
             <div
@@ -230,7 +230,7 @@ const InsertWindow = () => {
                 required
                 multiline
                 focused
-                color='info'
+                color='success'
               />
             </div>
             <div
@@ -256,7 +256,7 @@ const InsertWindow = () => {
                 required
                 multiline
                 focused
-                color='info'
+                color='success'
               />
             </div>
             <div
@@ -392,7 +392,7 @@ const InsertWindow = () => {
             <Typography
               variant='body1'
               fontFamily='roboto'
-              color='#0077b6'
+              color='#006064'
               fontWeight='900'
             >
               {`${quest.questionType.toUpperCase()} QUESTION`}

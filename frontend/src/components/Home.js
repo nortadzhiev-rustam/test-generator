@@ -48,7 +48,7 @@ const TextDiv = styled('div')({
 
 const SwitchDiv = styled('div')({
   height: 60,
-  backgroundColor: '#880e4f',
+  backgroundColor: '#006064',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
