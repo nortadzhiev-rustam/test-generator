@@ -9,13 +9,14 @@ import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import { InputAdornment } from '@mui/material';
+import { InputAdornment, useScrollTrigger, Slide } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { useSelector } from 'react-redux';
+
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   height: 40,
@@ -63,7 +64,7 @@ const AppBar = styled(MuiAppBar, {
       duration: theme.transitions.duration.enteringScreen,
     }),
   }),
-  backgroundColor: theme.palette.type === 'dark' ? '#263238' : '#0091ea',
+  backgroundColor: '#880e4f',
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
@@ -87,7 +88,23 @@ const Space = styled('div')(({ theme }) => ({
 
 const drawerWidth = 240;
 
-const NavBar = () => {
+function HideOnScroll(props) {
+  const { children, window } = props;
+  // Note that you normally won't need to set the window ref as useScrollTrigger
+  // will default to window.
+  // This is only being set here because the demo is in an iframe.
+  const trigger = useScrollTrigger({
+    target: window ? window() : undefined,
+  });
+
+  return (
+    <Slide appear={false} direction='down' in={!trigger}>
+      {children}
+    </Slide>
+  );
+}
+
+const NavBar = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -189,96 +206,99 @@ const NavBar = () => {
     <Box sx={{ flexGrow: 1 }}>
       {!isFull && (
         <>
-          <AppBar position='fixed'>
-            <Toolbar>
-              <Typography variant='h6' noWrap component='div'>
-                Test Generator
-              </Typography>
+          <HideOnScroll {...props}>
+            <AppBar position='fixed' color='secondary'>
+              <Toolbar>
+                <Typography variant='h6' noWrap component='div'>
+                  Test Generator
+                </Typography>
 
-              <Box sx={{ flexGrow: 1 }} />
+                <Box sx={{ flexGrow: 1 }} />
 
-              <Box
-                sx={{
-                  display: { xs: 'none', md: 'flex' },
-                  alignItems: 'center',
-                }}
-              >
-                <Search>
-                  <StyledInputBase
-                    placeholder='Search…'
-                    inputProps={{ 'aria-label': 'search' }}
-                    endAdornment={
-                      <InputAdornment
-                        sx={{ padding: '10px', cursor: 'pointer' }}
-                        position='end'
-                      >
-                        <Box
-                          sx={{
-                            bgcolor: 'white',
-                            borderRadius: 1,
-                            paddingInline: '5px',
-                            cursor: 'pointer',
-                            color: 'black',
-                            fontWeight: 'bold',
-                          }}
+                <Box
+                  sx={{
+                    display: { xs: 'none', md: 'flex' },
+                    alignItems: 'center',
+                  }}
+                >
+                  <Search>
+                    <StyledInputBase
+                      placeholder='Search…'
+                      inputProps={{ 'aria-label': 'search' }}
+                      endAdornment={
+                        <InputAdornment
+                          sx={{ padding: '10px', cursor: 'pointer' }}
+                          position='end'
                         >
-                          Ctrl+K
-                        </Box>
-                      </InputAdornment>
-                    }
-                    startAdornment={
-                      <InputAdornment position='start'>
-                        <SearchIconWrapper>
-                          <SearchIcon />
-                        </SearchIconWrapper>
-                      </InputAdornment>
-                    }
-                  />
-                </Search>
-                <IconButton
-                  size='large'
-                  aria-label='show 4 new mails'
-                  color='inherit'
-                >
-                  <Badge badgeContent={0} color='error'>
-                    <MailIcon />
-                  </Badge>
-                </IconButton>
-                <IconButton
-                  size='large'
-                  aria-label='show 17 new notifications'
-                  color='inherit'
-                >
-                  <Badge badgeContent={0} color='error'>
-                    <NotificationsIcon />
-                  </Badge>
-                </IconButton>
-                <IconButton
-                  size='large'
-                  edge='end'
-                  aria-label='account of current user'
-                  aria-controls={menuId}
-                  aria-haspopup='true'
-                  onClick={handleProfileMenuOpen}
-                  color='inherit'
-                >
-                  <AccountCircle />
-                </IconButton>
-              </Box>
-              <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-                <IconButton
-                  size='large'
-                  aria-label='show more'
-                  aria-controls={mobileMenuId}
-                  aria-haspopup='true'
-                  onClick={handleMobileMenuOpen}
-                  color='inherit'
-                >
-                  <MoreIcon />
-                </IconButton>
-              </Box>
-            </Toolbar>
-          </AppBar>
+                          <Box
+                            sx={{
+                              bgcolor: 'white',
+                              borderRadius: 1,
+                              paddingInline: '5px',
+                              cursor: 'pointer',
+                              color: 'black',
+                              fontWeight: 'bold',
+                            }}
+                          >
+                            Ctrl+K
+                          </Box>
+                        </InputAdornment>
+                      }
+                      startAdornment={
+                        <InputAdornment position='start'>
+                          <SearchIconWrapper>
+                            <SearchIcon />
+                          </SearchIconWrapper>
+                        </InputAdornment>
+                      }
+                    />
+                  </Search>
+                  <IconButton
+                    size='large'
+                    aria-label='show 4 new mails'
+                    color='inherit'
+                  >
+                    <Badge badgeContent={0} color='error'>
+                      <MailIcon />
+                    </Badge>
+                  </IconButton>
+                  <IconButton
+                    size='large'
+                    aria-label='show 17 new notifications'
+                    color='inherit'
+                  >
+                    <Badge badgeContent={0} color='error'>
+                      <NotificationsIcon />
+                    </Badge>
+                  </IconButton>
+                  <IconButton
+                    size='large'
+                    edge='end'
+                    aria-label='account of current user'
+                    aria-controls={menuId}
+                    aria-haspopup='true'
+                    onClick={handleProfileMenuOpen}
+                    color='inherit'
+                  >
+                    <AccountCircle />
+                  </IconButton>
+                </Box>
+                <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+                  <IconButton
+                    size='large'
+                    aria-label='show more'
+                    aria-controls={mobileMenuId}
+                    aria-haspopup='true'
+                    onClick={handleMobileMenuOpen}
+                    color='inherit'
+                  >
+                    <MoreIcon />
+                  </IconButton>
+                </Box>
+              </Toolbar>
+            </AppBar>
+          </HideOnScroll>
+
           <Space />
           {renderMobileMenu}
           {renderMenu}

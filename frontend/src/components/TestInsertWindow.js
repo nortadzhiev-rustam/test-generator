@@ -143,7 +143,7 @@ const InsertWindow = () => {
             }}
           >
             <TextField
-              sx={{ marginBottom: 5, width: '50%' }}
+              sx={{ marginBottom: 5, width: {xs:'100%', md: '50%'} }}
               id='Title'
               label='Question Title'
               size='small'
@@ -390,7 +390,7 @@ const InsertWindow = () => {
               )}
             </div>
             <Typography
-              variant='h6'
+              variant='body1'
               fontFamily='roboto'
               color='#0077b6'
               fontWeight='900'
