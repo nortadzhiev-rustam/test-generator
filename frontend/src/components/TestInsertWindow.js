@@ -274,6 +274,8 @@ const InsertWindow = () => {
                 type='reset'
                 variant='contained'
                 color='error'
+                // when clicked setAchecked to false
+                onClick={() => {setAChecked(false); setBChecked(false); setCChecked(false); setDChecked(false); }}
               >
                 Cancel
               </Button>
