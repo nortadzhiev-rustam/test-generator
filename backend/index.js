@@ -1,25 +1,63 @@
-const app = require('express')();
-
-const { sequelize, User } = require('./models');
-
+const express = require('express');
+const { sequelize, User, Department } = require('./models');
+const cors = require('cors');
+const app = express();
 const port = process.env.PORT || 5000;
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors())
+//post method to take all api/signup request and create a new user
+app.post('/api/signup', async (req, res) => {
+  const { username, password, email, firstName, lastName, role } = req.body;
+  const userExists =
+    (await User.findOne({ where: { username } })) ||
+    (await User.findOne({ where: { email } }));
+  try {
+    if (!userExists) {
+      const user = await User.create({
+        username,
+        password,
+        email,
+        firstName,
+        lastName,
+        role,
+      });
+      res.json({ user });
+    } else {
+      res.status(400).json({ message: 'User already exists' });
+    }
+  } catch (error) {
+    res.status(400).json({
+      error: error.message,
+    });
+  }
+});
 
-app.post('/api/users/signin', (req, res) => {
-  // User.create({
-  //   username: req.body.username,
-  //   email: req.body.email,
-  //   password: req.body.password,
-  //   firstName: req.body.firstName,
-  //   lastName: req.body.lastName,
-  //   role: req.body.role,
-  // })
-  //   .then((user) => {
-  //     res.send(user);
-  //   })
-  //   .catch((err) => {
-  //     res.send(err);
-  //   });
-  console.log(JSON.parse(req.body));
+//route that registers departments
+app.post('/api/departments', async (req, res) => {
+  const { name } = req.body;
+  try {
+    const department = await Department.create({
+      name,
+    });
+    res.json({ department });
+  } catch (error) {
+    res.status(400).json({
+      error: error.message,
+    });
+  }
+});
+
+//route that gets all departments
+app.get('/api/departments', async (req, res) => {
+  try {
+    const departments = await Department.findAll();
+    res.json( departments );
+  } catch (error) {
+    res.status(400).json({
+      error: error.message,
+    });
+  }
 });
 
 app.get('/api/users', (req, res) => {

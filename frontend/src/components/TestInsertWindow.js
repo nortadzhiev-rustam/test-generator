@@ -51,7 +51,7 @@ const InsertWindow = () => {
   const insertTrueOrFalse = () => {
     return (
       <Grid container spacing={1}>
-        <Grid item xs={12} md={12} lg={8} xl={6}>
+        <Grid item xs={12} >
           <Box
             component='form'
             noValidate
@@ -64,7 +64,10 @@ const InsertWindow = () => {
             }}
           >
             <TextField
-              sx={{ marginBottom: 5, width: {xs:'100%', md: '50%', xl: '25%'} }}
+              sx={{
+                marginBottom: 5,
+                width: { xs: '100%', md: '50%' },
+              }}
               id='Title'
               label='Question Title'
               size='small'
@@ -130,7 +133,7 @@ const InsertWindow = () => {
   const insertMultipleChoise = () => {
     return (
       <Grid container spacing={1}>
-        <Grid item xs={12} md={12} lg={8} xl={6}>
+        <Grid item xs={12} >
           <Box
             component='form'
             noValidate
@@ -143,7 +146,10 @@ const InsertWindow = () => {
             }}
           >
             <TextField
-              sx={{ marginBottom: 5, width: {xs:'100%', md: '50%', xl: '25%'} }}
+              sx={{
+                marginBottom: 5,
+                width: { xs: '100%', md: '50%' },
+              }}
               id='Title'
               label='Question Title'
               size='small'
@@ -275,7 +281,12 @@ const InsertWindow = () => {
                 variant='contained'
                 color='error'
                 // when clicked setAchecked to false
-                onClick={() => {setAChecked(false); setBChecked(false); setCChecked(false); setDChecked(false); }}
+                onClick={() => {
+                  setAChecked(false);
+                  setBChecked(false);
+                  setCChecked(false);
+                  setDChecked(false);
+                }}
               >
                 Cancel
               </Button>
@@ -297,7 +308,11 @@ const InsertWindow = () => {
     >
       <Paper
         elevation={10}
-        style={{ borderRadius: 15 }}
+        sx={{
+          borderRadius: 3,
+          transition: 'all 0.5s ease-in-out',
+          width: { xl: '50%' },
+        }}
         className='animate__animated animate__zoomIn animate__faster'
       >
         <Box

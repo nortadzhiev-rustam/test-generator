@@ -1,5 +1,6 @@
+
 module.exports = (sequelize, DataTypes) => {
-  return sequelize.define('User', {
+  const User = sequelize.define('User', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -30,12 +31,31 @@ module.exports = (sequelize, DataTypes) => {
     role: {
       type: DataTypes.STRING,
       allowNull: false,
+      defaultValue: 'default',
     },
     isActive: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: true,
     },
+    // departmentId: {
+    //   type: DataTypes.INTEGER,
+    //   allowNull: false,
+    //   references: {
+    //     model: Department,
+    //     key: 'id',
+    //   },
+    // },
+   
   });
+
+  User.associate = (models) => {
+    User.hasMany(models.Test, {
+      foreignKey: 'userId',
+      as: 'user',
+    });
+  }
   
+
+  return User;
 };

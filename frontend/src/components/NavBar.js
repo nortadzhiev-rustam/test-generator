@@ -15,6 +15,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import { ExitToApp } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
 
 const Search = styled('div')(({ theme }) => ({
@@ -179,6 +180,20 @@ const NavBar = (props) => {
         </IconButton>
         <p>Notifications</p>
       </MenuItem>
+      {!isLoggedIn && (
+        <MenuItem>
+          <IconButton
+            size='large'
+            aria-label='account of current user'
+            aria-controls='primary-search-account-menu'
+            aria-haspopup='true'
+            color='inherit'
+          >
+            <ExitToApp />
+          </IconButton>
+          <p>Login</p>
+        </MenuItem>
+      )}
       {isLoggedIn && (
         <MenuItem>
           <IconButton
@@ -215,7 +230,11 @@ const NavBar = (props) => {
       {!isFull && (
         <>
           <HideOnScroll {...props}>
-            <AppBar position='fixed' color='secondary'>
+            <AppBar
+              position='fixed'
+              color='secondary'
+              elevation={10}
+            >
               <Toolbar>
                 <Typography variant='h6' noWrap component='div'>
                   Test Generator
@@ -267,10 +286,22 @@ const NavBar = (props) => {
                     aria-label='show 17 new notifications'
                     color='inherit'
                   >
-                    <Badge badgeContent={0} color='error'>
+                    <Badge badgeContent={5} color='error'>
                       <NotificationsIcon />
                     </Badge>
                   </IconButton>
+                  {!isLoggedIn && (
+                    <MenuItem>
+                      <IconButton
+                        size='small'
+                        aria-label='login'
+                        color='inherit'
+                        href='/login'
+                      >
+                        <ExitToApp />
+                      </IconButton>
+                    </MenuItem>
+                  )}
                   {isLoggedIn && (
                     <IconButton
                       size='large'
