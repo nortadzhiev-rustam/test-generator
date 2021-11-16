@@ -3,7 +3,7 @@ import { makeStyles } from '@mui/styles';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import axios from 'axios';
-import propTypes from 'prop-types'
+
 import {
   Box,
   Grid,
@@ -21,8 +21,9 @@ import { VisibilityOff, Visibility } from '@mui/icons-material';
 
 const useStyles = makeStyles({
   root: {
-    
+    height: '100vh',
     display: 'flex',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     overflow: 'hidden',
@@ -31,22 +32,19 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    backgroundColor: 'rgba(255,255,255, 0.5)',
+    backgroundColor: 'rgb(255,255,255)',
     padding: 20,
     borderRadius: 10,
     transition: 'all 0.7s ease-in-out',
     '&:hover': {
-      backgroundColor: 'rgba(255,255,255)',
-      boxShadow: '0px 0px 10px 5px rgba(0,0,0,0.2)',
-      transform: 'translate3D(0, -5px, 10px)',
+      boxShadow: '0px 0px 20px 10px rgba(0,0,0,0.2)',
+      transform: 'translate3D(0, -10px, 20px)',
     },
   },
   textField: { marginBlock: 10, color: '#fff' },
 });
 
-
-
-const Register = ({ setIsLogin }) => {
+const Register = ({ setIsLogin, history }) => {
   const classes = useStyles();
   const [values, setValues] = React.useState({
     firstName: '',
@@ -61,7 +59,7 @@ const Register = ({ setIsLogin }) => {
   const [departments, setDepartments] = React.useState([]);
   React.useEffect(() => {
     axios
-      .get('http://192.168.1.6:5000/api/departments')
+      .get('http://localhost:5000/api/departments')
       .then((res) => {
         setDepartments(res.data);
       })
@@ -90,17 +88,21 @@ const Register = ({ setIsLogin }) => {
       <Paper
         sx={{
           borderRadius: '15px',
-          padding: {md:'40px', xs : '20px'},
-          margin: {xs: '20px'},
-          backgroundColor: '#357a38',
+          padding: { md: '40px', xs: '20px' },
+          margin: { xs: '20px' },
+          backgroundColor: '#006064',
         }}
         elevation={10}
-        className='animate__animated animate__bounceInDown animate__slow'
+        className='animate__animated animate__bounceIn animate__slow'
       >
         <Typography
           variant='h3'
           fontWeight='bold'
-          sx={{ textAlign: 'center', marginBottom: {xs : 2, md : 5}, textTransform: 'uppercase' }}
+          sx={{
+            textAlign: 'center',
+            marginBottom: { xs: 2, md: 5 },
+            textTransform: 'uppercase',
+          }}
           color='white'
         >
           Sign-up
@@ -124,7 +126,6 @@ const Register = ({ setIsLogin }) => {
                 size='small'
                 fullWidth
                 autoComplete='lname'
-                
                 onChange={handleChange('lastName')}
                 label='Last Name'
                 variant='filled'
@@ -249,14 +250,32 @@ const Register = ({ setIsLogin }) => {
           </Grid>
 
           <Grid container spacing={1}>
-            <Grid item xs={6} sx={{ display: 'flex', justifyContent: 'end' }}>
-              <Button variant='contained' color='success'>
-                Sign up
+            <Grid
+              item
+              xs={12}
+              sx={{ display: 'flex', justifyContent: 'center' }}
+            >
+              <Button
+                onClick={() => history.push('/login')}
+                variant='standart'
+                color='info'
+              >
+                Already have an account?{' '}
+                <Box
+                  component='span'
+                  sx={{ textDecoration: 'underline', marginLeft: 1 }}
+                >
+                  Login!
+                </Box>
               </Button>
             </Grid>
-            <Grid item xs={6}>
-              <Button onClick={() => setIsLogin(true)} variant='contained' color='info'>
-                Sign in
+            <Grid
+              item
+              xs={12}
+              sx={{ display: 'flex', justifyContent: 'center' }}
+            >
+              <Button variant='contained' sx={{ bgcolor: '#006064', '&:hover': {bgcolor: '#004d40'} }}>
+                Sign up
               </Button>
             </Grid>
           </Grid>
@@ -265,9 +284,5 @@ const Register = ({ setIsLogin }) => {
     </Box>
   );
 };
-
-Register.propTypes = {
-  departments : propTypes.array.isRequired,
-}
 
 export default Register;

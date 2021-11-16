@@ -15,9 +15,9 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import { ExitToApp } from '@mui/icons-material';
+import { MeetingRoom } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
-
+import logo from '../logo.svg';
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   height: 40,
@@ -181,15 +181,16 @@ const NavBar = (props) => {
         <p>Notifications</p>
       </MenuItem>
       {!isLoggedIn && (
-        <MenuItem>
+        <MenuItem >
           <IconButton
             size='large'
             aria-label='account of current user'
             aria-controls='primary-search-account-menu'
             aria-haspopup='true'
             color='inherit'
+            href='/login'
           >
-            <ExitToApp />
+            <MeetingRoom />
           </IconButton>
           <p>Login</p>
         </MenuItem>
@@ -230,12 +231,9 @@ const NavBar = (props) => {
       {!isFull && (
         <>
           <HideOnScroll {...props}>
-            <AppBar
-              position='fixed'
-              color='secondary'
-              elevation={10}
-            >
+            <AppBar position='fixed' color='secondary' elevation={10}>
               <Toolbar>
+                <img src={logo} width='30' height='30' alt='logo' />
                 <Typography variant='h6' noWrap component='div'>
                   Test Generator
                 </Typography>
@@ -291,16 +289,14 @@ const NavBar = (props) => {
                     </Badge>
                   </IconButton>
                   {!isLoggedIn && (
-                    <MenuItem>
-                      <IconButton
-                        size='small'
-                        aria-label='login'
-                        color='inherit'
-                        href='/login'
-                      >
-                        <ExitToApp />
-                      </IconButton>
-                    </MenuItem>
+                    <IconButton
+                      size='small'
+                      aria-label='login'
+                      color='inherit'
+                      href='/login'
+                    >
+                      <MeetingRoom />
+                    </IconButton>
                   )}
                   {isLoggedIn && (
                     <IconButton
