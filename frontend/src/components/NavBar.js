@@ -18,6 +18,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import { MeetingRoom } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
 import logo from '../logo.svg';
+
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   height: 40,
@@ -181,7 +182,7 @@ const NavBar = (props) => {
         <p>Notifications</p>
       </MenuItem>
       {!isLoggedIn && (
-        <MenuItem >
+        <MenuItem>
           <IconButton
             size='large'
             aria-label='account of current user'
@@ -233,11 +234,19 @@ const NavBar = (props) => {
           <HideOnScroll {...props}>
             <AppBar position='fixed' color='secondary' elevation={10}>
               <Toolbar>
-                <img src={logo} width='30' height='30' alt='logo' />
-                <Typography variant='h6' noWrap component='div'>
-                  Test Generator
-                </Typography>
-
+                <a href='/' style={{color: 'white', textDecoration: 'none'}}>
+                  <div style={{display: 'flex', flexDirection: 'row'}}>
+                    <img src={logo} width='30' height='30' alt='logo' />
+                    <Typography
+                      sx={{ marginLeft: 2 }}
+                      variant='h6'
+                      noWrap
+                      component='div'
+                    >
+                      Test Generator
+                    </Typography>
+                  </div>
+                </a>
                 <Box sx={{ flexGrow: 1 }} />
 
                 <Box
