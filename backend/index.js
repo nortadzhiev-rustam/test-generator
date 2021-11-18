@@ -7,7 +7,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors())
 //post method to take all api/signup request and create a new user
-app.post('/api/signup', async (req, res) => {
+app.post('/api/users/signup', async (req, res) => {
   const { username, password, email, firstName, lastName, role } = req.body;
   const userExists =
     (await User.findOne({ where: { username } })) ||

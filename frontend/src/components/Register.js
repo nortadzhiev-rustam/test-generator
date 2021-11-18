@@ -55,7 +55,53 @@ const Register = ({ setIsLogin, history }) => {
     showPassword: false,
     showPasswordConfirm: false,
     department: '',
+    error: '',
   });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+      passwordConfirm,
+      department,
+    } = values;
+    if (password !== passwordConfirm) {
+      setValues({ ...values, error: 'Passwords do not match' });
+    } else {
+      try {
+        const res = await axios.post('localhost:5000/api/users/signup', {
+          firstName,
+          lastName,
+          email,
+          password,
+          department,
+        });
+        if (res.data.error) {
+          setValues({ ...values, error: res.data.error });
+        } else {
+          setValues({
+            firstName: '',
+            lastName: '',
+            email: '',
+            password: '',
+            passwordConfirm: '',
+            showPassword: false,
+            showPasswordConfirm: false,
+            department: '',
+            error: '',
+          });
+          setIsLogin(true);
+          history.push('/');
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+
   const [departments, setDepartments] = React.useState([]);
   React.useEffect(() => {
     axios
@@ -107,7 +153,7 @@ const Register = ({ setIsLogin, history }) => {
         >
           Sign-up
         </Typography>
-        <form noValidate className={classes.form}>
+        <form noValidate className={classes.form} onSubmit={handleSubmit}>
           <Grid container spacing={1} className={classes.textField}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -274,7 +320,10 @@ const Register = ({ setIsLogin, history }) => {
               xs={12}
               sx={{ display: 'flex', justifyContent: 'center' }}
             >
-              <Button variant='contained' sx={{ bgcolor: '#006064', '&:hover': {bgcolor: '#004d40'} }}>
+              <Button
+                variant='contained'
+                sx={{ bgcolor: '#006064', '&:hover': { bgcolor: '#004d40' } }}
+              >
                 Sign up
               </Button>
             </Grid>
