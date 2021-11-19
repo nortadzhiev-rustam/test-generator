@@ -16,10 +16,10 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { MeetingRoom } from '@mui/icons-material';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import logo from '../logo.svg';
 import { withRouter } from 'react-router';
-
+import { logout } from '../store/userSlice';
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   height: 40,
@@ -114,6 +114,7 @@ const NavBar = (props) => {
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const isFull = useSelector((state) => state.questionsType.isFull);
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const dispatch = useDispatch();
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -131,6 +132,11 @@ const NavBar = (props) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const handleLogOut = () => {
+    dispatch(logout());
+    handleMenuClose();
+    props.history.push('/');
+  };
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -150,6 +156,7 @@ const NavBar = (props) => {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleLogOut}>Log Out</MenuItem>
     </Menu>
   );
 

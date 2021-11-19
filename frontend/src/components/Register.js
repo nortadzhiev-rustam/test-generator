@@ -84,9 +84,9 @@ const Register = ({ setIsLogin, history }) => {
           password,
           departmentId,
         });
-        console.log(res.data);
-        if (res.data.message) {
-          setError(res.data.message);
+        
+        if (res.data.error) {
+          setError(res.data.error);
         } else {
           setValues({
             firstName: '',
@@ -104,7 +104,7 @@ const Register = ({ setIsLogin, history }) => {
           history.push('/');
         }
       } catch (err) {
-        console.log(err);
+        setError(err.response.data.message);
       }
     }
   };

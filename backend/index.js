@@ -1,5 +1,6 @@
 const express = require('express');
 const { sequelize, User, Department } = require('./models');
+const bcrypt = require('bcrypt');
 const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 5000;
@@ -14,7 +15,7 @@ app.post('/api/users/signup', async (req, res) => {
       firstName,
       lastName,
       email,
-      password,
+      password : bcrypt.hashSync(password, 10),
       departmentId,
     });
     res.json(user);
@@ -26,12 +27,14 @@ app.post('/api/users/signup', async (req, res) => {
 app.post('/api/users/login', async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ where: { email, password } });
+    const user = await User.findOne({ where: { email } });
     if (!user) {
       return res.status(401).json({ message: 'Invalid email or password' });
-    } else {
-      res.json(user);
     }
+    if (!bcrypt.compareSync(password, user.password)) {
+      return res.status(401).json({ message: 'Invalid email or password' });
+    }
+    res.json(user);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

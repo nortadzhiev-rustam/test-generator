@@ -11,14 +11,17 @@ import {
   Grid,
   InputAdornment,
   IconButton,
+  Alert,
 } from '@mui/material';
-
+import axios from 'axios';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-
+import { useDispatch } from 'react-redux';
+import { setLoading, login } from '../store/userSlice';
 const useStyles = makeStyles({
   root: {
     height: '100vh',
     display: 'flex',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     overflow: 'hidden',
@@ -41,15 +44,27 @@ const useStyles = makeStyles({
   textField: { marginBlock: 20, color: '#fff' },
 });
 
-const Login = ({ setIsLogin, history }) => {
+const Login = ({ history }) => {
   const classes = useStyles();
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [error, setError] = React.useState('');
   const [showPassword, setShowPassword] = React.useState(false);
-  const handleSubmit = (e) => {
+  const dispatch = useDispatch();
+  
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    dispatch(setLoading(true));
+    try {
+      const res = await axios.post('http://localhost:5000/api/users/login', { email, password });
+      dispatch(login(res.data));
+      history.push('/');
+    } catch (err) {
+      setError(err.response.data.message);
+    }
+    dispatch(setLoading(false));
   };
+
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -65,6 +80,7 @@ const Login = ({ setIsLogin, history }) => {
 
   return (
     <Box className={classes.root}>
+      {error !== '' && <Alert severity='error'>{error}</Alert>}
       <Paper
         sx={{
           borderRadius: '15px',
@@ -148,7 +164,13 @@ const Login = ({ setIsLogin, history }) => {
                 color='success'
                 onClick={handleClickSignUp}
               >
-                Don't have an account? <Box component='span' sx={{textDecoration: 'underline', marginLeft: 1}}>Sign Up!</Box>
+                Don't have an account?{' '}
+                <Box
+                  component='span'
+                  sx={{ textDecoration: 'underline', marginLeft: 1 }}
+                >
+                  Sign Up!
+                </Box>
               </Button>
             </Grid>
             <Grid
