@@ -100,7 +100,7 @@ const Register = ({ setIsLogin, history }) => {
             error: '',
           });
           dispatch(login(res.data));
-
+          localStorage.setItem('user', JSON.stringify(res.data));
           history.push('/');
         }
       } catch (err) {

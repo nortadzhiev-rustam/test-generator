@@ -57,7 +57,9 @@ const Login = ({ history }) => {
     dispatch(setLoading(true));
     try {
       const res = await axios.post('http://localhost:5000/api/users/login', { email, password });
+      console.log(res.data);
       dispatch(login(res.data));
+      localStorage.setItem('user', JSON.stringify(res.data))
       history.push('/');
     } catch (err) {
       setError(err.response.data.message);
