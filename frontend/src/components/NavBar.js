@@ -18,6 +18,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import { MeetingRoom } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
 import logo from '../logo.svg';
+import { withRouter } from 'react-router';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -109,10 +110,10 @@ function HideOnScroll(props) {
 const NavBar = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const [isLoggedIn, setLoggedIn] = React.useState(false);
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const isFull = useSelector((state) => state.questionsType.isFull);
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -182,14 +183,14 @@ const NavBar = (props) => {
         <p>Notifications</p>
       </MenuItem>
       {!isLoggedIn && (
-        <MenuItem>
+        <MenuItem onClick={()=> props.history.push('/login')}>
           <IconButton
             size='large'
             aria-label='account of current user'
             aria-controls='primary-search-account-menu'
             aria-haspopup='true'
             color='inherit'
-            href='/login'
+            
           >
             <MeetingRoom />
           </IconButton>
@@ -234,8 +235,8 @@ const NavBar = (props) => {
           <HideOnScroll {...props}>
             <AppBar position='fixed' color='secondary' elevation={10}>
               <Toolbar>
-                <a href='/' style={{color: 'white', textDecoration: 'none'}}>
-                  <div style={{display: 'flex', flexDirection: 'row'}}>
+                
+                  <div style={{display: 'flex', flexDirection: 'row', cursor: 'pointer'}} onClick={()=> props.history.push('/')}>
                     <img src={logo} width='30' height='30' alt='logo' />
                     <Typography
                       sx={{ marginLeft: 2 }}
@@ -246,7 +247,7 @@ const NavBar = (props) => {
                       Test Generator
                     </Typography>
                   </div>
-                </a>
+              
                 <Box sx={{ flexGrow: 1 }} />
 
                 <Box
@@ -302,7 +303,7 @@ const NavBar = (props) => {
                       size='small'
                       aria-label='login'
                       color='inherit'
-                      href='/login'
+                      onClick={()=> props.history.push('/login')}
                     >
                       <MeetingRoom />
                     </IconButton>
@@ -357,4 +358,4 @@ const NavBar = (props) => {
   );
 };
 
-export default NavBar;
+export default withRouter(NavBar);

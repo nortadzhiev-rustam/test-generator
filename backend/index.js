@@ -5,31 +5,35 @@ const app = express();
 const port = process.env.PORT || 5000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors())
-//post method to take all api/signup request and create a new user
+app.use(cors());
+//post method to take all api/users/signup request and create a new user
 app.post('/api/users/signup', async (req, res) => {
-  const { username, password, email, firstName, lastName, role } = req.body;
-  const userExists =
-    (await User.findOne({ where: { username } })) ||
-    (await User.findOne({ where: { email } }));
   try {
-    if (!userExists) {
-      const user = await User.create({
-        username,
-        password,
-        email,
-        firstName,
-        lastName,
-        role,
-      });
-      res.json({ user });
+    const { firstName, lastName, email, password, departmentId } = req.body;
+    const user = await User.create({
+      firstName,
+      lastName,
+      email,
+      password,
+      departmentId,
+    });
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+//post method to take all api/users/login request and login a user
+app.post('/api/users/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ where: { email, password } });
+    if (!user) {
+      return res.status(401).json({ message: 'Invalid email or password' });
     } else {
-      res.status(400).json({ message: 'User already exists' });
+      res.json(user);
     }
   } catch (error) {
-    res.status(400).json({
-      error: error.message,
-    });
+    res.status(500).json({ message: error.message });
   }
 });
 
@@ -52,7 +56,7 @@ app.post('/api/departments', async (req, res) => {
 app.get('/api/departments', async (req, res) => {
   try {
     const departments = await Department.findAll();
-    res.json( departments );
+    res.json(departments);
   } catch (error) {
     res.status(400).json({
       error: error.message,

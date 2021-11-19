@@ -2,6 +2,8 @@ import React from 'react';
 import { makeStyles } from '@mui/styles';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { useDispatch } from 'react-redux';
+import {login} from '../store/userSlice';
 import axios from 'axios';
 
 import {
@@ -16,6 +18,7 @@ import {
   FilledInput,
   Select,
   MenuItem,
+  Alert,
 } from '@mui/material';
 import { VisibilityOff, Visibility } from '@mui/icons-material';
 
@@ -46,6 +49,7 @@ const useStyles = makeStyles({
 
 const Register = ({ setIsLogin, history }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [values, setValues] = React.useState({
     firstName: '',
     lastName: '',
@@ -54,9 +58,10 @@ const Register = ({ setIsLogin, history }) => {
     passwordConfirm: '',
     showPassword: false,
     showPasswordConfirm: false,
-    department: '',
-    error: '',
+    departmentId: 0,
+    
   });
+  const [error, setError] = React.useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -66,21 +71,22 @@ const Register = ({ setIsLogin, history }) => {
       email,
       password,
       passwordConfirm,
-      department,
+      departmentId,
     } = values;
     if (password !== passwordConfirm) {
-      setValues({ ...values, error: 'Passwords do not match' });
+      setError('Passwords do not match');
     } else {
       try {
-        const res = await axios.post('localhost:5000/api/users/signup', {
+        const res = await axios.post('http://localhost:5000/api/users/signup', {
           firstName,
           lastName,
           email,
           password,
-          department,
+          departmentId,
         });
-        if (res.data.error) {
-          setValues({ ...values, error: res.data.error });
+        console.log(res.data);
+        if (res.data.message) {
+          setError(res.data.message);
         } else {
           setValues({
             firstName: '',
@@ -93,7 +99,8 @@ const Register = ({ setIsLogin, history }) => {
             department: '',
             error: '',
           });
-          setIsLogin(true);
+          dispatch(login(res.data));
+
           history.push('/');
         }
       } catch (err) {
@@ -128,9 +135,23 @@ const Register = ({ setIsLogin, history }) => {
     setValues({ ...values, showPasswordConfirm: !values.showPasswordConfirm });
   };
 
+  React.useEffect(() => {
+    if (error) {
+      setTimeout(() => {
+        setError('');
+      }, 3000);
+    }
+  }, [error]);
+
   return (
     //form for register with material-ui
+
     <Box component='div' className={classes.root}>
+      {error !== '' && (
+        <Alert className='animate__animated animate__fadeIn' sx={{ width: '550px', position: 'relative' }} severity='error'>
+          {error}
+        </Alert>
+      )}
       <Paper
         sx={{
           borderRadius: '15px',
@@ -278,9 +299,10 @@ const Register = ({ setIsLogin, history }) => {
                 <InputLabel htmlFor='select-role'>Department</InputLabel>
                 <Select
                   variant='filled'
-                  value={values.department}
+                  value={values.departmentId || ''}
+                  
                   onChange={(event) =>
-                    setValues({ ...values, department: event.target.value })
+                    setValues({ ...values, departmentId: event.target.value })
                   }
                   labelId='select-role'
                   label='Department'
@@ -323,6 +345,7 @@ const Register = ({ setIsLogin, history }) => {
               <Button
                 variant='contained'
                 sx={{ bgcolor: '#006064', '&:hover': { bgcolor: '#004d40' } }}
+                type='submit'
               >
                 Sign up
               </Button>
