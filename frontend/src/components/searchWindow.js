@@ -1,64 +1,67 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
+
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
+
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { InputBase } from '@mui/material';
+import {
+  InputBase,
+  InputAdornment,
+  Box,
+  Grow,
+  Backdrop,
+} from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import { styled, alpha } from '@mui/material/styles';
 
 const Search = styled('div')(({ theme }) => ({
-    position: 'relative',
-    height: 40,
-    borderRadius: 10,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
+  position: 'relative',
+  height: 40,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginRight: theme.spacing(2),
+  marginLeft: 0,
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: theme.spacing(1),
+    width: 'auto',
+  },
+
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+}));
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  color: '#006064',
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create('width'),
     width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(3),
-      width: 'auto',
+    [theme.breakpoints.up('md')]: {
+      width: '35ch',
     },
-    cursor: 'pointer',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  }));
-  
-  const SearchIconWrapper = styled('div')(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: 'white',
-  }));
-  
-  const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: 'inherit',
-    '& .MuiInputBase-input': {
-      padding: theme.spacing(1, 1, 1, 0),
-      // vertical padding + font size from searchIcon
-      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-      transition: theme.transitions.create('width'),
-      width: '100%',
-      [theme.breakpoints.up('md')]: {
-        width: '20ch',
-      },
-      cursor: 'pointer',
-    },
-  }));
+  },
+}));
 
-export default function ScrollDialog() {
-  const [open, setOpen] = React.useState(false);
-  const [scroll, setScroll] = React.useState('paper');
-
-  
+export default function SearchWindow({ open, setOpen }) {
+  const [scroll] = React.useState('paper');
 
   const handleClose = () => {
     setOpen(false);
@@ -76,33 +79,63 @@ export default function ScrollDialog() {
 
   return (
     <Dialog
+      BackdropComponent={Backdrop}
+      TransitionComponent={Grow}
+      transitionDuration={{ enter: 1000, exit: 1000 }}
       open={open}
       onClose={handleClose}
       scroll={scroll}
       aria-labelledby='scroll-dialog-title'
       aria-describedby='scroll-dialog-description'
+      sx={{ backdropFilter: 'blur(10px)' }}
     >
-      <DialogTitle id='scroll-dialog-title'>Subscribe</DialogTitle>
+      <DialogTitle sx={{ paddingInline: 0 }} id='scroll-dialog-title'>
+        <Search>
+          <StyledInputBase
+            sx={{ fontSize: '1.3rem' }}
+            placeholder='Search…'
+            inputProps={{ 'aria-label': 'search' }}
+            endAdornment={
+              <InputAdornment
+                sx={{ padding: '10px', cursor: 'pointer' }}
+                position='end'
+              >
+                <Box
+                  sx={{
+                    bgcolor: '#f5f5f5',
+                    borderRadius: 2,
+                    paddingInline: '15px',
+                    paddingBlock: '5px',
+                    fontSize: '1.2rem',
+                    color: '#90a4ae',
+                    '&:hover': {
+                      color: '#b0bec5',
+                    },
+                  }}
+                  onClick={() => setOpen(false)}
+                >
+                  Esc
+                </Box>
+              </InputAdornment>
+            }
+            startAdornment={
+              <InputAdornment position='start'>
+                <SearchIconWrapper>
+                  <SearchIcon fontSize='large' />
+                </SearchIconWrapper>
+              </InputAdornment>
+            }
+          />
+        </Search>
+      </DialogTitle>
       <DialogContent dividers={scroll === 'paper'}>
         <DialogContentText
           id='scroll-dialog-description'
           ref={descriptionElementRef}
           tabIndex={-1}
-        >
-          {[...new Array(50)]
-            .map(
-              () => `Cras mattis consectetur purus sit amet fermentum.
-Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
-            )
-            .join('\n')}
-        </DialogContentText>
+          sx={{ minHeight: 400, minWidth: 500 }}
+        ></DialogContentText>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={handleClose}>Subscribe</Button>
-      </DialogActions>
     </Dialog>
   );
 }

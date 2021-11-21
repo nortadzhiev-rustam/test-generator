@@ -9,6 +9,7 @@ import InsertWindow from './TestInsertWindow';
 import GenerateWindow from './TestGenerateWindow';
 import { styled } from '@mui/styles';
 
+
 const BoxContainer = styled(Box)({
   display: 'flex',
   justifyContent: 'space-between',

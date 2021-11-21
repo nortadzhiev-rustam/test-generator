@@ -20,6 +20,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import logo from '../logo.svg';
 import { withRouter } from 'react-router';
 import { logout } from '../store/userSlice';
+
+
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   height: 40,
@@ -110,6 +112,7 @@ function HideOnScroll(props) {
 const NavBar = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const isFull = useSelector((state) => state.questionsType.isFull);
@@ -135,6 +138,7 @@ const NavBar = (props) => {
   const handleLogOut = () => {
     dispatch(logout());
     handleMenuClose();
+    localStorage.removeItem('user');
     props.history.push('/');
   };
   const menuId = 'primary-search-account-menu';
@@ -190,14 +194,13 @@ const NavBar = (props) => {
         <p>Notifications</p>
       </MenuItem>
       {!isLoggedIn && (
-        <MenuItem onClick={()=> props.history.push('/login')}>
+        <MenuItem onClick={() => props.history.push('/login')}>
           <IconButton
             size='large'
             aria-label='account of current user'
             aria-controls='primary-search-account-menu'
             aria-haspopup='true'
             color='inherit'
-            
           >
             <MeetingRoom />
           </IconButton>
@@ -242,19 +245,25 @@ const NavBar = (props) => {
           <HideOnScroll {...props}>
             <AppBar position='fixed' color='secondary' elevation={10}>
               <Toolbar>
-                
-                  <div style={{display: 'flex', flexDirection: 'row', cursor: 'pointer'}} onClick={()=> props.history.push('/')}>
-                    <img src={logo} width='30' height='30' alt='logo' />
-                    <Typography
-                      sx={{ marginLeft: 2 }}
-                      variant='h6'
-                      noWrap
-                      component='div'
-                    >
-                      Test Generator
-                    </Typography>
-                  </div>
-              
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    cursor: 'pointer',
+                  }}
+                  onClick={() => props.history.push('/')}
+                >
+                  <img src={logo} width='30' height='30' alt='logo' />
+                  <Typography
+                    sx={{ marginLeft: 2 }}
+                    variant='h6'
+                    noWrap
+                    component='div'
+                  >
+                    Test Generator
+                  </Typography>
+                </div>
+
                 <Box sx={{ flexGrow: 1 }} />
 
                 <Box
@@ -263,7 +272,7 @@ const NavBar = (props) => {
                     alignItems: 'center',
                   }}
                 >
-                  <Search>
+                  <Search onClick={() => props.setOpenSearch(true)}>
                     <StyledInputBase
                       placeholder='Search…'
                       inputProps={{ 'aria-label': 'search' }}
@@ -310,7 +319,7 @@ const NavBar = (props) => {
                       size='small'
                       aria-label='login'
                       color='inherit'
-                      onClick={()=> props.history.push('/login')}
+                      onClick={() => props.history.push('/login')}
                     >
                       <MeetingRoom />
                     </IconButton>
@@ -355,8 +364,9 @@ const NavBar = (props) => {
               </Toolbar>
             </AppBar>
           </HideOnScroll>
-
+          
           <Space />
+         
           {renderMobileMenu}
           {renderMenu}
         </>

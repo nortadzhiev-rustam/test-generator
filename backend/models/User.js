@@ -1,4 +1,3 @@
-
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     id: {
@@ -41,7 +40,6 @@ module.exports = (sequelize, DataTypes) => {
     //     key: 'id',
     //   },
     // },
-   
   });
 
   User.associate = (models) => {
@@ -49,8 +47,11 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'userId',
       as: 'user',
     });
-  }
-  
+    User.belongsTo(models.Department, {
+      foreignKey: 'departmentId',
+      as: 'department',
+    });
+  };
 
   return User;
 };

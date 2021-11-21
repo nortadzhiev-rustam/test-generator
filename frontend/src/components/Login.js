@@ -51,22 +51,39 @@ const Login = ({ history }) => {
   const [error, setError] = React.useState('');
   const [showPassword, setShowPassword] = React.useState(false);
   const dispatch = useDispatch();
-  
+
+  React.useEffect(() => {
+    const user = localStorage.getItem('user');
+    if (user) {
+      history.push('/index');
+    }
+  }, [history]);
+
+  React.useEffect(() => {
+    if (error) {
+      setTimeout(() => {
+        setError('');
+      }, 3000);
+    }
+  }, [error]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(setLoading(true));
     try {
-      const res = await axios.post('http://localhost:5000/api/users/login', { email, password });
-      console.log(res.data);
+      const res = await axios.post('http://localhost:5000/api/users/login', {
+        email,
+        password,
+      });
+
       dispatch(login(res.data));
-      localStorage.setItem('user', JSON.stringify(res.data))
-      history.push('/');
+      localStorage.setItem('user', JSON.stringify(res.data));
+      history.push('/index');
     } catch (err) {
       setError(err.response.data.message);
     }
     dispatch(setLoading(false));
   };
-
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -82,7 +99,7 @@ const Login = ({ history }) => {
 
   return (
     <Box className={classes.root}>
-      {error !== '' && <Alert severity='error'>{error}</Alert>}
+      {error !== '' && <Alert className='animate__animated animate__fadeIn' severity='error'>{error}</Alert>}
       <Paper
         sx={{
           borderRadius: '15px',

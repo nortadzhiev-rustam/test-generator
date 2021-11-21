@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  return sequelize.define('Test', {
+  const Test = sequelize.define('Test', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -33,5 +33,26 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-  })
+    difficulty: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    grade: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+  });
+  Test.associate = (models) => {
+    Test.belongsTo(models.User, {
+      foreignKey: 'userId',
+      as: 'user',
+    });
+    Test.belongsTo(models.Department, {
+      foreignKey: 'departmentId',
+      as: 'department',
+    });
+  };
+
+  
+  return Test;
 };

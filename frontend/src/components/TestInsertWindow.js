@@ -23,7 +23,58 @@ import {
   faTimesCircle,
 } from '@fortawesome/free-solid-svg-icons';
 
-import 'animate.css';
+import 'froala-editor/css/froala_style.min.css';
+import 'froala-editor/css/froala_editor.pkgd.min.css';
+import FroalaEditorComponent from 'react-froala-wysiwyg';
+import 'froala-editor/js/plugins.pkgd.min.js';
+// Import jQuery so we can expose Froala editor to the window.
+import $ from 'jquery';
+// Expose froala-editor to the window.
+window.$ = $;
+window.FroalaEditor = require('froala-editor');
+// Load wiris mathtype-froala plugin.
+require('@wiris/mathtype-froala3');
+// Load WIRISplugins.js dynamically.
+const jsDemoImagesTransform = document.createElement('script');
+jsDemoImagesTransform.type = 'text/javascript';
+jsDemoImagesTransform.src =
+  'https://www.wiris.net/demo/plugins/app/WIRISplugins.js?viewer=image';
+// Load generated scripts.
+document.head.appendChild(jsDemoImagesTransform);
+// Define the toolbar & configuration options for the froala editor.
+const toolbar = ['wirisEditor', 'wirisChemistry'];
+const froalaConfig = {
+  toolbarButtons: toolbar,
+  // Add [MW] uttons to the image editing popup Toolbar.
+  imageEditButtons: [
+    'wirisEditor',
+    'wirisChemistry',
+    'imageDisplay',
+    'imageAlign',
+    'imageInfo',
+    'imageRemove',
+  ],
+  // Allow all the tags to understand the mathml
+  htmlAllowedTags: ['.*'],
+  htmlAllowedAttrs: ['.*'],
+  // List of tags that are not removed when they have no content inside
+  // so that formulas renderize propertly
+  htmlAllowedEmptyTags: ['mprescripts', 'none'],
+  // In case you are using a different Froala editor language than default,
+  // language: 'es',
+  // You can choose the language for the MathType editor, too:
+  // @see: https://docs.wiris.com/en/mathtype/mathtype_web/sdk-api/parameters#regional_properties
+  // mathTypeParameters: {
+  //   editorParameters: { language: 'es' },
+  // },
+  // Execute on initialized editor.
+  events: {
+    initialized() {
+      // Since Froala 3.1.1 version, initialization events need to be called manually for the React component.
+      // Parse the initial content set on the editor through html to render it
+    },
+  },
+};
 const InsertWindow = () => {
   const [mouseIn, setMouseIn] = React.useState(false);
   const [aChecked, setAChecked] = React.useState(false);
@@ -31,6 +82,7 @@ const InsertWindow = () => {
   const [cChecked, setCChecked] = React.useState(false);
   const [dChecked, setDChecked] = React.useState(false);
   const [radio, setRadio] = React.useState('True');
+  const [question, setQuestion] = React.useState('');
   const dispatch = useDispatch();
   const isFull = useSelector((state) => state.questionsType.isFull);
   const quest = useSelector((state) => state.questionsType.value);
@@ -48,10 +100,14 @@ const InsertWindow = () => {
     dispatch(setFull(false));
   };
 
+  const handleModelChange = (model) => {
+    setQuestion(model);
+  };
+
   const insertTrueOrFalse = () => {
     return (
       <Grid container spacing={1}>
-        <Grid item xs={12} >
+        <Grid item xs={12}>
           <Box
             component='form'
             noValidate
@@ -133,7 +189,7 @@ const InsertWindow = () => {
   const insertMultipleChoise = () => {
     return (
       <Grid container spacing={1}>
-        <Grid item xs={12} >
+        <Grid item xs={12}>
           <Box
             component='form'
             noValidate
@@ -154,13 +210,27 @@ const InsertWindow = () => {
               label='Question Title'
               size='small'
             />
-            <TextField
-              id='Title'
-              label='Question'
-              multiline
-              rows={5}
-              sx={{ marginBottom: 5 }}
-            />
+            {quest.category === 'Mathematics' ||
+            quest.category === 'Physics' ||
+            quest.category === 'Chemistry' ? (
+              <Box component='div' sx={{ marginBottom: 5 }}>
+                <FroalaEditorComponent
+                  too
+                  tag='textarea'
+                  config={froalaConfig}
+                  model={question}
+                  onModelChange={handleModelChange}
+                />
+              </Box>
+            ) : (
+              <TextField
+                id='Title'
+                label='Question'
+                multiline
+                rows={5}
+                sx={{ marginBottom: 5 }}
+              />
+            )}
             <div
               style={{
                 display: 'flex',

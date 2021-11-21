@@ -5,11 +5,16 @@ import Login from './components/Login';
 import Register from './components/Register';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import ProtectedRoute from './routes/ProtectedRoute';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { login } from './store/userSlice';
+import SearchWindow from './components/searchWindow';
+import Default from './components/Default';
+
+
 function App() {
+  const [openSearch, setOpenSearch] = React.useState(false);
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+
   React.useEffect(() => {
     const user = localStorage.getItem('user');
     if (user) {
@@ -17,14 +22,19 @@ function App() {
     }
   }, [dispatch]);
   return (
-    <div className='App'>
+    <div
+      className='App'
+    >
       <Router>
-        <NavBar />
+        <NavBar setOpenSearch={(o) => setOpenSearch(o)} />
+        {openSearch && (
+          <SearchWindow open={openSearch} setOpen={(e) => setOpenSearch(e)} />
+        )}
         <Switch>
-          <Route exact path='/' component={isLoggedIn ? Home : Login} />
+          <ProtectedRoute exact path='/index' component={Home} />
+          <Route exact path='/' component={Default} />
           <Route exact path='/login' component={Login} />
           <Route exact path='/register' component={Register} />
-          <ProtectedRoute exact path='/home' component={Home} />
         </Switch>
       </Router>
     </div>
