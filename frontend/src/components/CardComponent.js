@@ -41,7 +41,7 @@ const CardComponent = (props) => {
   };
 
   return (
-    <Card sx={{ maxWidth: 800, width: 800, marginBottom: 10 }}>
+    <Card sx={{ maxWidth: '100%', width: 800, marginBottom: 10 }}>
       <CardHeader
        
         action={

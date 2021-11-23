@@ -26,6 +26,7 @@ import {
 import 'froala-editor/css/froala_style.min.css';
 import 'froala-editor/css/froala_editor.pkgd.min.css';
 import FroalaEditorComponent from 'react-froala-wysiwyg';
+import FroalaEditorView from 'react-froala-wysiwyg/FroalaEditorView';
 import 'froala-editor/js/plugins.pkgd.min.js';
 // Import jQuery so we can expose Froala editor to the window.
 import $ from 'jquery';
@@ -42,7 +43,24 @@ jsDemoImagesTransform.src =
 // Load generated scripts.
 document.head.appendChild(jsDemoImagesTransform);
 // Define the toolbar & configuration options for the froala editor.
-const toolbar = ['wirisEditor', 'wirisChemistry'];
+const toolbar = [
+  'undo',
+  'redo',
+  '|',
+  'bold',
+  'italic',
+  'underline',
+  'strikeThrough',
+  'subscript',
+  'superscript',
+  'outdent',
+  'indent',
+  'clearFormatting',
+  'insertTable',
+  'html',
+  'wirisEditor',
+  'wirisChemistry',
+];
 const froalaConfig = {
   toolbarButtons: toolbar,
   // Add [MW] uttons to the image editing popup Toolbar.
@@ -72,6 +90,8 @@ const froalaConfig = {
     initialized() {
       // Since Froala 3.1.1 version, initialization events need to be called manually for the React component.
       // Parse the initial content set on the editor through html to render it
+      const contentRendered = window.WirisPlugin.Parser.initParse(this.html.get(true));
+      this.html.set(contentRendered);
     },
   },
 };
@@ -231,6 +251,11 @@ const InsertWindow = () => {
                 sx={{ marginBottom: 5 }}
               />
             )}
+
+            <div>
+              <FroalaEditorView model={question} />
+            </div>
+
             <div
               style={{
                 display: 'flex',

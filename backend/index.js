@@ -7,6 +7,7 @@ const port = process.env.PORT || 5000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+app.use('/static', express.static('public'));
 //post method to take all api/users/signup request and create a new user
 app.post('/api/users/signup', async (req, res) => {
   try {
@@ -15,7 +16,7 @@ app.post('/api/users/signup', async (req, res) => {
       firstName,
       lastName,
       email,
-      password : bcrypt.hashSync(password, 10),
+      password: bcrypt.hashSync(password, 10),
       departmentId,
     });
     res.json(user);
@@ -36,7 +37,9 @@ app.post('/api/users/login', async (req, res) => {
     }
     res.json(user);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res
+      .status(500)
+      .json({ message: error.response.data.message || error.message });
   }
 });
 

@@ -80,7 +80,7 @@ const Login = ({ history }) => {
       localStorage.setItem('user', JSON.stringify(res.data));
       history.push('/index');
     } catch (err) {
-      setError(err.response.data.message);
+      setError(err.message);
     }
     dispatch(setLoading(false));
   };

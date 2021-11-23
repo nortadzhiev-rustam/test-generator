@@ -9,11 +9,14 @@ const Default = ({history}) => {
   React.useEffect(() => {
     const fetchData = async () => {
       const res = await axios.get(
-        'https://newsapi.org/v2/top-headlines?country=us&apiKey=83e354ab3ab64bc197bc20a8fe574793'
+        'https://newsapi.org/v2/top-headlines?country=ru&apiKey=83e354ab3ab64bc197bc20a8fe574793'
       );
       setPosts(res.data.articles);
     };
     fetchData();
+    return () => {
+      setPosts([]);
+    };
   }, []);
 
   React.useEffect(() => {
@@ -27,7 +30,7 @@ const Default = ({history}) => {
  return (
     <Box component='div' sx={{display:{ md : 'flex', xs : 'block'}, flexWrap: 'wrap', justifyContent:{md:  'space-around', xs: 'center'}, marginTop: 10}}>
         
-        {posts.map(post => <CardComponent post={post} />)}
+        {posts.map((post, idx) => <CardComponent key={idx} post={post} />)}
         
     </Box>
 );
