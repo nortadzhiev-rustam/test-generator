@@ -10,7 +10,6 @@ import {
   InputAdornment,
   Box,
   Grow,
-  Backdrop,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { styled, alpha } from '@mui/material/styles';
@@ -79,17 +78,17 @@ export default function SearchWindow({ open, setOpen }) {
 
   return (
     <Dialog
-      BackdropComponent={Backdrop}
+      
       TransitionComponent={Grow}
-      transitionDuration={{ enter: 1000, exit: 1000 }}
+      transitionDuration={{ enter: 500, exit: 500 }}
       open={open}
       onClose={handleClose}
       scroll={scroll}
       aria-labelledby='scroll-dialog-title'
       aria-describedby='scroll-dialog-description'
-      sx={{ backdropFilter: 'blur(10px)' }}
+      sx={{ backdropFilter: 'blur(3px)' }}
     >
-      <DialogTitle sx={{ paddingInline: 0 }} id='scroll-dialog-title'>
+      <DialogTitle sx={{ paddingInline: 0, borderRadius: '10px' }} id='scroll-dialog-title'>
         <Search>
           <StyledInputBase
             sx={{ fontSize: '1.3rem' }}

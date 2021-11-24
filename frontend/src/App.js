@@ -21,6 +21,16 @@ function App() {
       dispatch(login(user));
     }
   }, [dispatch]);
+
+  React.useEffect(() => {
+    //add event listener that listens for ctrl+k and changes openSearch to true
+    document.addEventListener('keydown', (e) => {
+      if (e.ctrlKey && e.key === 'k') {
+        setOpenSearch(true);
+      }
+    });
+  }, []);
+
   return (
     <div
       className='App'

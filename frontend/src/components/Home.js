@@ -81,7 +81,7 @@ const Home = () => {
 
   return (
     <BoxContainer>
-      <Grid container spacing={1}>
+      <Grid container justifyContent={isVisible && 'space-around'} spacing={1}>
         {!isFull && (
           <Grid
             item
@@ -89,7 +89,7 @@ const Home = () => {
             sm={6}
             md={4}
             lg={3}
-            xl={2}
+            
             style={{ paddingInline: 20, paddingBottom: 25 }}
             overflow='hidden'
           >
@@ -136,6 +136,7 @@ const Home = () => {
             )}
           </Grid>
         )}
+      
         {isVisible && openWindow()}
       </Grid>
     </BoxContainer>
