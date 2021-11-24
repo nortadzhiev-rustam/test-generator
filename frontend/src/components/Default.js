@@ -9,7 +9,7 @@ const Default = ({history}) => {
   React.useEffect(() => {
     const fetchData = async () => {
       const res = await axios.get(
-        'https://newsapi.org/v2/top-headlines?country=ru&apiKey=83e354ab3ab64bc197bc20a8fe574793'
+        'https://newsapi.org/v2/top-headlines?country=us&apiKey=83e354ab3ab64bc197bc20a8fe574793'
       );
       setPosts(res.data.articles);
     };

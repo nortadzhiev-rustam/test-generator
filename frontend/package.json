@@ -31,6 +31,7 @@
     "immer": "^9.0.6",
     "jquery": "^3.6.0",
     "mathjax3-react": "^1.0.12",
+    "mathml-to-latex": "^1.2.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-froala-wysiwyg": "^4.0.6",
@@ -68,7 +69,6 @@
   "resolutions": {
     "ansi-html": "https://registry.npmjs.org/ansi-html-community/-/ansi-html-community-0.0.8.tgz"
   },
-  
   "devDependencies": {
     "@ckeditor/ckeditor5-react": "^3.0.3"
   }

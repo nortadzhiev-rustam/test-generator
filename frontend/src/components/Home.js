@@ -96,7 +96,7 @@ const Home = () => {
             <PaperItem elevation={10}>
               <GridContainer container>
                 <MainDiv>
-                  <Grid item xs={6}>
+                  <Grid item xs={8}>
                     {!isSwitch ? (
                       <TextDiv
                         className='animate__animated animate__fadeInLeft animate__faster'
