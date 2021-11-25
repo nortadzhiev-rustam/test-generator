@@ -26,7 +26,7 @@ import "froala-editor/css/froala_style.min.css";
 import "froala-editor/css/froala_editor.pkgd.min.css";
 import FroalaEditorComponent from "react-froala-wysiwyg";
 import "froala-editor/js/plugins.pkgd.min.js";
-import  Mathml2Latex from "mathml-to-latex";
+import MathJax from 'mathjax3-react'
 // Import jQuery so we can expose Froala editor to the window.
 import $ from "jquery";
 import "froala-editor/css/themes/dark.min.css";
@@ -50,6 +50,7 @@ const toolbar = [
   "|",
   "wirisEditor",
   "wirisChemistry",
+  '|',
   "bold",
   "italic",
   "underline",
@@ -63,6 +64,11 @@ const toolbar = [
   "html",
 ];
 const froalaConfig = {
+  iframe: true,
+
+  // Set the image upload parameter.
+  imageUploadParam: "image",
+
   toolbarButtons: toolbar,
   // Add [MW] uttons to the image editing popup Toolbar.
   imageEditButtons: [
@@ -79,6 +85,7 @@ const froalaConfig = {
   // List of tags that are not removed when they have no content inside
   // so that formulas renderize propertly
   htmlAllowedEmptyTags: ["mprescripts", "none"],
+  useClasses: false,
   // In case you are using a different Froala editor language than default,
   // language: 'es',
   // You can choose the language for the MathType editor, too:
@@ -89,6 +96,9 @@ const froalaConfig = {
   // Execute on initialized editor.
   theme: "dark",
   events: {
+    updateFunction: function (e, editor) {
+      console.log(editor.html.get());
+    },
     initialized() {
       // Since Froala 3.1.1 version, initialization events need to be called manually for the React component.
       // Parse the initial content set on the editor through html to render it
@@ -105,8 +115,17 @@ const InsertWindow = () => {
   const [bChecked, setBChecked] = React.useState(false);
   const [cChecked, setCChecked] = React.useState(false);
   const [dChecked, setDChecked] = React.useState(false);
-  const [radio, setRadio] = React.useState('True');
-  const [question, setQuestion] = React.useState('<p></p>');
+  const [radio, setRadio] = React.useState("True");
+  const [question, setQuestion] = React.useState(
+    ''
+  );
+  const [answer, setAnswer] = React.useState(
+    {
+      a: "",
+      b: "",
+      c: "",
+      d: "",
+    });
   const dispatch = useDispatch();
   const isFull = useSelector((state) => state.questionsType.isFull);
   const quest = useSelector((state) => state.questionsType.value);
@@ -125,7 +144,7 @@ const InsertWindow = () => {
   };
 
   const handleModelChange = (model) => {
-
+   
     setQuestion(model);
   };
 
@@ -211,6 +230,22 @@ const InsertWindow = () => {
     );
   };
 
+  const handleAnswerA = (model) => {
+    setAnswer({ ...answer, a: model });
+  };
+
+  const handleAnswerB = (model) => {
+    setAnswer({ ...answer, b: model });
+  };
+
+  const handleAnswerC = (model) => {
+    setAnswer({ ...answer, c: model });
+  };
+
+  const handleAnswerD = (model) => {
+    setAnswer({ ...answer, d: model });
+  };
+
   const insertMultipleChoise = () => {
     return (
       <Grid container justifyContent='center' spacing={1}>
@@ -254,7 +289,7 @@ const InsertWindow = () => {
             quest.category === "Chemistry" ? (
               <Box component='div' sx={{ marginBottom: 5, width: "100%" }}>
                 <FroalaEditorComponent
-                  tag='textarea'
+                  tag='div'
                   config={froalaConfig}
                   model={question}
                   onModelChange={handleModelChange}
@@ -270,11 +305,11 @@ const InsertWindow = () => {
               />
             )}
 
-            {/* <div>
+            <div>
               <MathJax.Provider>
                 <MathJax.Html html={question} />
               </MathJax.Provider>
-            </div> */}
+            </div>
 
             <div
               style={{
@@ -296,10 +331,10 @@ const InsertWindow = () => {
               quest.category === "Chemistry" ? (
                 <Box component='div' sx={{ marginBottom: 5, width: "100%" }}>
                   <FroalaEditorComponent
-                    tag='textarea'
+                    tag='div'
                     config={froalaConfig}
-                    model={question}
-                    onModelChange={handleModelChange}
+                    model={answer.a}
+                    onModelChange={handleAnswerA}
                   />
                 </Box>
               ) : (
@@ -335,10 +370,10 @@ const InsertWindow = () => {
               quest.category === "Chemistry" ? (
                 <Box component='div' sx={{ marginBottom: 5, width: "100%" }}>
                   <FroalaEditorComponent
-                    tag='textarea'
+                    tag='div'
                     config={froalaConfig}
-                    model={question}
-                    onModelChange={handleModelChange}
+                    model={answer.b}
+                    onModelChange={handleAnswerB}
                   />
                 </Box>
               ) : (
@@ -374,10 +409,10 @@ const InsertWindow = () => {
               quest.category === "Chemistry" ? (
                 <Box component='div' sx={{ marginBottom: 5, width: "100%" }}>
                   <FroalaEditorComponent
-                    tag='textarea'
+                    tag='div'
                     config={froalaConfig}
-                    model={question}
-                    onModelChange={handleModelChange}
+                    model={answer.c}
+                    onModelChange={handleAnswerC}
                   />
                 </Box>
               ) : (
@@ -413,10 +448,10 @@ const InsertWindow = () => {
               quest.category === "Chemistry" ? (
                 <Box component='div' sx={{ marginBottom: 5, width: "100%" }}>
                   <FroalaEditorComponent
-                    tag='textarea'
+                    tag='div'
                     config={froalaConfig}
-                    model={question}
-                    onModelChange={handleModelChange}
+                    model={answer.d}
+                    onModelChange={handleAnswerD}
                   />
                 </Box>
               ) : (
