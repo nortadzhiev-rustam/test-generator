@@ -21,14 +21,9 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATE,
         defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
       },
-      // userId: {
-      //   type: DataTypes.INTEGER,
-      //   references: {
-      //     model: User,
-      //     key: 'id',
-      //   },
-      // },
+     
     },
+    
     {
       tableName: 'department',
       timestamps: true,
@@ -38,9 +33,12 @@ module.exports = (sequelize, DataTypes) => {
   Department.associate = function (models) {
     Department.hasMany(models.User, {
       foreignKey: 'departmentId',
-      as: 'department',
+      
     });
-
+    Department.hasMany(models.Test, {
+      foreignKey: 'departmentId',
+      
+    });
    
   };
 

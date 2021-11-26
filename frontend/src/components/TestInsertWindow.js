@@ -30,6 +30,7 @@ import MathJax from 'mathjax3-react'
 // Import jQuery so we can expose Froala editor to the window.
 import $ from "jquery";
 import "froala-editor/css/themes/dark.min.css";
+import axios from 'axios';
 // Expose froala-editor to the window.
 window.$ = $;
 window.FroalaEditor = require("froala-editor");
@@ -116,6 +117,7 @@ const InsertWindow = () => {
   const [cChecked, setCChecked] = React.useState(false);
   const [dChecked, setDChecked] = React.useState(false);
   const [radio, setRadio] = React.useState("True");
+  const [mark, setMark] =React.useState('');
   const [question, setQuestion] = React.useState(
     ''
   );
@@ -147,6 +149,10 @@ const InsertWindow = () => {
    
     setQuestion(model);
   };
+
+  const handleMarkChange = (e) => {
+    setMark(e.target.value);
+  }
 
   const insertTrueOrFalse = () => {
     return (
@@ -279,9 +285,11 @@ const InsertWindow = () => {
                   marginBottom: 5,
                   width: 80,
                 }}
+                value={mark}
                 id='mark'
                 label='Mark'
                 size='small'
+                onChange={handleMarkChange}
               />
             </Box>
             {quest.category === "Mathematics" ||
@@ -498,6 +506,10 @@ const InsertWindow = () => {
       </Grid>
     );
   };
+
+  axios.post('http://localhost:5000/api/test/').then((res,req)=> {
+
+  })
 
   return (
     <Grid

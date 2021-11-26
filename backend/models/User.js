@@ -32,14 +32,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: true,
     },
-    // departmentId: {
-    //   type: DataTypes.INTEGER,
-    //   allowNull: false,
-    //   references: {
-    //     model: Department,
-    //     key: 'id',
-    //   },
-    // },
+    
   });
 
   User.associate = (models) => {
@@ -48,6 +41,7 @@ module.exports = (sequelize, DataTypes) => {
       as: 'user',
     });
     User.belongsTo(models.Department, {
+      
       foreignKey: 'departmentId',
       as: 'department',
     });
