@@ -20,7 +20,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import logo from '../logo.svg';
 import { withRouter } from 'react-router';
 import { logout } from '../store/userSlice';
-
+import axios from 'axios';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -138,6 +138,7 @@ const NavBar = (props) => {
   const handleLogOut = () => {
     dispatch(logout());
     handleMenuClose();
+    axios.post('http://localhost:5000/api/v1/logout');
     localStorage.removeItem('user');
     props.history.push('/');
   };

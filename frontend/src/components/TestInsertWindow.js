@@ -30,7 +30,7 @@ import MathJax from 'mathjax3-react'
 // Import jQuery so we can expose Froala editor to the window.
 import $ from "jquery";
 import "froala-editor/css/themes/dark.min.css";
-import axios from 'axios';
+
 // Expose froala-editor to the window.
 window.$ = $;
 window.FroalaEditor = require("froala-editor");
@@ -252,6 +252,7 @@ const InsertWindow = () => {
     setAnswer({ ...answer, d: model });
   };
 
+  
   const insertMultipleChoise = () => {
     return (
       <Grid container justifyContent='center' spacing={1}>
@@ -507,9 +508,7 @@ const InsertWindow = () => {
     );
   };
 
-  axios.post('http://localhost:5000/api/test/').then((res,req)=> {
-
-  })
+  
 
   return (
     <Grid

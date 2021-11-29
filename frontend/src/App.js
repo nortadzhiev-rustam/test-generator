@@ -9,6 +9,8 @@ import { useDispatch } from 'react-redux';
 import { login } from './store/userSlice';
 import SearchWindow from './components/searchWindow';
 import Default from './components/Default';
+import axios from 'axios';
+import {getDepartmentSuccess} from './store/departmentSlice';
 
 
 function App() {
@@ -22,6 +24,7 @@ function App() {
     }
   }, [dispatch]);
 
+
   React.useEffect(() => {
     //add event listener that listens for ctrl+k and changes openSearch to true
     document.addEventListener('keydown', (e) => {
@@ -30,11 +33,14 @@ function App() {
       }
     });
   }, []);
+  React.useEffect(() => {
+    axios.get('http://localhost:5000/api/v1/departments').then((res) => {
+      dispatch(getDepartmentSuccess(res.data));
+    });
+  }, [dispatch]);
 
   return (
-    <div
-      className='App'
-    >
+    <div className='App'>
       <Router>
         <NavBar setOpenSearch={(o) => setOpenSearch(o)} />
         {openSearch && (

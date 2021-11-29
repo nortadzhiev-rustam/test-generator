@@ -3,13 +3,14 @@ import * as React from 'react';
 import Dialog from '@mui/material/Dialog';
 
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
+
 import DialogTitle from '@mui/material/DialogTitle';
 import {
   InputBase,
   InputAdornment,
   Box,
   Grow,
+  
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { styled, alpha } from '@mui/material/styles';
@@ -59,6 +60,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+
+
 export default function SearchWindow({ open, setOpen }) {
   const [scroll] = React.useState('paper');
 
@@ -76,6 +79,8 @@ export default function SearchWindow({ open, setOpen }) {
     }
   }, [open]);
 
+ 
+
   return (
     <Dialog
       
@@ -86,7 +91,7 @@ export default function SearchWindow({ open, setOpen }) {
       scroll={scroll}
       aria-labelledby='scroll-dialog-title'
       aria-describedby='scroll-dialog-description'
-      sx={{ backdropFilter: 'blur(3px)' }}
+      sx={{ backdropFilter: 'blur(3px)', }}
     >
       <DialogTitle sx={{ paddingInline: 0, borderRadius: '10px' }} id='scroll-dialog-title'>
         <Search>
@@ -127,13 +132,8 @@ export default function SearchWindow({ open, setOpen }) {
           />
         </Search>
       </DialogTitle>
-      <DialogContent dividers={scroll === 'paper'}>
-        <DialogContentText
-          id='scroll-dialog-description'
-          ref={descriptionElementRef}
-          tabIndex={-1}
-          sx={{ minHeight: 400, minWidth: 500 }}
-        ></DialogContentText>
+      <DialogContent sx={{minHeight: 400, p:0 }} dividers={scroll === 'paper'}>
+        
       </DialogContent>
     </Dialog>
   );

@@ -26,7 +26,7 @@ import {
 
 
 
-import axios from 'axios';
+
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -43,26 +43,11 @@ const types = ['Multiple choice', 'True or Flase', 'Fill in gaps', 'Classic'];
 const grades = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 const InsertPanel = () => {
   const quest = useSelector((state) => state.questionsType.value);
+  const category = useSelector(state => state.department.department)
   const dispatch = useDispatch();
-  const [category, setCategory] = React.useState([]);
+  
 
-  React.useEffect(() => {
-    const fetchData = async () => {
-      const res = await axios.get('http://localhost:5000/api/departments');
-      try {
-        if (res) {
-          setCategory(res.data);
-        } else {
-          res.status(400).json({
-            error: 'No data found',
-          });
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    fetchData();
-  }, []);
+ 
 
   const handleVisibility = () => {
     if (quest.category !== '') {

@@ -2,8 +2,8 @@ import React from 'react';
 import { makeStyles } from '@mui/styles';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { useDispatch } from 'react-redux';
-import {login} from '../store/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../store/userSlice';
 import axios from 'axios';
 
 import {
@@ -50,6 +50,7 @@ const useStyles = makeStyles({
 const Register = ({ setIsLogin, history }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const departments = useSelector((state) => state.department.department);
   const [values, setValues] = React.useState({
     firstName: '',
     lastName: '',
@@ -59,7 +60,6 @@ const Register = ({ setIsLogin, history }) => {
     showPassword: false,
     showPasswordConfirm: false,
     departmentId: 0,
-    
   });
   const [error, setError] = React.useState('');
 
@@ -77,14 +77,18 @@ const Register = ({ setIsLogin, history }) => {
       setError('Passwords do not match');
     } else {
       try {
-        const res = await axios.post('http://localhost:5000/api/users/signup', {
-          firstName,
-          lastName,
-          email,
-          password,
-          departmentId,
-        });
-        
+        const res = await axios.post(
+          'http://localhost:5000/api/v1/register',
+          {
+            firstName,
+            lastName,
+            email,
+            password,
+            departmentId,
+          },
+          { withCredentials: true }
+        );
+
         if (res.data.error) {
           setError(res.data.error);
         } else {
@@ -100,7 +104,7 @@ const Register = ({ setIsLogin, history }) => {
             error: '',
           });
           dispatch(login(res.data));
-          localStorage.setItem('user', JSON.stringify(res.data));
+         
           history.push('/');
         }
       } catch (err) {
@@ -109,17 +113,7 @@ const Register = ({ setIsLogin, history }) => {
     }
   };
 
-  const [departments, setDepartments] = React.useState([]);
-  React.useEffect(() => {
-    axios
-      .get('http://localhost:5000/api/departments')
-      .then((res) => {
-        setDepartments(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  
 
   const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
@@ -148,7 +142,11 @@ const Register = ({ setIsLogin, history }) => {
 
     <Box component='div' className={classes.root}>
       {error !== '' && (
-        <Alert className='animate__animated animate__fadeIn' sx={{ width: '550px', position: 'relative' }} severity='error'>
+        <Alert
+          className='animate__animated animate__fadeIn'
+          sx={{ width: '550px', position: 'relative' }}
+          severity='error'
+        >
           {error}
         </Alert>
       )}
@@ -300,7 +298,6 @@ const Register = ({ setIsLogin, history }) => {
                 <Select
                   variant='filled'
                   value={values.departmentId || ''}
-                  
                   onChange={(event) =>
                     setValues({ ...values, departmentId: event.target.value })
                   }

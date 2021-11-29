@@ -71,10 +71,14 @@ const Login = ({ history }) => {
     e.preventDefault();
     dispatch(setLoading(true));
     try {
-      const res = await axios.post('http://localhost:5000/api/users/login', {
-        email,
-        password,
-      });
+      const res = await axios.post(
+        'http://localhost:5000/api/v1/login',
+        {
+          email,
+          password,
+        },
+        { withCredentials: true }
+      );
 
       dispatch(login(res.data));
       localStorage.setItem('user', JSON.stringify(res.data));
@@ -99,7 +103,11 @@ const Login = ({ history }) => {
 
   return (
     <Box className={classes.root}>
-      {error !== '' && <Alert className='animate__animated animate__fadeIn' severity='error'>{error}</Alert>}
+      {error !== '' && (
+        <Alert className='animate__animated animate__fadeIn' severity='error'>
+          {error}
+        </Alert>
+      )}
       <Paper
         sx={{
           borderRadius: '15px',
