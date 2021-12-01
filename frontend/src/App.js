@@ -9,21 +9,25 @@ import { useDispatch } from 'react-redux';
 import { login } from './store/userSlice';
 import SearchWindow from './components/searchWindow';
 import Default from './components/Default';
+import Profile from './components/Profile';
 import axios from 'axios';
-import {getDepartmentSuccess} from './store/departmentSlice';
-
+import { getDepartmentSuccess } from './store/departmentSlice';
 
 function App() {
   const [openSearch, setOpenSearch] = React.useState(false);
   const dispatch = useDispatch();
 
-  React.useEffect(() => {
-    const user = localStorage.getItem('user');
-    if (user) {
-      dispatch(login(user));
+  React.useEffect( () => {
+    const fetchLogin = async () => {
+    const res = await axios.get('http://localhost:5000/api/v1/isAuth', {
+      withCredentials: true,
+    });
+    if (res.data.user) {
+      dispatch(login(res.data.user));
     }
+  };
+  fetchLogin();
   }, [dispatch]);
-
 
   React.useEffect(() => {
     //add event listener that listens for ctrl+k and changes openSearch to true
@@ -34,7 +38,7 @@ function App() {
     });
   }, []);
   React.useEffect(() => {
-    axios.get('http://localhost:5000/api/v1/departments').then((res) => {
+    axios.get('http://localhost:5000/api/v1/departments', {withCredentials:true}).then((res) => {
       dispatch(getDepartmentSuccess(res.data));
     });
   }, [dispatch]);
@@ -51,6 +55,7 @@ function App() {
           <Route exact path='/' component={Default} />
           <Route exact path='/login' component={Login} />
           <Route exact path='/register' component={Register} />
+          <ProtectedRoute exact path='/profile' component={Profile} />
         </Switch>
       </Router>
     </div>

@@ -112,7 +112,7 @@ function HideOnScroll(props) {
 const NavBar = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  
+
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const isFull = useSelector((state) => state.questionsType.isFull);
@@ -135,13 +135,22 @@ const NavBar = (props) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const handleLogOut = () => {
+  const handleLogOut = async () => {
     dispatch(logout());
     handleMenuClose();
-    axios.post('http://localhost:5000/api/v1/logout');
-    localStorage.removeItem('user');
-    props.history.push('/');
+     const res = await axios
+      .get('http://localhost:5000/api/v1/logout', {withCredentials: true})
+      if (res.status === 200) {
+        props.history.push('/');
+        
+      }
   };
+
+  const handleOpenProfile = () => {
+    props.history.push('/profile');
+    handleMenuClose();
+  };
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -159,7 +168,7 @@ const NavBar = (props) => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleOpenProfile}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
       <MenuItem onClick={handleLogOut}>Log Out</MenuItem>
     </Menu>
@@ -365,9 +374,9 @@ const NavBar = (props) => {
               </Toolbar>
             </AppBar>
           </HideOnScroll>
-          
+
           <Space />
-         
+
           {renderMobileMenu}
           {renderMenu}
         </>

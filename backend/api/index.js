@@ -5,6 +5,8 @@ const paymentApi = require("./payment");
 const department = require("./department");
 const test = require("./test");
 const logout = require("./logout");
+const isAuth =require("./auth");
+const profile = require("./profile");
 const router = express.Router();
 
 router.use(registerApi);
@@ -13,5 +15,6 @@ router.use(paymentApi);
 router.use(department);
 router.use(test);
 router.use(logout);
-
+router.use(isAuth);
+router.use(profile);
 module.exports = router;

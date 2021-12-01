@@ -105,7 +105,8 @@ const Register = ({ setIsLogin, history }) => {
           });
           dispatch(login(res.data));
          
-          history.push('/');
+          window.location.replace('/');
+          
         }
       } catch (err) {
         setError(err.response.data.message);

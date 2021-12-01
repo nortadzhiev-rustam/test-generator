@@ -29,6 +29,7 @@ router.post('/register', async (req, res) => {
     });
     const jwtToken = jwt.sign(user.toJSON(), process.env.JWT_SECRET);
     req.session.user = user;
+    req.session.isAuth = true;
     res.json({message: 'User created successfully!', token: jwtToken});
   } catch (error) {
     res.status(500).json({ message: error.message });

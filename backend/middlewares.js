@@ -16,7 +16,7 @@ function errorHandler(err, req, res, next) {
 }
 
 const isAuth = (req, res, next) => {
-  if (req.session.user) {
+  if (req.session.isAuth) {
     return next();
   }
   return res.status(401).json({

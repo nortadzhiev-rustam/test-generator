@@ -4,6 +4,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 const expressSession = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(expressSession.Store);
+const cookieParser = require('cookie-parser');
 require('dotenv').config();
 require('./auth/passport');
 
@@ -23,6 +24,7 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/static', express.static('public'));
+app.use(cookieParser());
 app.use(expressSession({
   secret: process.env.SESSION_SECRET,
   resave: false,

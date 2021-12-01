@@ -2,10 +2,11 @@ import React from 'react';
 import axios from 'axios';
 import CardComponent from './CardComponent';
 import { Box } from '@mui/material';
-
+import {useSelector} from 'react-redux';
 
 const Default = ({history}) => {
   const [posts, setPosts] = React.useState([]);
+const isLoggedIn = useSelector(state => state.user.isLoggedIn);
   React.useEffect(() => {
     const fetchData = async () => {
       const res = await axios.get(
@@ -20,11 +21,15 @@ const Default = ({history}) => {
   }, []);
 
   React.useEffect(() => {
-      const user = localStorage.getItem('user');
-        if (user) {
-            history.push('/index');
+     const isLogged = async (status) => {
+        if (status) {
+           await history.push('/index');
         }
-    }, [history]);
+      }
+
+      isLogged(isLoggedIn);
+
+    }, [history, isLoggedIn]);
 
 
  return (

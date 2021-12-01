@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setLoading, login } from '../store/userSlice';
 const useStyles = makeStyles({
   root: {
@@ -52,12 +52,22 @@ const Login = ({ history }) => {
   const [showPassword, setShowPassword] = React.useState(false);
   const dispatch = useDispatch();
 
-  React.useEffect(() => {
-    const user = localStorage.getItem('user');
-    if (user) {
-      history.push('/index');
-    }
-  }, [history]);
+  
+
+  
+const isLoggedIn = useSelector(state => state.user.isLoggedIn);
+React.useEffect(() => {
+     const isLogged = async (status) => {
+        if (status) {
+           await history.push('/index');
+           
+        }
+      }
+
+      isLogged(isLoggedIn);
+
+    }, [history, isLoggedIn]);
+
 
   React.useEffect(() => {
     if (error) {
@@ -81,8 +91,8 @@ const Login = ({ history }) => {
       );
 
       dispatch(login(res.data));
-      localStorage.setItem('user', JSON.stringify(res.data));
-      history.push('/index');
+      
+     window.location.replace('/index');
     } catch (err) {
       setError(err.message);
     }

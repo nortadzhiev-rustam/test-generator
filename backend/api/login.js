@@ -23,8 +23,12 @@ router.post('/login', async (req, res) => {
       .status(400)
       .json({ message: 'Username or password does not match!' });
 
-  const jwtToken = jwt.sign(userWithEmail.toJSON(), process.env.JWT_SECRET);
-req.session.user = userWithEmail;
+  const jwtToken = jwt.sign(userWithEmail.toJSON(), process.env.JWT_SECRET, {expiresIn: '1h'});
+  
+  req.session.user = userWithEmail;
+  req.session.isAuth = true;
+
+  console.log(req.session.user);
   res.json({
     message: `Welcome Back! ${userWithEmail.firstName}`,
     token: jwtToken,
