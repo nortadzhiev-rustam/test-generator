@@ -62,7 +62,18 @@ const Register = ({ setIsLogin, history }) => {
     departmentId: 0,
   });
   const [error, setError] = React.useState('');
-
+  const isLoggedIn = useSelector(state => state.user.isLoggedIn);
+  React.useEffect(() => {
+       const isLogged = async (status) => {
+          if (status) {
+             await history.push('/');
+             
+          }
+        }
+  
+        isLogged(isLoggedIn);
+  
+      }, [history, isLoggedIn]);
   const handleSubmit = async (e) => {
     e.preventDefault();
     const {

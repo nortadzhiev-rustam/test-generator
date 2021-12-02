@@ -59,7 +59,7 @@ const isLoggedIn = useSelector(state => state.user.isLoggedIn);
 React.useEffect(() => {
      const isLogged = async (status) => {
         if (status) {
-           await history.push('/index');
+           await history.push('/');
            
         }
       }
@@ -92,7 +92,7 @@ React.useEffect(() => {
 
       dispatch(login(res.data));
       
-     window.location.replace('/index');
+     window.location.replace('/');
     } catch (err) {
       setError(err.message);
     }

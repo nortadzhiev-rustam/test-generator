@@ -8,7 +8,6 @@ import ProtectedRoute from './routes/ProtectedRoute';
 import { useDispatch } from 'react-redux';
 import { login } from './store/userSlice';
 import SearchWindow from './components/searchWindow';
-import Default from './components/Default';
 import Profile from './components/Profile';
 import axios from 'axios';
 import { getDepartmentSuccess } from './store/departmentSlice';
@@ -32,7 +31,7 @@ function App() {
   React.useEffect(() => {
     //add event listener that listens for ctrl+k and changes openSearch to true
     document.addEventListener('keydown', (e) => {
-      if (e.ctrlKey && e.key === 'k') {
+      if (e.ctrlKey && e.key === 'K') {
         setOpenSearch(true);
       }
     });
@@ -51,8 +50,7 @@ function App() {
           <SearchWindow open={openSearch} setOpen={(e) => setOpenSearch(e)} />
         )}
         <Switch>
-          <ProtectedRoute exact path='/index' component={Home} />
-          <Route exact path='/' component={Default} />
+          <ProtectedRoute exact path='/' component={Home} />
           <Route exact path='/login' component={Login} />
           <Route exact path='/register' component={Register} />
           <ProtectedRoute exact path='/profile' component={Profile} />

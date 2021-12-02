@@ -15,15 +15,15 @@ router.post('/login', async (req, res) => {
 
   if (!userWithEmail)
     return res
-      .status(400)
-      .json({ message: 'Username or password does not match!' });
+      .status(404)
+      .json({ message: 'couldn\'t find user with this credentials' });
   
   if (!bcrypt.compareSync(password, userWithEmail.password))
     return res
-      .status(400)
-      .json({ message: 'Username or password does not match!' });
+      .status(404)
+      .json({ message: 'couldn\'t find user with this credentials' });
 
-  const jwtToken = jwt.sign(userWithEmail.toJSON(), process.env.JWT_SECRET, {expiresIn: '1h'});
+
   
   req.session.user = userWithEmail;
   req.session.isAuth = true;
@@ -31,7 +31,8 @@ router.post('/login', async (req, res) => {
   console.log(req.session.user);
   res.json({
     message: `Welcome Back! ${userWithEmail.firstName}`,
-    token: jwtToken,
+    user: userWithEmail,
+    isAuth: req.session.isAuth,
   });
 });
 
