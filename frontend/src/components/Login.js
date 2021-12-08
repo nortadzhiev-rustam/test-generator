@@ -34,7 +34,7 @@ const useStyles = makeStyles({
     paddingBlock: 50,
     paddingInline: 20,
     borderRadius: 10,
-    width: '300px',
+    width: 300,
     transition: 'all 0.7s ease-in-out',
     '&:hover': {
       boxShadow: '0px 0px 20px 10px rgba(0,0,0,0.2)',
@@ -92,7 +92,7 @@ React.useEffect(() => {
 
       dispatch(login(res.data));
       
-     window.location.replace('/');
+    history.push('/');
     } catch (err) {
       setError(err.message);
     }
@@ -198,10 +198,12 @@ React.useEffect(() => {
             >
               <Button
                 variant='standart'
+                size='small'
                 color='success'
                 onClick={handleClickSignUp}
+                sx={{fontSize: 12}}
               >
-                Don't have an account?{' '}
+                Don't have an account?
                 <Box
                   component='span'
                   sx={{ textDecoration: 'underline', marginLeft: 1 }}

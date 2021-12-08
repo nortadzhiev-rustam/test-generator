@@ -18,6 +18,7 @@ const Item = styled(Paper)(({ theme }) => ({
   paddingInline: theme.spacing(4),
   textAlign: 'center',
   color: theme.palette.text.secondary,
+  transition: 'all 0.5s ease-in',
   borderRadius: 15,
 }));
 
@@ -33,6 +34,7 @@ const categories = [
 const difficulties = ['Easy', 'Medium', 'Hard', 'Challenge'];
 
 const GeneratePanel = () => {
+  const [isMouseIn, setMouseIn] = React.useState(false);
   const [category, setCategory] = React.useState('');
   const [difficulty, setDifficulty] = React.useState('');
   const dispatch = useDispatch();
@@ -53,7 +55,7 @@ const GeneratePanel = () => {
   };
 
   return (
-    <Item elevation={10} className='animate__animated animate__fadeInRight'>
+    <Item elevation={isMouseIn ? 10 : 2} onMouseEnter={()=> setMouseIn(true)} onMouseLeave={()=> setMouseIn(false)} className='animate__animated animate__fadeInLeft'>
       <Typography
         style={{ marginBottom: 5, textAlign: 'start' }}
         variant='body2'

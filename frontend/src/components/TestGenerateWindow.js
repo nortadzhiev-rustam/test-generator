@@ -22,18 +22,81 @@ import SaveIcon from '@mui/icons-material/Save';
 import PrintIcon from '@mui/icons-material/Print';
 import ShareIcon from '@mui/icons-material/Share';
 import 'animate.css';
+import QuestionCard from './QuestionCard';
+import questions from '../questions.json';
+// eslint-disable-next-line
+import html2canvas from 'html2canvas';
+// eslint-disable-next-line
+import { jsPDF } from 'jspdf';
 const GenerateWindow = () => {
   const [mouseIn, setMouseIn] = React.useState(false);
+  const [isHover, setHover] = React.useState(false);
+
+  const handlePrint = () => {
+    const input = document.getElementById('print');
+    html2canvas(input).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF();
+      pdf.addImage(imgData, 'JPEG', 0, 0);
+      pdf.save('test.pdf');
+    }); 
+  };
+
+  const handleSave = () => {
+    const input = document.getElementById('print');
+    html2canvas(input).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF();
+      pdf.addImage(imgData, 'JPEG', 0, 0);
+      pdf.save('test.pdf');
+    });
+  };
+
+  const handleShare = () => {
+    const input = document.getElementById('print');
+    html2canvas(input).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF();
+      pdf.addImage(imgData, 'JPEG', 0, 0);
+      pdf.save('test.pdf');
+    });
+  };
+
+const handleCopy = () => {
+  const input = document.getElementById('print');
+  html2canvas(input).then((canvas) => {
+    const imgData = canvas.toDataURL('image/png');
+    const pdf = new jsPDF();
+    pdf.addImage(imgData, 'JPEG', 0, 0);
+    pdf.save('test.pdf');
+  });
+};
+
   const actions = [
-    { icon: <FileCopyIcon />, name: 'Copy' },
-    { icon: <SaveIcon />, name: 'Save' },
-    { icon: <PrintIcon />, name: 'Print' },
-    { icon: <ShareIcon />, name: 'Share' },
+    { icon: <FileCopyIcon />, name: 'Copy', action: 'handleCopy' },
+    { icon: <SaveIcon />, name: 'Save', action: 'handleSave' },
+    { icon: <PrintIcon />, name: 'Print', action: 'handlePrint' },
+    { icon: <ShareIcon />, name: 'Share', action: 'handleShare' },
   ];
+
+  const handleSpeedDial = (action) => {
+   if (action === 'handleCopy') {
+     return handleCopy();
+   } else if (action === 'handleSave') {
+     return handleSave();
+   } else if (action === 'handlePrint') {
+    return handlePrint();
+   } else if (action === 'handleShare') {
+    return handleShare();
+   } else {
+    return null;
+   }
+
+  };
 
   const dispatch = useDispatch();
   const isFull = useSelector((state) => state.questionsType.isFull);
-  
+
   const handleFullScreen = () => {
     dispatch(setFull(!isFull));
   };
@@ -54,12 +117,19 @@ const GenerateWindow = () => {
       xs={12}
       sm={12}
       md={isFull ? 12 : 8}
-      lg={isFull ? 12 : 9}
-      xl={isFull ? 12 : 10}
+      lg={isFull ? 12 : 8}
+      xl={isFull ? 12 : 8}
     >
       <Paper
-        elevation={10}
-        style={{ minHeight: '82vh', paddingBottom: 40, borderRadius: 15 }}
+        elevation={isHover ? 10 : 2}
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+        style={{
+          minHeight: '82vh',
+          paddingBottom: 40,
+          borderRadius: 15,
+          transition: 'all 0.5s ease-in-out',
+        }}
         className='animate__animated animate__zoomIn animate__faster'
       >
         <Box
@@ -72,7 +142,7 @@ const GenerateWindow = () => {
           }}
         >
           <Paper
-            elevation={4}
+            elevation={2}
             style={{
               width: '100%',
               minHeight: 70,
@@ -165,10 +235,23 @@ const GenerateWindow = () => {
             transform: 'translateZ(0px)',
             flexGrow: 1,
           }}
+          id='print'
         >
+          {questions.map((question, idx) => (
+            <QuestionCard
+              key={idx}
+              question={question.question}
+              answer={{
+                answerA: question.answerA,
+                answerB: question.answerA,
+                answerC: question.answerC,
+                answerD: question.answerD,
+              }}
+            />
+          ))}
           <SpeedDial
             ariaLabel='SpeedDial basic example'
-            sx={{ position: 'absolute', bottom: -25, right: 15 }}
+            sx={{ position: 'absolute', bottom: -70, right: 15 }}
             icon={<SpeedDialIcon />}
           >
             {actions.map((action) => (
@@ -176,6 +259,7 @@ const GenerateWindow = () => {
                 key={action.name}
                 icon={action.icon}
                 tooltipTitle={action.name}
+                onClick={() => handleSpeedDial(action.action)}
               />
             ))}
           </SpeedDial>

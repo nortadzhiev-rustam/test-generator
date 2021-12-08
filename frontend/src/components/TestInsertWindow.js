@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Grid,
   Paper,
@@ -12,80 +12,80 @@ import {
   RadioGroup,
   FormControlLabel,
   Radio,
-} from "@mui/material";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useDispatch, useSelector } from "react-redux";
-import { setFull, setVisible } from "../store/questionTypeSlice";
+} from '@mui/material';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useDispatch, useSelector } from 'react-redux';
+import { setFull, setVisible } from '../store/questionTypeSlice';
 import {
   faCircle,
   faMinusCircle,
   faPlusCircle,
   faTimesCircle,
-} from "@fortawesome/free-solid-svg-icons";
-import "froala-editor/css/froala_style.min.css";
-import "froala-editor/css/froala_editor.pkgd.min.css";
-import FroalaEditorComponent from "react-froala-wysiwyg";
-import "froala-editor/js/plugins.pkgd.min.js";
-import MathJax from 'mathjax3-react'
+} from '@fortawesome/free-solid-svg-icons';
+import 'froala-editor/css/froala_style.min.css';
+import 'froala-editor/css/froala_editor.pkgd.min.css';
+import FroalaEditorComponent from 'react-froala-wysiwyg';
+import 'froala-editor/js/plugins.pkgd.min.js';
+import MathJax from 'mathjax3-react';
 // Import jQuery so we can expose Froala editor to the window.
-import $ from "jquery";
-import "froala-editor/css/themes/dark.min.css";
+import $ from 'jquery';
+import 'froala-editor/css/themes/dark.min.css';
 
 // Expose froala-editor to the window.
 window.$ = $;
-window.FroalaEditor = require("froala-editor");
+window.FroalaEditor = require('froala-editor');
 // Load wiris mathtype-froala plugin.
-require("@wiris/mathtype-froala3");
+require('@wiris/mathtype-froala3');
 
 // Load WIRISplugins.js dynamically.
-const jsDemoImagesTransform = document.createElement("script");
-jsDemoImagesTransform.type = "text/javascript";
+const jsDemoImagesTransform = document.createElement('script');
+jsDemoImagesTransform.type = 'text/javascript';
 jsDemoImagesTransform.src =
-  "https://www.wiris.net/demo/plugins/app/WIRISplugins.js?viewer=image";
+  'https://www.wiris.net/demo/plugins/app/WIRISplugins.js?viewer=image';
 // Load generated scripts.
 document.head.appendChild(jsDemoImagesTransform);
 // Define the toolbar & configuration options for the froala editor.
 const toolbar = [
-  "undo",
-  "redo",
-  "|",
-  "wirisEditor",
-  "wirisChemistry",
+  'undo',
+  'redo',
   '|',
-  "bold",
-  "italic",
-  "underline",
-  "strikeThrough",
-  "subscript",
-  "superscript",
-  "outdent",
-  "indent",
-  "clearFormatting",
-  "insertTable",
-  "html",
+  'wirisEditor',
+  'wirisChemistry',
+  '|',
+  'bold',
+  'italic',
+  'underline',
+  'strikeThrough',
+  'subscript',
+  'superscript',
+  'outdent',
+  'indent',
+  'clearFormatting',
+  'insertTable',
+  'html',
 ];
 const froalaConfig = {
   iframe: true,
 
   // Set the image upload parameter.
-  imageUploadParam: "image",
+  imageUploadParam: 'image',
 
   toolbarButtons: toolbar,
   // Add [MW] uttons to the image editing popup Toolbar.
   imageEditButtons: [
-    "wirisEditor",
-    "wirisChemistry",
-    "imageDisplay",
-    "imageAlign",
-    "imageInfo",
-    "imageRemove",
+    'wirisEditor',
+    'wirisChemistry',
+    'imageDisplay',
+    'imageAlign',
+    'imageInfo',
+    'imageRemove',
   ],
   // Allow all the tags to understand the mathml
-  htmlAllowedTags: [".*"],
-  htmlAllowedAttrs: [".*"],
+  htmlAllowedTags: ['.*'],
+  htmlAllowedAttrs: ['.*'],
   // List of tags that are not removed when they have no content inside
   // so that formulas renderize propertly
-  htmlAllowedEmptyTags: ["mprescripts", "none"],
+  htmlAllowedEmptyTags: ['mprescripts', 'none'],
   useClasses: false,
   // In case you are using a different Froala editor language than default,
   // language: 'es',
@@ -95,7 +95,8 @@ const froalaConfig = {
   //   editorParameters: { language: 'es' },
   // },
   // Execute on initialized editor.
-  theme: "dark",
+  theme: 'dark',
+  innerHeight: '600px',
   events: {
     updateFunction: function (e, editor) {
       console.log(editor.html.get());
@@ -112,22 +113,21 @@ const froalaConfig = {
 };
 const InsertWindow = () => {
   const [mouseIn, setMouseIn] = React.useState(false);
+  const [isHover, setHover] = React.useState(false);
+
   const [aChecked, setAChecked] = React.useState(false);
   const [bChecked, setBChecked] = React.useState(false);
   const [cChecked, setCChecked] = React.useState(false);
   const [dChecked, setDChecked] = React.useState(false);
-  const [radio, setRadio] = React.useState("True");
-  const [mark, setMark] =React.useState('');
-  const [question, setQuestion] = React.useState(
-    ''
-  );
-  const [answer, setAnswer] = React.useState(
-    {
-      a: "",
-      b: "",
-      c: "",
-      d: "",
-    });
+  const [radio, setRadio] = React.useState('True');
+  const [mark, setMark] = React.useState('');
+  const [question, setQuestion] = React.useState('');
+  const [answer, setAnswer] = React.useState({
+    a: '',
+    b: '',
+    c: '',
+    d: '',
+  });
   const dispatch = useDispatch();
   const isFull = useSelector((state) => state.questionsType.isFull);
   const quest = useSelector((state) => state.questionsType.value);
@@ -146,13 +146,12 @@ const InsertWindow = () => {
   };
 
   const handleModelChange = (model) => {
-   
     setQuestion(model);
   };
 
   const handleMarkChange = (e) => {
     setMark(e.target.value);
-  }
+  };
 
   const insertTrueOrFalse = () => {
     return (
@@ -163,8 +162,8 @@ const InsertWindow = () => {
             noValidate
             autoComplete='off'
             sx={{
-              display: "flex",
-              flexDirection: "column",
+              display: 'flex',
+              flexDirection: 'column',
               paddingBlock: 30,
               paddingInline: 20,
             }}
@@ -172,7 +171,7 @@ const InsertWindow = () => {
             <TextField
               sx={{
                 marginBottom: 5,
-                width: { xs: "100%", md: "50%" },
+                width: { xs: '100%', md: '50%' },
               }}
               id='Title'
               label='Question Title'
@@ -210,8 +209,8 @@ const InsertWindow = () => {
             <div
               style={{
                 marginTop: 5,
-                display: "flex",
-                justifyContent: "end",
+                display: 'flex',
+                justifyContent: 'end',
               }}
             >
               <Button
@@ -252,7 +251,6 @@ const InsertWindow = () => {
     setAnswer({ ...answer, d: model });
   };
 
-  
   const insertMultipleChoise = () => {
     return (
       <Grid container justifyContent='center' spacing={1}>
@@ -261,21 +259,22 @@ const InsertWindow = () => {
             component='form'
             noValidate
             autoComplete='off'
+            
             sx={{
-              display: "flex",
-              flexDirection: "column",
+              display: 'flex',
+              flexDirection: 'column',
               paddingBlock: 30,
               paddingInline: 20,
             }}
           >
             <Box
               component='div'
-              sx={{ display: "flex", justifyContent: "space-between" }}
+              sx={{ display: 'flex', justifyContent: 'space-between' }}
             >
               <TextField
                 sx={{
                   marginBottom: 5,
-                  width: { xs: "100%", md: "50%" },
+                  width: { xs: '100%', md: '50%' },
                 }}
                 id='Title'
                 label='Question Title'
@@ -293,26 +292,15 @@ const InsertWindow = () => {
                 onChange={handleMarkChange}
               />
             </Box>
-            {quest.category === "Mathematics" ||
-            quest.category === "Physics" ||
-            quest.category === "Chemistry" ? (
-              <Box component='div' sx={{ marginBottom: 5, width: "100%" }}>
-                <FroalaEditorComponent
-                  tag='div'
-                  config={froalaConfig}
-                  model={question}
-                  onModelChange={handleModelChange}
-                />
-              </Box>
-            ) : (
-              <TextField
-                id='question'
-                label='Question'
-                multiline
-                rows={5}
-                sx={{ marginBottom: 5 }}
+
+            <Box component='div' sx={{ marginBottom: 5, width: '100%' }}>
+              <FroalaEditorComponent
+                tag='div'
+                config={froalaConfig}
+                model={question}
+                onModelChange={handleModelChange}
               />
-            )}
+            </Box>
 
             <div>
               <MathJax.Provider>
@@ -322,10 +310,10 @@ const InsertWindow = () => {
 
             <div
               style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                width: "100%",
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                width: '100%',
                 marginBottom: 20,
               }}
             >
@@ -335,36 +323,22 @@ const InsertWindow = () => {
                 color='error'
                 disabled={cChecked || bChecked || dChecked}
               />
-              {quest.category === "Mathematics" ||
-              quest.category === "Physics" ||
-              quest.category === "Chemistry" ? (
-                <Box component='div' sx={{ marginBottom: 5, width: "100%" }}>
-                  <FroalaEditorComponent
-                    tag='div'
-                    config={froalaConfig}
-                    model={answer.a}
-                    onModelChange={handleAnswerA}
-                  />
-                </Box>
-              ) : (
-                <TextField
-                  sx={{ width: "100%" }}
-                  size='small'
-                  id='answer1'
-                  label='A'
-                  required
-                  multiline
-                  focused
-                  color='success'
+
+              <Box component='div' sx={{ marginBottom: 5, width: '100%' }}>
+                <FroalaEditorComponent
+                  tag='div'
+                  config={froalaConfig}
+                  model={answer.a}
+                  onModelChange={handleAnswerA}
                 />
-              )}
+              </Box>
             </div>
             <div
               style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                width: "100%",
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                width: '100%',
                 marginBottom: 20,
               }}
             >
@@ -374,36 +348,22 @@ const InsertWindow = () => {
                 color='error'
                 disabled={cChecked || dChecked || aChecked}
               />
-              {quest.category === "Mathematics" ||
-              quest.category === "Physics" ||
-              quest.category === "Chemistry" ? (
-                <Box component='div' sx={{ marginBottom: 5, width: "100%" }}>
-                  <FroalaEditorComponent
-                    tag='div'
-                    config={froalaConfig}
-                    model={answer.b}
-                    onModelChange={handleAnswerB}
-                  />
-                </Box>
-              ) : (
-                <TextField
-                  sx={{ width: "100%" }}
-                  size='small'
-                  id='answer1'
-                  label='B'
-                  required
-                  multiline
-                  focused
-                  color='success'
+
+              <Box component='div' sx={{ marginBottom: 5, width: '100%' }}>
+                <FroalaEditorComponent
+                  tag='div'
+                  config={froalaConfig}
+                  model={answer.b}
+                  onModelChange={handleAnswerB}
                 />
-              )}
+              </Box>
             </div>
             <div
               style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                width: "100%",
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                width: '100%',
                 marginBottom: 20,
               }}
             >
@@ -413,36 +373,22 @@ const InsertWindow = () => {
                 color='error'
                 disabled={dChecked || bChecked || aChecked}
               />
-              {quest.category === "Mathematics" ||
-              quest.category === "Physics" ||
-              quest.category === "Chemistry" ? (
-                <Box component='div' sx={{ marginBottom: 5, width: "100%" }}>
-                  <FroalaEditorComponent
-                    tag='div'
-                    config={froalaConfig}
-                    model={answer.c}
-                    onModelChange={handleAnswerC}
-                  />
-                </Box>
-              ) : (
-                <TextField
-                  sx={{ width: "100%" }}
-                  size='small'
-                  id='answer1'
-                  label='C'
-                  required
-                  multiline
-                  focused
-                  color='success'
+
+              <Box component='div' sx={{ marginBottom: 5, width: '100%' }}>
+                <FroalaEditorComponent
+                  tag='div'
+                  config={froalaConfig}
+                  model={answer.c}
+                  onModelChange={handleAnswerC}
                 />
-              )}
+              </Box>
             </div>
             <div
               style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                width: "100%",
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                width: '100%',
                 marginBottom: 20,
               }}
             >
@@ -452,32 +398,18 @@ const InsertWindow = () => {
                 color='error'
                 disabled={cChecked || bChecked || aChecked}
               />
-              {quest.category === "Mathematics" ||
-              quest.category === "Physics" ||
-              quest.category === "Chemistry" ? (
-                <Box component='div' sx={{ marginBottom: 5, width: "100%" }}>
-                  <FroalaEditorComponent
-                    tag='div'
-                    config={froalaConfig}
-                    model={answer.d}
-                    onModelChange={handleAnswerD}
-                  />
-                </Box>
-              ) : (
-                <TextField
-                  sx={{ width: "100%" }}
-                  size='small'
-                  id='answer1'
-                  label='D'
-                  required
-                  multiline
-                  focused
-                  color='success'
+
+              <Box component='div' sx={{ marginBottom: 5, width: '100%' }}>
+                <FroalaEditorComponent
+                  tag='div'
+                  config={froalaConfig}
+                  model={answer.d}
+                  onModelChange={handleAnswerD}
                 />
-              )}
+              </Box>
             </div>
             <div
-              style={{ marginTop: 5, display: "flex", justifyContent: "end" }}
+              style={{ marginTop: 5, display: 'flex', justifyContent: 'end' }}
             >
               <Button
                 sx={{ marginRight: 1 }}
@@ -508,8 +440,6 @@ const InsertWindow = () => {
     );
   };
 
-  
-
   return (
     <Grid
       item
@@ -520,46 +450,46 @@ const InsertWindow = () => {
       xl={isFull ? 12 : 8}
     >
       <Paper
-        elevation={10}
+        elevation={isHover ? 10 : 2} onMouseEnter={()=> setHover(true)} onMouseLeave={()=> setHover(false)}
         sx={{
           borderRadius: 3,
-          transition: "all 0.5s ease-in-out",
-          width: "100%",
+          transition: 'all 0.5s ease-in-out',
+          width: '100%',
         }}
         className='animate__animated animate__zoomIn animate__faster'
       >
         <Box
           style={{
-            display: "flex",
-            position: "relative",
+            display: 'flex',
+            position: 'relative',
 
             margin: 0,
             padding: 0,
           }}
         >
           <Paper
-            elevation={4}
+            elevation={2}
             style={{
-              width: "100%",
+              width: '100%',
               minHeight: 70,
-              backgroundColor: "#eceff1",
-              textAlign: "start",
+              backgroundColor: '#eceff1',
+              textAlign: 'start',
               borderTopRightRadius: 15,
               borderTopLeftRadius: 15,
               borderBottomRightRadius: 0,
               borderBottomLeftRadius: 0,
               paddingInline: 20,
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
             }}
           >
             <div>
               {mouseIn ? (
                 <FontAwesomeIcon
                   size='lg'
-                  style={{ borderRadius: "50%" }}
+                  style={{ borderRadius: '50%' }}
                   onClick={handleClose}
                   color='#e63946'
                   icon={faTimesCircle}
@@ -580,7 +510,7 @@ const InsertWindow = () => {
                   style={{
                     marginLeft: 5,
 
-                    borderRadius: "50%",
+                    borderRadius: '50%',
                   }}
                   color='#ee9b00'
                   icon={faMinusCircle}
@@ -601,8 +531,8 @@ const InsertWindow = () => {
                   size='lg'
                   style={{
                     marginLeft: 5,
-                    borderRadius: "50%",
-                    border: "none",
+                    borderRadius: '50%',
+                    border: 'none',
                   }}
                   color='#43aa8b'
                   icon={faPlusCircle}
@@ -632,11 +562,11 @@ const InsertWindow = () => {
 
         <Box
           sx={{
-            transform: "translateZ(0px)",
+            transform: 'translateZ(0px)',
             flexGrow: 1,
           }}
         >
-          {quest.questionType === "multiple choice"
+          {quest.questionType === 'multiple choice'
             ? insertMultipleChoise()
             : insertTrueOrFalse()}
         </Box>

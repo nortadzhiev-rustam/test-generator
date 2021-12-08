@@ -16,16 +16,16 @@ function App() {
   const [openSearch, setOpenSearch] = React.useState(false);
   const dispatch = useDispatch();
 
-  React.useEffect( () => {
+  React.useEffect(() => {
     const fetchLogin = async () => {
-    const res = await axios.get('http://localhost:5000/api/v1/isAuth', {
-      withCredentials: true,
-    });
-    if (res.data.user) {
-      dispatch(login(res.data.user));
-    }
-  };
-  fetchLogin();
+      const res = await axios.get('http://localhost:5000/api/v1/isAuth', {
+        withCredentials: true,
+      });
+      if (res.data.user) {
+        dispatch(login(res.data.user));
+      }
+    };
+    fetchLogin();
   }, [dispatch]);
 
   React.useEffect(() => {
@@ -37,9 +37,13 @@ function App() {
     });
   }, []);
   React.useEffect(() => {
-    axios.get('http://localhost:5000/api/v1/departments', {withCredentials:true}).then((res) => {
+    const fetchDepartments = async () => {
+      const res = await axios.get('http://localhost:5000/api/v1/departments', {
+        withCredentials: true,
+      });
       dispatch(getDepartmentSuccess(res.data));
-    });
+    };
+    fetchDepartments();
   }, [dispatch]);
 
   return (

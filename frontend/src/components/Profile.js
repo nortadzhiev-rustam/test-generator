@@ -1,9 +1,8 @@
 // profile page component
 import React from 'react';
-import axios from 'axios';
 import { Paper, Box, Typography} from '@mui/material';
 import { makeStyles } from '@mui/styles';
-
+import { useSelector } from 'react-redux';
 const useStyles = makeStyles(() => ({
   root: {
     padding: 20,
@@ -26,22 +25,9 @@ const useStyles = makeStyles(() => ({
 }));
 
 const Profile = () => {
-  const [user, setUser] = React.useState({});
+  const user = useSelector(state => state.user.user);
   const classes = useStyles();
-  React.useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const res = await axios.get('http://localhost:5000/api/v1/profile', {
-          withCredentials: true,
-        });
-
-        setUser(res.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchProfile();
-  }, []);
+  
 
   return (
     
@@ -49,14 +35,14 @@ const Profile = () => {
         <Paper className={classes.paper}>
             
             <Typography variant='h4' component='h1'>
-               Name: {user.firstName} {user.lastName}
+               Name: {user.user.firstName} {user.user.lastName}
             </Typography>
             <Typography variant='h4' component='h1'>
-               Email: {user.email}
+               Email: {user.user.email}
             </Typography>
-            {/* <Typography variant='h4' component='h1'>
-               Department: {user.department.name}
-            </Typography> */}
+            <Typography variant='h4' component='h1'>
+               Department: {user.user.department.name}
+            </Typography>
             
         </Paper>
       </Box>

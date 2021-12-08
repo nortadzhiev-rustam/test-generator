@@ -5,6 +5,7 @@ const initialState = {
   isFull: false,
   isOpen: '',
   isVisible: false,
+  isSwitched: false,
 };
 
 export const questionTypeSlice = createSlice({
@@ -32,6 +33,10 @@ export const questionTypeSlice = createSlice({
     setVisible: (state, { payload }) => {
       state.isVisible = payload;
     },
+    setSwitched: (state, { payload }) => {
+      state.isSwitched = payload;
+    }
+
   },
 });
 
@@ -42,7 +47,8 @@ export const {
   grade,
   setFull,
   openWindow,
-  setVisible
+  setVisible,
+  setSwitched,
 } = questionTypeSlice.actions;
 
 export default questionTypeSlice.reducer;
