@@ -1,6 +1,5 @@
 import React from 'react';
 import { Paper, Box } from '@mui/material';
-import MathmlToLatex from 'mathml-to-latex';
 import { MathJax, MathJaxContext } from 'better-react-mathjax';
 import { Image } from '@mui/icons-material';
 const QuestionCard = ({ question, answer, img }) => {
@@ -17,9 +16,9 @@ const QuestionCard = ({ question, answer, img }) => {
     <MathJaxContext config={config} version={3}>
       <Paper elevation={3} sx={{ margin: 5 }}>
         <Box p={2}>
-          <Box mb={5}>
-            {MathmlToLatex.convert(question)}
-          </Box>
+          <MathJax inline>
+            <span dangerouslySetInnerHTML={{ __html: question }}></span>
+          </MathJax>
           {img !== null ||
             (img !== undefined && (
               <Image sx={{ width: '100%', height: 'auto' }} src={img} />
@@ -29,8 +28,8 @@ const QuestionCard = ({ question, answer, img }) => {
             component='div'
           >
             <span> A: &nbsp; </span>
-            <MathJax hideUntilTypeset={'first'} inline>
-              <div dangerouslySetInnerHTML={{ __html: answer.answerA }}></div>
+            <MathJax inline>
+              <span dangerouslySetInnerHTML={{ __html: answer.answerA }}></span>
             </MathJax>
           </Box>
           <Box
@@ -38,8 +37,8 @@ const QuestionCard = ({ question, answer, img }) => {
             component='div'
           >
             <span> B: &nbsp; </span>
-            <MathJax hideUntilTypeset={'first'} inline>
-              <div dangerouslySetInnerHTML={{ __html: answer.answerB }}></div>
+            <MathJax inline>
+              <span dangerouslySetInnerHTML={{ __html: answer.answerB }}></span>
             </MathJax>
           </Box>
           <Box
@@ -47,8 +46,8 @@ const QuestionCard = ({ question, answer, img }) => {
             component='div'
           >
             <span> C: &nbsp; </span>
-            <MathJax hideUntilTypeset={'first'} inline>
-              <div dangerouslySetInnerHTML={{ __html: answer.answerC }}></div>
+            <MathJax inline>
+              <span dangerouslySetInnerHTML={{ __html: answer.answerC }}></span>
             </MathJax>
           </Box>
           <Box
@@ -56,8 +55,8 @@ const QuestionCard = ({ question, answer, img }) => {
             component='div'
           >
             <span> D: &nbsp; </span>
-            <MathJax hideUntilTypeset={'first'} inline>
-              <div dangerouslySetInnerHTML={{ __html: answer.answerD }}></div>
+            <MathJax inline>
+              <span dangerouslySetInnerHTML={{ __html: answer.answerD }}></span>
             </MathJax>
           </Box>
         </Box>

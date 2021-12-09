@@ -54,6 +54,7 @@ const Switcher = ({ setSwitch, isSwitch }) => {
           <TextDiv
             style={{
               backgroundColor: isSwitch === 'insert' ? '#006064' : 'white',
+              paddingInline: 5,
             }}
             onClick={() => handleSwitch('insert')}
           >

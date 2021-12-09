@@ -36,14 +36,12 @@
     "jsonwebtoken": "^8.5.1",
     "jspdf": "^2.4.0",
     "mathjax3-react": "^1.0.12",
-    "mathml-to-latex": "^1.2.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-froala-wysiwyg": "^4.0.6",
     "react-redux": "^7.2.6",
     "react-router-dom": "^5.3.0",
     "react-script": "^2.0.5",
-    "react-scripts": "^4.0.3",
     "typescript": "^4.4.3",
     "web-vitals": "^1.1.2"
   },
@@ -75,6 +73,7 @@
     "ansi-html": "https://registry.npmjs.org/ansi-html-community/-/ansi-html-community-0.0.8.tgz"
   },
   "devDependencies": {
-    "@ckeditor/ckeditor5-react": "^3.0.3"
+    "@ckeditor/ckeditor5-react": "^3.0.3",
+    "react-scripts": "^4.0.3"
   }
 }

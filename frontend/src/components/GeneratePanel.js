@@ -55,7 +55,7 @@ const GeneratePanel = () => {
   };
 
   return (
-    <Item elevation={isMouseIn ? 10 : 2} onMouseEnter={()=> setMouseIn(true)} onMouseLeave={()=> setMouseIn(false)} className='animate__animated animate__fadeInLeft'>
+    <Item elevation={isMouseIn ? 10 : 2} onMouseEnter={()=> setMouseIn(true)} onMouseLeave={()=> setMouseIn(false)} className='animate__animated animate__fadeInLeft' sx={{transition: 'all 0.5s ease-in'}}>
       <Typography
         style={{ marginBottom: 5, textAlign: 'start' }}
         variant='body2'

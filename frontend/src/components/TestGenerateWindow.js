@@ -39,7 +39,7 @@ const GenerateWindow = () => {
       const pdf = new jsPDF();
       pdf.addImage(imgData, 'JPEG', 0, 0);
       pdf.save('test.pdf');
-    }); 
+    });
   };
 
   const handleSave = () => {
@@ -62,15 +62,15 @@ const GenerateWindow = () => {
     });
   };
 
-const handleCopy = () => {
-  const input = document.getElementById('print');
-  html2canvas(input).then((canvas) => {
-    const imgData = canvas.toDataURL('image/png');
-    const pdf = new jsPDF();
-    pdf.addImage(imgData, 'JPEG', 0, 0);
-    pdf.save('test.pdf');
-  });
-};
+  const handleCopy = () => {
+    const input = document.getElementById('print');
+    html2canvas(input).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF();
+      pdf.addImage(imgData, 'JPEG', 0, 0);
+      pdf.save('test.pdf');
+    });
+  };
 
   const actions = [
     { icon: <FileCopyIcon />, name: 'Copy', action: 'handleCopy' },
@@ -80,18 +80,17 @@ const handleCopy = () => {
   ];
 
   const handleSpeedDial = (action) => {
-   if (action === 'handleCopy') {
-     return handleCopy();
-   } else if (action === 'handleSave') {
-     return handleSave();
-   } else if (action === 'handlePrint') {
-    return handlePrint();
-   } else if (action === 'handleShare') {
-    return handleShare();
-   } else {
-    return null;
-   }
-
+    if (action === 'handleCopy') {
+      return handleCopy();
+    } else if (action === 'handleSave') {
+      return handleSave();
+    } else if (action === 'handlePrint') {
+      return handlePrint();
+    } else if (action === 'handleShare') {
+      return handleShare();
+    } else {
+      return null;
+    }
   };
 
   const dispatch = useDispatch();
@@ -235,20 +234,21 @@ const handleCopy = () => {
             transform: 'translateZ(0px)',
             flexGrow: 1,
           }}
-          id='print'
         >
-          {questions.map((question, idx) => (
-            <QuestionCard
-              key={idx}
-              question={question.question}
-              answer={{
-                answerA: question.answerA,
-                answerB: question.answerA,
-                answerC: question.answerC,
-                answerD: question.answerD,
-              }}
-            />
-          ))}
+          <Box id='print'>
+            {questions.map((question, idx) => (
+              <QuestionCard
+                key={idx}
+                question={question.question}
+                answer={{
+                  answerA: question.answerA,
+                  answerB: question.answerA,
+                  answerC: question.answerC,
+                  answerD: question.answerD,
+                }}
+              />
+            ))}
+          </Box>
           <SpeedDial
             ariaLabel='SpeedDial basic example'
             sx={{ position: 'absolute', bottom: -70, right: 15 }}
