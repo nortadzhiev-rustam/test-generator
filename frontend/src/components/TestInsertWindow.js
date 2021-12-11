@@ -22,6 +22,7 @@ import {
   faPlusCircle,
   faTimesCircle,
 } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
 import 'froala-editor/css/froala_style.min.css';
 import 'froala-editor/css/froala_editor.pkgd.min.css';
 import FroalaEditorComponent from 'react-froala-wysiwyg';
@@ -63,6 +64,7 @@ const toolbar = [
   'clearFormatting',
   'insertTable',
   'html',
+  'insertImage',
 ];
 const froalaConfig = {
   iframe: true,
@@ -111,6 +113,7 @@ const froalaConfig = {
     },
   },
 };
+
 const InsertWindow = () => {
   const [mouseIn, setMouseIn] = React.useState(false);
   const [isHover, setHover] = React.useState(false);
@@ -251,6 +254,10 @@ const InsertWindow = () => {
     setAnswer({ ...answer, d: model });
   };
 
+  // handleSubmit with image upload
+  
+
+
   const insertMultipleChoise = () => {
     return (
       <Grid container justifyContent='center' spacing={1}>
@@ -259,7 +266,8 @@ const InsertWindow = () => {
             component='form'
             noValidate
             autoComplete='off'
-            
+            enctype='multipart/form-data'
+            onSubmit={(e) => {e.preventDefault(); console.log(e.target)}}
             sx={{
               display: 'flex',
               flexDirection: 'column',
@@ -415,6 +423,7 @@ const InsertWindow = () => {
                 sx={{ marginRight: 1 }}
                 variant='contained'
                 color='primary'
+                type='submit'
               >
                 Submit
               </Button>
@@ -439,6 +448,8 @@ const InsertWindow = () => {
       </Grid>
     );
   };
+
+  
 
   return (
     <Grid

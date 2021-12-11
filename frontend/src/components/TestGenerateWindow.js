@@ -44,10 +44,13 @@ const GenerateWindow = () => {
 
   const handleSave = () => {
     const input = document.getElementById('print');
-    html2canvas(input).then((canvas) => {
+    html2canvas(input, {
+      windowHeight: input.scrollHeight,
+      windowWidth: input.scrollWidth,
+    }).then((canvas) => {
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF();
-      pdf.addImage(imgData, 'JPEG', 0, 0);
+      pdf.addImage(imgData, 'JPEG', 10, 10);
       pdf.save('test.pdf');
     });
   };

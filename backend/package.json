@@ -22,7 +22,8 @@
     "passport-jwt": "^4.0.0",
     "path": "^0.12.7",
     "sequelize": "^6.9.0",
-    "sequelize-cli": "^6.3.0"
+    "sequelize-cli": "^6.3.0",
+    "wysiwyg-editor-node-sdk": "^4.0.7"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"

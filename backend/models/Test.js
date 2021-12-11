@@ -44,7 +44,11 @@ module.exports = (sequelize, DataTypes) => {
     mark : {
       type: DataTypes.STRING,
       allowNull: false
-    }
+    }, 
+    image: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   });
   Test.associate = (models) => {
     Test.belongsTo(models.User, {
