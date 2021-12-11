@@ -31,7 +31,7 @@ import MathJax from 'mathjax3-react';
 // Import jQuery so we can expose Froala editor to the window.
 import $ from 'jquery';
 import 'froala-editor/css/themes/dark.min.css';
-
+import axios from 'axios';
 // Expose froala-editor to the window.
 window.$ = $;
 window.FroalaEditor = require('froala-editor');
@@ -71,7 +71,13 @@ const froalaConfig = {
 
   // Set the image upload parameter.
   imageUploadParam: 'image',
-
+  imageUpload: true,
+  imageDefaultAlign: 'left',
+  imageDefaultDisplay: 'inline-block',
+  // Set max image size to 5MB.
+  imageMaxSize: 5 * 1024 * 1024,
+  // Allow to upload PNG and JPG.
+  imageAllowedTypes: ['jpeg', 'jpg', 'png', 'svg'],
   toolbarButtons: toolbar,
   // Add [MW] uttons to the image editing popup Toolbar.
   imageEditButtons: [
@@ -100,6 +106,24 @@ const froalaConfig = {
   theme: 'dark',
   innerHeight: '600px',
   events: {
+    imageBeforeUpload: function (e, editor, images) {
+     //upload image to cloudinary
+      const formData = new FormData();
+      formData.append('file', images[0]);
+      formData.append('upload_preset', 'test');
+      axios
+        .post('https://api.cloudinary.com/v1_1/cepi-complexo-escolar-privado-internacional/image/upload', formData)
+        .then(res => {
+          const imgURL = res.data.secure_url;
+          editor.image.insert(imgURL, true, null, editor.image.get());
+        }).catch(err => {
+          console.log(err);
+        }
+        );
+        
+
+    },
+
     updateFunction: function (e, editor) {
       console.log(editor.html.get());
     },
@@ -254,9 +278,7 @@ const InsertWindow = () => {
     setAnswer({ ...answer, d: model });
   };
 
-  // handleSubmit with image upload
-  
-
+  const handleSubmit = () => {};
 
   const insertMultipleChoise = () => {
     return (
@@ -266,14 +288,14 @@ const InsertWindow = () => {
             component='form'
             noValidate
             autoComplete='off'
-            enctype='multipart/form-data'
-            onSubmit={(e) => {e.preventDefault(); console.log(e.target)}}
+            encType='multipart/form-data'
             sx={{
               display: 'flex',
               flexDirection: 'column',
               paddingBlock: 30,
               paddingInline: 20,
             }}
+            onSubmit={handleSubmit}
           >
             <Box
               component='div'
@@ -461,7 +483,9 @@ const InsertWindow = () => {
       xl={isFull ? 12 : 8}
     >
       <Paper
-        elevation={isHover ? 10 : 2} onMouseEnter={()=> setHover(true)} onMouseLeave={()=> setHover(false)}
+        elevation={isHover ? 10 : 2}
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
         sx={{
           borderRadius: 3,
           transition: 'all 0.5s ease-in-out',
