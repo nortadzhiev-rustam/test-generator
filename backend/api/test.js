@@ -1,7 +1,7 @@
 const express = require('express');
 const { Department, User, Test } = require('../models/');
 const router = express.Router();
-
+const multer = require('multer');
 router.post('/questions/add', async (req, res) => {
   const {
     title,
@@ -52,5 +52,32 @@ router.get('/questions', async (req, res) => {
     });
   }
 });
+
+//route for uploading images to the server
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './frontend/public/uploads/');
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
+
+router.post('/upload', async (req, res) => {
+  const upload = multer({ storage: storage }).single('file');
+  upload(req, res, function (err) {
+    if (err) {
+      return res.status(400).json({
+        error: err,
+      });
+    }
+    return res.json({
+      file: req.file,
+    });
+  });
+});
+
+  
+
 
 module.exports = router;
