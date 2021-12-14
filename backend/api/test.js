@@ -17,55 +17,46 @@ const storage = multer.diskStorage({
 router.use(express.static(__dirname + '/public'));
 router.use('/uploads', express.static('uploads'));
 
-router.post('/questions', multer({ storage: storage }).single('image'), async (req, res) => {
-
-  FroalaEditor.Image.upload(req, async (err, data) => {
-    if (err) {
-      return res.send(JSON.stringify(err));
-    }
-    const { question, answer, test_id } = req.body;
-    const { image } = data;
-    const newQuestion = await Test.create({ question, answer, image, test_id });
-    res.send(newQuestion);
-  });
-
-  const {
-    title,
-    question,
-    answer,
-    grade,
-    difficulty,
-    correctAnswer,
-    mark,
-    departmentId,
-    userId,
-  } = req.body;
-  try {
-    const test = await Test.create(
-      {
+router.post(
+  '/questions',
+  multer({ storage: storage }).single('image'),
+  async (req, res) => {
+    FroalaEditor.Image.upload(req, async (err, data) => {
+      if (err) {
+        return res.send(JSON.stringify(err));
+      }
+      const {
         title,
         question,
+        answer,
+        grade,
         difficulty,
         correctAnswer,
-        grade,
         mark,
         departmentId,
         userId,
-        answer1: answer.a,
-        answer2: answer.b,
-        answer3: answer.c,
-        answer4: answer.d,
-        image: req.file.originalname,
-      },
-      { include: { model: User } }
-    );
-    res.json(test);
-  } catch (error) {
-    res.status(400).json({
-      error: error.message,
+      } = req.body;
+      const { image } = data;
+      const newQuestion = await Test.create({
+        title,
+        question,
+        answerA:answer.a,
+        answerB:answer.b,
+        answerC:answer.c,
+        answerD:answer.d,
+        grade,
+        difficulty,
+        correctAnswer,
+        mark,
+        departmentId,
+        userId,
+        image,
+
+      });
+      res.send(newQuestion);
     });
   }
-});
+);
 
 //route to get all questions
 router.get('/questions', async (req, res) => {
@@ -91,6 +82,5 @@ router.get('/questions', async (req, res) => {
     });
   }
 });
-
 
 module.exports = router;

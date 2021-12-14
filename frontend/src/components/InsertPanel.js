@@ -96,7 +96,7 @@ const InsertPanel = () => {
           >
             {category.map((item, idx) => {
               return (
-                <MenuItem key={idx} value={item.name}>
+                <MenuItem key={idx} value={item}>
                   {item.name}
                 </MenuItem>
               );

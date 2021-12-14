@@ -35,8 +35,7 @@ export const questionTypeSlice = createSlice({
     },
     setSwitched: (state, { payload }) => {
       state.isSwitched = payload;
-    }
-
+    },
   },
 });
 

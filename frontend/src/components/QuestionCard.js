@@ -16,8 +16,8 @@ const QuestionCard = ({ question, answer, img }) => {
     <MathJaxContext config={config} version={3}>
       <Paper elevation={3} sx={{ margin: 5 }}>
         <div style={{ paddingBlock: 10, paddingInline: 20 }}>
-          <MathJax inline>
-            <span dangerouslySetInnerHTML={{ __html: question }}></span>
+          <MathJax>
+            {'$$\\lim_{x\\to\\infty}=\\frac{x^2+5x}{4}$$'}
           </MathJax>
           {img !== null ||
             (img !== undefined && (

@@ -1,6 +1,6 @@
 import React from 'react';
-import Home from './components/Home';
-import NavBar from './components/NavBar';
+import Home from './container/Home';
+import NavBar from './container/NavBar';
 import Login from './components/Login';
 import Register from './components/Register';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -8,7 +8,7 @@ import ProtectedRoute from './routes/ProtectedRoute';
 import { useDispatch } from 'react-redux';
 import { login } from './store/userSlice';
 import SearchWindow from './components/searchWindow';
-import Profile from './components/Profile';
+import Profile from './container/Profile';
 import axios from 'axios';
 import { getDepartmentSuccess } from './store/departmentSlice';
 

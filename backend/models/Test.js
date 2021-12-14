@@ -13,19 +13,19 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    answer1: {
+    answerA: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    answer2: {
+    answerB: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    answer3: {
+    answerC: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    answer4: {
+    answerD: {
       type: DataTypes.STRING,
       allowNull: false,
     },
