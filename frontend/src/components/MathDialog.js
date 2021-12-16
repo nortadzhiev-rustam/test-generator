@@ -11,6 +11,7 @@ import { formulas } from '../constants/formulas';
 import { IconButton, Typography } from '@mui/material';
 import { CancelRounded } from '@mui/icons-material';
 import PropTypes from 'prop-types';
+import {MathJax, MathJaxContext} from 'better-react-mathjax';
 addStyles();
 function PaperComponent(props) {
   return (
@@ -25,7 +26,14 @@ function PaperComponent(props) {
 
 export default function MathDialog({ open, setOpen, latex, setLatex }) {
   const [formule, setFormule] = React.useState(latex);
-
+  const config = {
+    /* in theory, the MathML input processor should be activated if we add
+        an "mml" block to the config OR if "input/mml" (NOT "input/mathml" as stated 
+        in the docs) is in the load array. However, this is not necessary as MathML is 
+        ALWAYS enabled in MathJax */
+    loader: { load: ['input/mml', 'output/chtml'] },
+    mml: {},
+  };
   const handleClose = () => {
     setFormule('');
     setOpen(false);
@@ -44,7 +52,7 @@ export default function MathDialog({ open, setOpen, latex, setLatex }) {
         onClose={handleClose}
         PaperComponent={PaperComponent}
         aria-labelledby='draggable-dialog-title'
-        sx={{MaxWidth: '600px'}}
+        
       >
         <DialogTitle
           style={{
@@ -67,40 +75,41 @@ export default function MathDialog({ open, setOpen, latex, setLatex }) {
         </DialogTitle>
         <DialogContent>
           <Paper
-            style={{ marginBlock: 20, display: 'flex', alignItems: 'end' }}
+            style={{ marginBlock: 20, display: 'flex', alignItems: 'end', flexWrap: 'wrap' }}
           >
             {formulas.map((formula) => (
-              <button
+              <Button
                 key={formula.id}
-                variant='outlined'
+                variant='contained'
                 style={{
-                  minHeight: 30,
-                  maxHeight: 60,
-                  minWidth: 30,
-                  maxWidth: 60,
+                  minHeight: 40,
+                  maxHeight: 40,
+                  minWidth: 40,
+                  maxWidth: 40,
                   textTransform: 'lowerCase',
-                  fontSize: 10,
-                  border: 'none',
+                  fontSize: 8,                  
                   marginInline: 2,
-                  borderRadius: 5,
-                  backgroundColor: 'yellow',
+                  borderRadius: 5,                  
+                  marginBlock: 5,
+                  dispaly: 'flex',
+                  alignItems: 'center',
                 }}
                 size='small'
                 onClick={() =>
                   setFormule((prevState) => prevState + formula.latex)
                 }
               >
-                <StaticMathField style={{ cursor: 'pointer' }}>
-                  {formula.formula}
-                </StaticMathField>
-              </button>
+                <MathJaxContext config={config} version={3} style={{ cursor: 'pointer' }}>
+                  <MathJax inline>{formula.formula}</MathJax>
+                </MathJaxContext>
+              </Button>
             ))}
           </Paper>
 
           <EditableMathField
             style={{ height: '80px', width: '100%' }}
             latex={formule}
-            onChange={(mathField) => setFormule(mathField.latex())}
+            onChange={(mathField) => setFormule( mathField.latex())}
           />
         </DialogContent>
         <DialogActions>

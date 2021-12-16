@@ -92,7 +92,7 @@ React.useEffect(() => {
 
       dispatch(login(res.data));
       
-    history.push('/');
+    window.location.replace('/');
     } catch (err) {
       setError(err.message);
     }

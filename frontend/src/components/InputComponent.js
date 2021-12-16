@@ -11,7 +11,7 @@ import { styled } from '@mui/styles';
 import MathDialog from './MathDialog';
 import { EditableMathField, addStyles, StaticMathField } from 'react-mathquill';
 import { FunctionsRounded } from '@mui/icons-material';
-
+import MathJax from 'mathjax3-react';
 addStyles();
 const StyledInput = styled(InputBase)({
   width: '100%',
@@ -40,7 +40,6 @@ const Input = (props) => {
       >
         <Grid item xs={12} md={8} mr={5}>
           <StyledInput
-            
             endAdornment={
               <IconButton onClick={() => setOpen(true)}>
                 <FunctionsRounded />
@@ -54,7 +53,19 @@ const Input = (props) => {
           />
         </Grid>
         <Grid item xs={12} md={3} display='flex' justifyContent='start'>
-          <StaticMathField>{latex}</StaticMathField>
+          <MathJax.Provider
+            url='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js'
+            options={{
+              tex: {
+                inlineMath: [
+                  ['$', '$'],
+                  ['\\(', '\\)'],
+                ],
+              },
+            }}
+          >
+            <MathJax.Formula formula={'$$' + latex + '$$'} />
+          </MathJax.Provider>
         </Grid>
       </Grid>
       <MathDialog

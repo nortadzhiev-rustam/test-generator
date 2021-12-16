@@ -41,8 +41,8 @@ const FormPaper = styled(Paper)({
   minHeight: 70,
   backgroundColor: '#eceff1',
   textAlign: 'start',
-  borderTopRightRadius: 15,
-  borderTopLeftRadius: 15,
+  borderTopRightRadius: 13,
+  borderTopLeftRadius: 13,
   borderBottomRightRadius: 0,
   borderBottomLeftRadius: 0,
   paddingInline: 20,
@@ -94,7 +94,7 @@ const InsertWindow = () => {
         onMouseLeave={() => setHover(false)}
         sx={{
           borderRadius: 3,
-          transition: 'all 0.5s ease-in-out',
+          transition: 'all 0.3s ease-in-out',
           width: '100%',
           paddingBottom: 30,
         }}
