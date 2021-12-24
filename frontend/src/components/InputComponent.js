@@ -54,15 +54,7 @@ const Input = (props) => {
         </Grid>
         <Grid item xs={12} md={3} display='flex' justifyContent='start'>
           <MathJax.Provider
-            url='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js'
-            options={{
-              tex: {
-                inlineMath: [
-                  ['$', '$'],
-                  ['\\(', '\\)'],
-                ],
-              },
-            }}
+            
           >
             <MathJax.Formula formula={'$$' + latex + '$$'} />
           </MathJax.Provider>

@@ -13,7 +13,7 @@ const QuestionCard = ({ question, answer, img }) => {
   };
 
   return (
-    <MathJaxContext config={config} version={3}>
+    <MathJaxContext>
       <Paper elevation={3} sx={{ margin: 5 }}>
         <div style={{ paddingBlock: 10, paddingInline: 20 }}>
           <MathJax>

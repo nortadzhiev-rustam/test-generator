@@ -6,12 +6,12 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Paper from '@mui/material/Paper';
 import Draggable from 'react-draggable';
-import { addStyles, EditableMathField, StaticMathField } from 'react-mathquill';
+import { addStyles, EditableMathField } from 'react-mathquill';
 import { formulas } from '../constants/formulas';
 import { IconButton, Typography } from '@mui/material';
 import { CancelRounded } from '@mui/icons-material';
 import PropTypes from 'prop-types';
-import {MathJax, MathJaxContext} from 'better-react-mathjax';
+import { MathJax, MathJaxContext } from 'better-react-mathjax';
 addStyles();
 function PaperComponent(props) {
   return (
@@ -25,22 +25,22 @@ function PaperComponent(props) {
 }
 
 export default function MathDialog({ open, setOpen, latex, setLatex }) {
-  const [formule, setFormule] = React.useState(latex);
-  const config = {
-    /* in theory, the MathML input processor should be activated if we add
-        an "mml" block to the config OR if "input/mml" (NOT "input/mathml" as stated 
-        in the docs) is in the load array. However, this is not necessary as MathML is 
-        ALWAYS enabled in MathJax */
-    loader: { load: ['input/mml', 'output/chtml'] },
-    mml: {},
-  };
+  const [formule, setFormule] = React.useState();
+ 
+
+  React.useEffect(() => {
+    if (latex) {
+      setFormule(latex);
+    } else setFormule('');
+  }, [latex]);
+
   const handleClose = () => {
     setFormule('');
     setOpen(false);
   };
 
   const handleSubmit = () => {
-    setLatex(latex + formule);
+    setLatex(formule);
     setFormule('');
     setOpen(false);
   };
@@ -52,7 +52,6 @@ export default function MathDialog({ open, setOpen, latex, setLatex }) {
         onClose={handleClose}
         PaperComponent={PaperComponent}
         aria-labelledby='draggable-dialog-title'
-        
       >
         <DialogTitle
           style={{
@@ -75,7 +74,12 @@ export default function MathDialog({ open, setOpen, latex, setLatex }) {
         </DialogTitle>
         <DialogContent>
           <Paper
-            style={{ marginBlock: 20, display: 'flex', alignItems: 'end', flexWrap: 'wrap' }}
+            style={{
+              marginBlock: 20,
+              display: 'flex',
+              alignItems: 'end',
+              flexWrap: 'wrap',
+            }}
           >
             {formulas.map((formula) => (
               <Button
@@ -87,20 +91,22 @@ export default function MathDialog({ open, setOpen, latex, setLatex }) {
                   minWidth: 40,
                   maxWidth: 40,
                   textTransform: 'lowerCase',
-                  fontSize: 8,                  
+                  fontSize: formula.fontSize,
                   marginInline: 2,
-                  borderRadius: 5,                  
+                  borderRadius: 5,
                   marginBlock: 5,
                   dispaly: 'flex',
                   alignItems: 'center',
                 }}
                 size='small'
-                onClick={() =>
-                  setFormule((prevState) => prevState + formula.latex)
-                }
+                onClick={() => {
+                  setFormule(latex + formula.latex);
+                }}
               >
-                <MathJaxContext config={config} version={3} style={{ cursor: 'pointer' }}>
-                  <MathJax inline>{formula.formula}</MathJax>
+                <MathJaxContext
+                  style={{ cursor: 'pointer' }}
+                >
+                  <MathJax>{formula.formula}</MathJax>
                 </MathJaxContext>
               </Button>
             ))}
@@ -109,7 +115,7 @@ export default function MathDialog({ open, setOpen, latex, setLatex }) {
           <EditableMathField
             style={{ height: '80px', width: '100%' }}
             latex={formule}
-            onChange={(mathField) => setFormule( mathField.latex())}
+            onChange={(mathField) => setFormule(mathField.latex())}
           />
         </DialogContent>
         <DialogActions>
