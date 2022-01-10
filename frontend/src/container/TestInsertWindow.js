@@ -4,12 +4,19 @@ import {
   Paper,
   Box,
   Typography,
+  // eslint-disable-next-line
   TextField,
+  // eslint-disable-next-line
   FormControl,
+  // eslint-disable-next-line
   FormLabel,
+  // eslint-disable-next-line
   RadioGroup,
+  // eslint-disable-next-line
   FormControlLabel,
+  // eslint-disable-next-line
   Radio,
+  // eslint-disable-next-line
   Button,
 } from '@mui/material';
 import { styled } from '@mui/styles';
@@ -22,12 +29,12 @@ import {
   faPlusCircle,
   faTimesCircle,
 } from '@fortawesome/free-solid-svg-icons';
+//eslint-disable-next-line
 import axios from 'axios';
 import 'froala-editor/css/froala_style.min.css';
 import 'froala-editor/css/froala_editor.pkgd.min.css';
 import InputComponent from '../components/InputComponent';
-
-
+import MyEditor from '../components/TinyMcEditor';
 
 const StyledBox = styled(Box)({
   display: 'flex',
@@ -52,14 +59,18 @@ const FormPaper = styled(Paper)({
   alignItems: 'center',
 });
 
-
 const InsertWindow = () => {
   const [mouseIn, setMouseIn] = React.useState(false);
   const [isHover, setHover] = React.useState(false);
+  //eslint-disable-next-line
   const [title, setTitle] = React.useState('');
+  //eslint-disable-next-line
   const [radio, setRadio] = React.useState('True');
+  //eslint-disable-next-line
   const [mark, setMark] = React.useState('');
+  //eslint-disable-next-line
   const [question, setQuestion] = React.useState('');
+  //eslint-disable-next-line
   const [answer, setAnswer] = React.useState({
     a: '',
     b: '',
@@ -70,6 +81,7 @@ const InsertWindow = () => {
   const dispatch = useDispatch();
   const isFull = useSelector((state) => state.questionsType.isFull);
   const quest = useSelector((state) => state.questionsType.value);
+  // eslint-disable-next-line
   const user = useSelector((state) => state.user.user);
 
   const handleFullScreen = () => {
@@ -100,10 +112,8 @@ const InsertWindow = () => {
         }}
         className='animate__animated animate__zoomIn animate__faster'
       >
-        <StyledBox
-        >
-          <FormPaper
-          >
+        <StyledBox>
+          <FormPaper>
             <div>
               {mouseIn ? (
                 <FontAwesomeIcon
@@ -180,17 +190,14 @@ const InsertWindow = () => {
         </StyledBox>
 
         <Box
-        component='div'
+          component='div'
           sx={{
             transform: 'translateZ(0px)',
             flexGrow: 1,
             padding: '10px 20px',
           }}
         >
-          <InputComponent
-            onChange={(value) => setQuestion(value)}
-            value={question}
-          />
+          <MyEditor />
         </Box>
       </Paper>
     </Grid>

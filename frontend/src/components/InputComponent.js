@@ -9,10 +9,9 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/styles';
 import MathDialog from './MathDialog';
-import { EditableMathField, addStyles, StaticMathField } from 'react-mathquill';
+
 import { FunctionsRounded } from '@mui/icons-material';
 import MathJax from 'mathjax3-react';
-addStyles();
 const StyledInput = styled(InputBase)({
   width: '100%',
   margin: '10px 10px',
