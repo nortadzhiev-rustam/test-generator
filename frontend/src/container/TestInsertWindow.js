@@ -14,10 +14,15 @@ import {
   RadioGroup,
   // eslint-disable-next-line
   FormControlLabel,
+<<<<<<< HEAD
   // eslint-disable-next-line
+=======
+  Checkbox,
+>>>>>>> 3ce21a2f9eb3f3b9003b281fd6249af3ea65c795
   Radio,
   // eslint-disable-next-line
   Button,
+  FormGroup,
 } from '@mui/material';
 import { styled } from '@mui/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -34,7 +39,10 @@ import axios from 'axios';
 import 'froala-editor/css/froala_style.min.css';
 import 'froala-editor/css/froala_editor.pkgd.min.css';
 import InputComponent from '../components/InputComponent';
+<<<<<<< HEAD
 import MyEditor from '../components/TinyMcEditor';
+=======
+>>>>>>> 3ce21a2f9eb3f3b9003b281fd6249af3ea65c795
 
 const StyledBox = styled(Box)({
   display: 'flex',
@@ -77,7 +85,7 @@ const InsertWindow = () => {
     c: '',
     d: '',
   });
-
+  const [isFunction, setIsFunction] = React.useState(false);
   const dispatch = useDispatch();
   const isFull = useSelector((state) => state.questionsType.isFull);
   const quest = useSelector((state) => state.questionsType.value);
@@ -194,10 +202,45 @@ const InsertWindow = () => {
           sx={{
             transform: 'translateZ(0px)',
             flexGrow: 1,
-            padding: '10px 20px',
+            padding: '20px 20px',
           }}
         >
+<<<<<<< HEAD
           <MyEditor />
+=======
+          <Box
+            display='flex'
+            flexDirection='row'
+            justifyContent='space-between'
+            mb={2}
+          >
+            <TextField
+              
+              size='small'
+              label='Title'
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />{' '}
+            <TextField
+              sx={{  width: '100px' }}
+              size='small'
+              label='Mark'
+              value={mark}
+              type='number'
+              onChange={(e) => setMark(e.target.value)}
+            />
+          </Box>
+          <TextField label='Description' size='small' multiline rows={2} fullWidth value={question} onChange={(e) => setQuestion(e.target.value)} />
+          <FormGroup>
+            <FormControlLabel control={<Checkbox onChange={(e) => setIsFunction(e.target.checked)}/>}  label='Function' />
+          </FormGroup>
+          {isFunction && (
+            <InputComponent
+              
+            />
+          )}
+
+>>>>>>> 3ce21a2f9eb3f3b9003b281fd6249af3ea65c795
         </Box>
       </Paper>
     </Grid>
