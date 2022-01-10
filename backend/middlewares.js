@@ -15,7 +15,7 @@ function errorHandler(err, req, res, next) {
   });
 }
 
-const isAuth = (req, res, next) => {
+const isAuth = async (req, res, next) => {
   if (req.session.isAuth) {
     return next();
   }

@@ -26,7 +26,6 @@ function PaperComponent(props) {
 
 export default function MathDialog({ open, setOpen, latex, setLatex }) {
   const [formule, setFormule] = React.useState();
- 
 
   React.useEffect(() => {
     if (latex) {
@@ -100,12 +99,10 @@ export default function MathDialog({ open, setOpen, latex, setLatex }) {
                 }}
                 size='small'
                 onClick={() => {
-                  setFormule(latex + formula.latex);
+                  setFormule(formule + formula.latex);
                 }}
               >
-                <MathJaxContext
-                  style={{ cursor: 'pointer' }}
-                >
+                <MathJaxContext style={{ cursor: 'pointer' }}>
                   <MathJax>{formula.formula}</MathJax>
                 </MathJaxContext>
               </Button>
@@ -115,7 +112,11 @@ export default function MathDialog({ open, setOpen, latex, setLatex }) {
           <EditableMathField
             style={{ height: '80px', width: '100%' }}
             latex={formule}
-            onChange={(mathField) => setFormule(mathField.latex())}
+            onChange={(mathField) => {
+              setFormule(mathField.latex());
+              
+            }}
+            itemRef='formula'
           />
         </DialogContent>
         <DialogActions>

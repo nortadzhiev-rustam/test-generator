@@ -9,10 +9,10 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/styles';
 import MathDialog from './MathDialog';
-import { EditableMathField, addStyles, StaticMathField } from 'react-mathquill';
+
 import { FunctionsRounded } from '@mui/icons-material';
 import MathJax from 'mathjax3-react';
-addStyles();
+
 const StyledInput = styled(InputBase)({
   width: '100%',
   margin: '10px 10px',
@@ -25,9 +25,7 @@ const Input = (props) => {
   const [latex, setLatex] = React.useState('');
   const [open, setOpen] = React.useState(false);
 
-  React.useEffect(() => {
-    props.onChange(latex);
-  }, [latex]);
+  
 
   return (
     <Box display='flex' component='div' flexDirection='column'>
@@ -38,21 +36,10 @@ const Input = (props) => {
         flexDirection='row'
         alignItems='center'
       >
-        <Grid item xs={12} md={8} mr={5}>
-          <StyledInput
-            endAdornment={
-              <IconButton onClick={() => setOpen(true)}>
-                <FunctionsRounded />
-              </IconButton>
-            }
-            multiline
-            rows={3}
-            placeholder='Enter your question here'
-            value={latex}
-            onChange={(e) => setLatex((prevState) => e.target.value)}
-          />
+        <Grid item xs={12} md={1} mr={5}>
+         <Button onClick={()=> setOpen(true)}><FunctionsRounded/></Button>
         </Grid>
-        <Grid item xs={12} md={3} display='flex' justifyContent='start'>
+        <Grid item xs={12} md={8} display='flex' justifyContent='start'>
           <MathJax.Provider
             
           >
