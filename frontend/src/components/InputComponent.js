@@ -12,10 +12,6 @@ import MathDialog from './MathDialog';
 
 import { FunctionsRounded } from '@mui/icons-material';
 import MathJax from 'mathjax3-react';
-<<<<<<< HEAD
-=======
-
->>>>>>> 3ce21a2f9eb3f3b9003b281fd6249af3ea65c795
 const StyledInput = styled(InputBase)({
   width: '100%',
   margin: '10px 10px',

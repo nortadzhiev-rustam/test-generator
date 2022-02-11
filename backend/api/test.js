@@ -83,4 +83,16 @@ router.get('/questions', async (req, res) => {
   }
 });
 
+//router to upload image
+router.post('/upload', multer({ storage: storage }).single('image'), (req, res) => {
+  FroalaEditor.Image.upload(req, (err, data) => {
+    if (err) {
+      return res.send(JSON.stringify(err));
+    }
+    res.send(data);
+  });
+});
+
+
+
 module.exports = router;

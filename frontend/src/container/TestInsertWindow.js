@@ -14,11 +14,7 @@ import {
   RadioGroup,
   // eslint-disable-next-line
   FormControlLabel,
-<<<<<<< HEAD
   // eslint-disable-next-line
-=======
-  Checkbox,
->>>>>>> 3ce21a2f9eb3f3b9003b281fd6249af3ea65c795
   Radio,
   // eslint-disable-next-line
   Button,
@@ -39,10 +35,7 @@ import axios from 'axios';
 import 'froala-editor/css/froala_style.min.css';
 import 'froala-editor/css/froala_editor.pkgd.min.css';
 import InputComponent from '../components/InputComponent';
-<<<<<<< HEAD
 import MyEditor from '../components/TinyMcEditor';
-=======
->>>>>>> 3ce21a2f9eb3f3b9003b281fd6249af3ea65c795
 
 const StyledBox = styled(Box)({
   display: 'flex',
@@ -54,7 +47,7 @@ const StyledBox = styled(Box)({
 const FormPaper = styled(Paper)({
   width: '100%',
   minHeight: 70,
-  backgroundColor: '#eceff1',
+  backgroundColor: '#006064',
   textAlign: 'start',
   borderTopRightRadius: 13,
   borderTopLeftRadius: 13,
@@ -66,6 +59,28 @@ const FormPaper = styled(Paper)({
   justifyContent: 'space-between',
   alignItems: 'center',
 });
+
+const Options = ({ option }) => {
+  return (
+    <FormControl>
+      <FormLabel sx={{ marginBottom: 5 }} id='demo-radio-buttons-group-label'>
+        Answers
+      </FormLabel>
+      <RadioGroup
+        aria-labelledby='demo-radio-buttons-group-label'
+        defaultValue='a'
+        name='radio-buttons-group'
+        sx={{ display: 'flex', flexDirection: 'row' }}
+      >
+        <FormControlLabel
+          value={option}
+          control={<Radio />}
+          label={option}
+        />
+      </RadioGroup>
+    </FormControl>
+  );
+};
 
 const InsertWindow = () => {
   const [mouseIn, setMouseIn] = React.useState(false);
@@ -121,12 +136,12 @@ const InsertWindow = () => {
         className='animate__animated animate__zoomIn animate__faster'
       >
         <StyledBox>
-          <FormPaper>
+          <FormPaper elevation={5}>
             <div>
               {mouseIn ? (
                 <FontAwesomeIcon
                   size='lg'
-                  style={{ borderRadius: '30%' }}
+                  style={{ borderRadius: '50%', backgroundColor: 'white' }}
                   onClick={handleClose}
                   color='#e63946'
                   icon={faTimesCircle}
@@ -146,8 +161,8 @@ const InsertWindow = () => {
                   size='lg'
                   style={{
                     marginLeft: 5,
-
-                    borderRadius: '30%',
+                    backgroundColor: 'white',
+                    borderRadius: '50%',
                   }}
                   color='#ee9b00'
                   icon={faMinusCircle}
@@ -168,8 +183,8 @@ const InsertWindow = () => {
                   size='lg'
                   style={{
                     marginLeft: 5,
-                    borderRadius: '30%',
-                    border: 'none',
+                    borderRadius: '50%',
+                    backgroundColor: 'white',
                   }}
                   color='#43aa8b'
                   icon={faPlusCircle}
@@ -189,7 +204,7 @@ const InsertWindow = () => {
             <Typography
               variant='body1'
               fontFamily='roboto'
-              color='#006064'
+              color='white'
               fontWeight='900'
             >
               {`${quest.questionType.toUpperCase()} QUESTION`}
@@ -205,42 +220,10 @@ const InsertWindow = () => {
             padding: '20px 20px',
           }}
         >
-<<<<<<< HEAD
-          <MyEditor />
-=======
-          <Box
-            display='flex'
-            flexDirection='row'
-            justifyContent='space-between'
-            mb={2}
-          >
-            <TextField
-              
-              size='small'
-              label='Title'
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />{' '}
-            <TextField
-              sx={{  width: '100px' }}
-              size='small'
-              label='Mark'
-              value={mark}
-              type='number'
-              onChange={(e) => setMark(e.target.value)}
-            />
+          <MyEditor setValue={(q) => setQuestion(q)} />
+          <Box style={{ marginTop: 30 }}>
+            <Options option='A' />
           </Box>
-          <TextField label='Description' size='small' multiline rows={2} fullWidth value={question} onChange={(e) => setQuestion(e.target.value)} />
-          <FormGroup>
-            <FormControlLabel control={<Checkbox onChange={(e) => setIsFunction(e.target.checked)}/>}  label='Function' />
-          </FormGroup>
-          {isFunction && (
-            <InputComponent
-              
-            />
-          )}
-
->>>>>>> 3ce21a2f9eb3f3b9003b281fd6249af3ea65c795
         </Box>
       </Paper>
     </Grid>
