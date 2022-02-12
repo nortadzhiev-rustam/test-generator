@@ -33,7 +33,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-<<<<<<< HEAD
     difficulty: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -64,7 +63,4 @@ module.exports = (sequelize, DataTypes) => {
 
   
   return Test;
-=======
-  })
->>>>>>> parent of 16fd8ff (added FroalaEditor & Mathtype)
 };
