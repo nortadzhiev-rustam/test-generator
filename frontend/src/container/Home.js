@@ -43,7 +43,7 @@ const Home = () => {
             sm={6}
             md={4}
             lg={3}
-            xl={2.5         }
+            xl={2}
             style={{ paddingInline: 20, paddingBottom: 25 }}
             overflow='hidden'
           >

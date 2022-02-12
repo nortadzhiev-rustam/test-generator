@@ -82,7 +82,7 @@ const Options = ({ option }) => {
   );
 };
 
-const InsertWindow = () => {
+const InsertWindow = ( ) => {
   const [mouseIn, setMouseIn] = React.useState(false);
   const [isHover, setHover] = React.useState(false);
   //eslint-disable-next-line
