@@ -24,10 +24,13 @@ import {
   setVisible,
 } from '../store/questionTypeSlice';
 
+<<<<<<< HEAD
 
 
 
 
+=======
+>>>>>>> parent of 16fd8ff (added FroalaEditor & Mathtype)
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   paddingBlock: theme.spacing(4),
@@ -38,6 +41,14 @@ const Item = styled(Paper)(({ theme }) => ({
   transition: 'all 0.3s ease-in',
 }));
 
+const categories = [
+  'English',
+  'Protuguese',
+  'Mathematics',
+  'Physics',
+  'Chemistry',
+  'French',
+];
 
 const difficulties = ['Easy', 'Medium', 'Hard', 'Challenge'];
 const types = ['Multiple choice', 'True or Flase', 'Fill in gaps', 'Classic'];
@@ -47,9 +58,12 @@ const InsertPanel = () => {
   const quest = useSelector((state) => state.questionsType.value);
   const category = useSelector(state => state.department.department)
   const dispatch = useDispatch();
+<<<<<<< HEAD
   
 
  
+=======
+>>>>>>> parent of 16fd8ff (added FroalaEditor & Mathtype)
 
   const handleVisibility = () => {
     if (quest.category !== '') {
@@ -90,14 +104,19 @@ const InsertPanel = () => {
           <Select
             labelId='demo-simple-select-label'
             id='demo-simple-select'
-            value={quest.category || ''}
+            value={quest.category}
             label='Category'
             onChange={handleChangeCategory}
           >
-            {category.map((item, idx) => {
+            {categories.map((item, idx) => {
               return (
+<<<<<<< HEAD
                 <MenuItem key={idx} value={item}>
                   {item.name}
+=======
+                <MenuItem key={idx} value={item.toLowerCase()}>
+                  {item}
+>>>>>>> parent of 16fd8ff (added FroalaEditor & Mathtype)
                 </MenuItem>
               );
             })}

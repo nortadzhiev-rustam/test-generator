@@ -5,17 +5,19 @@ import Login from './components/Login';
 import Register from './components/Register';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import ProtectedRoute from './routes/ProtectedRoute';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { login } from './store/userSlice';
+<<<<<<< HEAD
 import SearchWindow from './components/searchWindow';
 import Profile from './container/Profile';
 import axios from 'axios';
 import { getDepartmentSuccess } from './store/departmentSlice';
 
+=======
+>>>>>>> parent of 16fd8ff (added FroalaEditor & Mathtype)
 function App() {
-  const [openSearch, setOpenSearch] = React.useState(false);
   const dispatch = useDispatch();
-
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   React.useEffect(() => {
     const fetchLogin = async () => {
       const res = await axios.get('http://localhost:5000/api/v1/isAuth', {
@@ -49,15 +51,19 @@ function App() {
   return (
     <div className='App'>
       <Router>
-        <NavBar setOpenSearch={(o) => setOpenSearch(o)} />
-        {openSearch && (
-          <SearchWindow open={openSearch} setOpen={(e) => setOpenSearch(e)} />
-        )}
+        <NavBar />
         <Switch>
+<<<<<<< HEAD
           <ProtectedRoute exact path='/' component={Home} />
           <Route exact path='/login' component={Login} />
           <Route exact path='/register' component={Register} />
           <ProtectedRoute exact path='/profile' component={Profile} />
+=======
+          <Route exact path='/' component={isLoggedIn ? Home : Login} />
+          <Route exact path='/login' component={Login} />
+          <Route exact path='/register' component={Register} />
+          <ProtectedRoute exact path='/home' component={Home} />
+>>>>>>> parent of 16fd8ff (added FroalaEditor & Mathtype)
         </Switch>
       </Router>
     </div>
