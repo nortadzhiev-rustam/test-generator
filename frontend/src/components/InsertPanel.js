@@ -24,13 +24,10 @@ import {
   setVisible,
 } from '../store/questionTypeSlice';
 
-<<<<<<< HEAD
 
 
 
 
-=======
->>>>>>> parent of 16fd8ff (added FroalaEditor & Mathtype)
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   paddingBlock: theme.spacing(4),
@@ -58,12 +55,9 @@ const InsertPanel = () => {
   const quest = useSelector((state) => state.questionsType.value);
   const category = useSelector(state => state.department.department)
   const dispatch = useDispatch();
-<<<<<<< HEAD
   
 
  
-=======
->>>>>>> parent of 16fd8ff (added FroalaEditor & Mathtype)
 
   const handleVisibility = () => {
     if (quest.category !== '') {
@@ -110,13 +104,8 @@ const InsertPanel = () => {
           >
             {categories.map((item, idx) => {
               return (
-<<<<<<< HEAD
                 <MenuItem key={idx} value={item}>
                   {item.name}
-=======
-                <MenuItem key={idx} value={item.toLowerCase()}>
-                  {item}
->>>>>>> parent of 16fd8ff (added FroalaEditor & Mathtype)
                 </MenuItem>
               );
             })}

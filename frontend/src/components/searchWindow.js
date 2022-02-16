@@ -5,7 +5,6 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 
 import DialogTitle from '@mui/material/DialogTitle';
-<<<<<<< HEAD
 import {
   InputBase,
   InputAdornment,
@@ -15,9 +14,6 @@ import {
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { styled, alpha } from '@mui/material/styles';
-=======
-import { InputBase } from '@mui/material';
->>>>>>> parent of 16fd8ff (added FroalaEditor & Mathtype)
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -66,18 +62,10 @@ const Search = styled('div')(({ theme }) => ({
     },
   }));
 
-export default function ScrollDialog() {
-  const [open, setOpen] = React.useState(false);
-  const [scroll, setScroll] = React.useState('paper');
-
-<<<<<<< HEAD
 
 
 export default function SearchWindow({ open, setOpen }) {
   const [scroll] = React.useState('paper');
-=======
-  
->>>>>>> parent of 16fd8ff (added FroalaEditor & Mathtype)
 
   const handleClose = () => {
     setOpen(false);
@@ -97,18 +85,14 @@ export default function SearchWindow({ open, setOpen }) {
 
   return (
     <Dialog
-<<<<<<< HEAD
       
       TransitionComponent={Grow}
       transitionDuration={{ enter: 500, exit: 500 }}
-=======
->>>>>>> parent of 16fd8ff (added FroalaEditor & Mathtype)
       open={open}
       onClose={handleClose}
       scroll={scroll}
       aria-labelledby='scroll-dialog-title'
       aria-describedby='scroll-dialog-description'
-<<<<<<< HEAD
       sx={{ backdropFilter: 'blur(3px)', }}
     >
       <DialogTitle sx={{ paddingInline: 0, borderRadius: '10px' }} id='scroll-dialog-title'>
@@ -152,25 +136,6 @@ export default function SearchWindow({ open, setOpen }) {
       </DialogTitle>
       <DialogContent sx={{minHeight: 400, p:0 }} dividers={scroll === 'paper'}>
         
-=======
-    >
-      <DialogTitle id='scroll-dialog-title'>Subscribe</DialogTitle>
-      <DialogContent dividers={scroll === 'paper'}>
-        <DialogContentText
-          id='scroll-dialog-description'
-          ref={descriptionElementRef}
-          tabIndex={-1}
-        >
-          {[...new Array(50)]
-            .map(
-              () => `Cras mattis consectetur purus sit amet fermentum.
-Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
-            )
-            .join('\n')}
-        </DialogContentText>
->>>>>>> parent of 16fd8ff (added FroalaEditor & Mathtype)
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>

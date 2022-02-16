@@ -7,14 +7,11 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import ProtectedRoute from './routes/ProtectedRoute';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from './store/userSlice';
-<<<<<<< HEAD
 import SearchWindow from './components/searchWindow';
 import Profile from './container/Profile';
 import axios from 'axios';
 import { getDepartmentSuccess } from './store/departmentSlice';
 
-=======
->>>>>>> parent of 16fd8ff (added FroalaEditor & Mathtype)
 function App() {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
@@ -53,17 +50,10 @@ function App() {
       <Router>
         <NavBar />
         <Switch>
-<<<<<<< HEAD
           <ProtectedRoute exact path='/' component={Home} />
           <Route exact path='/login' component={Login} />
           <Route exact path='/register' component={Register} />
           <ProtectedRoute exact path='/profile' component={Profile} />
-=======
-          <Route exact path='/' component={isLoggedIn ? Home : Login} />
-          <Route exact path='/login' component={Login} />
-          <Route exact path='/register' component={Register} />
-          <ProtectedRoute exact path='/home' component={Home} />
->>>>>>> parent of 16fd8ff (added FroalaEditor & Mathtype)
         </Switch>
       </Router>
     </div>

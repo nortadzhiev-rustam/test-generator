@@ -72,17 +72,13 @@ const Options = ({ option }) => {
         name='radio-buttons-group'
         sx={{ display: 'flex', flexDirection: 'row' }}
       >
-        <FormControlLabel
-          value={option}
-          control={<Radio />}
-          label={option}
-        />
+        <FormControlLabel value={option} control={<Radio />} label={option} />
       </RadioGroup>
     </FormControl>
   );
 };
 
-const InsertWindow = ( ) => {
+const InsertWindow = () => {
   const [mouseIn, setMouseIn] = React.useState(false);
   const [isHover, setHover] = React.useState(false);
   //eslint-disable-next-line
@@ -220,7 +216,7 @@ const InsertWindow = ( ) => {
             padding: '20px 20px',
           }}
         >
-          <MyEditor setValue={(q) => setQuestion(q)} />
+          <InputComponent />
           <Box style={{ marginTop: 30 }}>
             <Options option='A' />
           </Box>

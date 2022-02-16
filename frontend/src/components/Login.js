@@ -51,7 +51,6 @@ const Login = ({ history }) => {
   const [error, setError] = React.useState('');
   const [showPassword, setShowPassword] = React.useState(false);
   const dispatch = useDispatch();
-<<<<<<< HEAD
 
   
 
@@ -78,14 +77,10 @@ React.useEffect(() => {
     }
   }, [error]);
 
-=======
-  
->>>>>>> parent of 16fd8ff (added FroalaEditor & Mathtype)
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(setLoading(true));
     try {
-<<<<<<< HEAD
       const res = await axios.post(
         'http://localhost:5000/api/v1/login',
         {
@@ -98,13 +93,6 @@ React.useEffect(() => {
       dispatch(login(res.data));
       
     history.push('/');
-=======
-      const res = await axios.post('http://localhost:5000/api/users/login', { email, password });
-      console.log(res.data);
-      dispatch(login(res.data));
-      localStorage.setItem('user', JSON.stringify(res.data))
-      history.push('/');
->>>>>>> parent of 16fd8ff (added FroalaEditor & Mathtype)
     } catch (err) {
       setError(err.message);
     }
@@ -126,15 +114,11 @@ React.useEffect(() => {
 
   return (
     <Box className={classes.root}>
-<<<<<<< HEAD
       {error !== '' && (
         <Alert className='animate__animated animate__fadeIn' severity='error'>
           {error}
         </Alert>
       )}
-=======
-      {error !== '' && <Alert severity='error'>{error}</Alert>}
->>>>>>> parent of 16fd8ff (added FroalaEditor & Mathtype)
       <Paper
         sx={{
           borderRadius: '15px',

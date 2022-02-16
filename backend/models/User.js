@@ -33,19 +33,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: true,
     },
-<<<<<<< HEAD
     
-=======
-    // departmentId: {
-    //   type: DataTypes.INTEGER,
-    //   allowNull: false,
-    //   references: {
-    //     model: Department,
-    //     key: 'id',
-    //   },
-    // },
-   
->>>>>>> parent of 16fd8ff (added FroalaEditor & Mathtype)
   });
 
   User.associate = (models) => {
@@ -53,17 +41,12 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'userId',
       as: 'user',
     });
-<<<<<<< HEAD
     User.belongsTo(models.Department, {
       
       foreignKey: 'departmentId',
       as: 'department',
     });
   };
-=======
-  }
-  
->>>>>>> parent of 16fd8ff (added FroalaEditor & Mathtype)
 
   return User;
 };
